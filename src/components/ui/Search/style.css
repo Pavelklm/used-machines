@@ -1,0 +1,34 @@
+.css-j7hrjy-JoyAutocomplete-startDecorator {
+  margin: 0 !important;
+  padding-right: 5px !important;
+}
+
+.css-4thb1y-JoyAutocomplete-root {
+  border-radius: 10px !important;
+  padding: 12px 12px 12px 20px !important;
+}
+
+.css-10jjy1j-JoyStack-root {
+  max-height: 48px !important;
+  min-height: 48px !important;
+  border-color: var(--main-color) !important;
+}
+
+.css-1umw9bq-MuiSvgIcon-root {
+  color: var(--main-color) !important;
+}
+
+.css-1b04z1z-JoyAutocomplete-input {
+  color: var(--main-color) !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+}
+
+.css-1e4irc9-MuiTypography-root {
+  display: flex;
+  width: 100%;
+  color: var(--main-color) !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  justify-content: space-between;
+}
