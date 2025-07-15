@@ -10,8 +10,20 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
+type Keys = 'Приготування фаршу' | "Сепаратори м'яса" | 'Сепаратори м'
+
+const content: Record<Keys, string[]> = {
+  'Приготування фаршу': ['Куттери', 'Вовчки', 'Блокорізки'],
+  "Сепаратори м'яса": ['Маховик', 'Клапан', 'Галантерея'],
+  'Сепаратори м': ['Маховыик', 'Клапыан', 'Галантереыя'],
+}
+
 export default function Filters() {
   const [activeItem, setActiveItem] = useState<Keys | null>(null)
+
+  const handleToggle = (key: Keys) => {
+    setActiveItem((prev) => (prev === key ? null : key))
+  }
 
   return (
     <div className='сatalog__filters'>
@@ -19,41 +31,45 @@ export default function Filters() {
 
       {(Object.keys(content) as Keys[]).map((key) => (
         <Accordion
-          onClick={() => setActiveItem((prev) => (prev === key ? null : key))}
+          key={key}
+          expanded={activeItem === key}
           sx={{
             border:
-              activeItem === key ? '1px solid var(--blue-bright-color)' : '',
-
+              activeItem === key
+                ? '1px solid var(--blue-light-color)'
+                : '1px solid transparent',
             borderRadius: '16px',
+            boxShadow: 'none',
+            mb: 1,
           }}
-          key={key}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`${key}-content`}
             id={`${key}-header`}
-            sx={{ padding: '16px', borderRadius: '16px' }}
+            sx={{
+              padding: '16px',
+              borderRadius: '16px',
+              minHeight: 0,
+            }}
+            onClick={() => handleToggle(key)}
           >
-            <Typography sx={{ margin: '0', width: '223px' }} component='span'>
+            <Typography sx={{ margin: 0, width: '223px' }} component='span'>
               {key}
             </Typography>
           </AccordionSummary>
 
-          <AccordionDetails
-            sx={{
-              margin: '0',
-            }}
-          >
+          <AccordionDetails sx={{ margin: 0, padding: '8px 0 16px' }}>
             <List disablePadding>
               {content[key].map((item) => (
                 <ListItem
                   key={item}
                   disablePadding
-                  sx={{ padding: '4px 16px' }}
+                  sx={{ padding: '12px 16px' }}
                 >
                   <Link
+                    underline='none'
                     href='#'
-                    underline='hover'
                     color='inherit'
                     sx={{ display: 'block', width: '100%' }}
                   >
@@ -67,11 +83,4 @@ export default function Filters() {
       ))}
     </div>
   )
-}
-
-type Keys = 'Приготування фаршу' | "Сепаратори м'яса"
-
-const content: Record<Keys, string[]> = {
-  'Приготування фаршу': ['Куттери', 'Вовчки', 'Блокорізки'],
-  "Сепаратори м'яса": ['Маховик', 'Клапан', 'Галантерея'],
 }

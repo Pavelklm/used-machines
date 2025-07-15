@@ -1,3 +1,4 @@
+import { Pagination } from '@mui/material'
 import Cards from './Helpers/Cards'
 import Filters from './Helpers/Filters'
 import Sorter from './Helpers/Sorter'
@@ -32,7 +33,9 @@ export const Catalog = () => {
               <Cards />
               <Cards />
             </div>
-            <div className='catalog__pagination'></div>
+            <div className='catalog__pagination'>
+              <Pagination count={10} shape='rounded' />
+            </div>
           </div>
         </div>
       </div>

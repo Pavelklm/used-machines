@@ -27,7 +27,7 @@ export default function Sorter() {
           value={range}
           label='range'
           onChange={handleChange}
-          sx={{ color: 'var(--main-color)' }}
+          sx={{ color: 'var(--main-color)', borderRadius: '10px' }}
         >
           <MenuItem sx={{ color: 'var(--main-color)' }} value={'low'}>
             Ціна від дешевих
