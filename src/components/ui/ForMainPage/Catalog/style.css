@@ -1,0 +1,47 @@
+.catalog__title {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.catalog__head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.сatalog__filters {
+  width: 289px;
+}
+
+.catalog__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.catalog__items__list {
+  display: grid;
+  grid-template-columns: repeat(3, 4fr);
+  gap: 20px;
+}
+
+.css-yfrx4k-MuiAccordionSummary-content {
+  margin: 0 !important;
+}
+
+.css-1808mag-MuiPaper-root-MuiAccordion-root {
+  box-shadow: none !important;
+}
+
+.css-1808mag-MuiPaper-root-MuiAccordion-root::before {
+  display: none !important;
+}
+
+.css-77ib3y-MuiPaper-root-MuiAccordion-root {
+  margin: 0 !important;
+  border-radius: 16px !important;
+}

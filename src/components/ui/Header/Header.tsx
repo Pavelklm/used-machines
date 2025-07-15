@@ -1,4 +1,4 @@
-import CustomAccordion from '../Accordeon/Accordeon'
+import CustomAccordion from '../Accordion/Accordion'
 import Search from '../Search/Search'
 import Gmail from '../SVG/Gmail'
 import Logo from '../SVG/Logo'

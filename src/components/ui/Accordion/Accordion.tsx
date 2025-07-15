@@ -64,6 +64,7 @@ export const CustomAccordion = () => {
 
         <Grow className='grow-accordion' in={menuOpen} timeout={200}>
           <Paper
+            elevation={0}
             sx={{
               position: 'absolute',
               top: '100%',
