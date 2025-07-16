@@ -23,9 +23,16 @@
   gap: 20px;
 }
 
+.catalog__items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
 .catalog__items__list {
   display: grid;
-  grid-template-columns: repeat(3, 4fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
