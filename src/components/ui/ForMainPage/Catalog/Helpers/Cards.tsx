@@ -76,7 +76,7 @@ export default function Cards({ items }: CardsProps) {
           ) : (
             <Card
               sx={{
-                maxWidth: 289,
+                width: 289,
                 cursor: 'pointer',
                 borderRadius: '10px',
                 boxShadow: '0 0 0 1px var(--blue-light-color)',
