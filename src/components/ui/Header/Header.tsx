@@ -1,4 +1,4 @@
-import CustomAccordion from '../Accordion/Accordion'
+import CatalogPopup from '../CatalogPopup/CatalogPopup'
 import Search from '../Search/Search'
 import Gmail from '../SVG/Gmail'
 import Logo from '../SVG/Logo'
@@ -14,7 +14,7 @@ export const Header = () => {
           </a>
         </div>
         <div className='header__catalog'>
-          <CustomAccordion />
+          <CatalogPopup />
         </div>
         <div className='header__search'>
           <Search />

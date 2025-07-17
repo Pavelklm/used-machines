@@ -1,30 +1,39 @@
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
-import SearchIcon from '@mui/icons-material/Search'
-import Autocomplete from '@mui/joy/Autocomplete'
-import Stack from '@mui/joy/Stack'
-import { Typography } from '@mui/material'
-import { useState } from 'react'
-import './style.css'
+import { Autocomplete, TextField } from '@mui/material'
 
-export default function AutocompleteDecorators() {
-  const [isFocused, setIsFocused] = useState(false)
-
+export default function Search() {
   return (
-    <Stack spacing={2}>
-      <Autocomplete
-        sx={{ width: 300 }}
-        startDecorator={isFocused ? null : <SearchIcon />}
-        placeholder={isFocused ? '' : 'Пошук'}
-        options={top100Films}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        noOptionsText={
-          <Typography sx={{ p: 1 }}>
-            Нічого не знайдено <ReportGmailerrorredIcon />
-          </Typography>
-        }
-      />
-    </Stack>
+    <Autocomplete
+      options={top100Films}
+      disablePortal
+      sx={{ width: 300 }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label='Пошук'
+          variant='outlined'
+          sx={{
+            '& .MuiInputBase-root': {
+              height: 48,
+              padding: 0,
+              borderRadius: '10px',
+              border: '1px solid var(--blue-light-color)',
+              '&:hover': {
+                border: '1px solid var(--blue-light-color)',
+              },
+            },
+            '& .MuiOutlinedInput-input': {
+              height: '100%',
+              padding: '0 0 0 20px  !important',
+              margin: 0,
+              lineHeight: '48px',
+            },
+            '& .MuiInputLabel-root': {
+              lineHeight: 1,
+            },
+          }}
+        />
+      )}
+    />
   )
 }
 

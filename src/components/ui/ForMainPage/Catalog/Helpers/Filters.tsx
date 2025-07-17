@@ -138,7 +138,14 @@ export default function Filters() {
                         <motion.div key={item} variants={itemVariants}>
                           <ListItem
                             disablePadding
-                            sx={{ padding: '12px 16px' }}
+                            sx={{
+                              padding: '12px 16px',
+                              borderRadius: '10px',
+                              '&:hover': {
+                                backgroundColor: 'var(--main-color)',
+                                color: '#fff',
+                              },
+                            }}
                           >
                             <Link
                               underline='none'
