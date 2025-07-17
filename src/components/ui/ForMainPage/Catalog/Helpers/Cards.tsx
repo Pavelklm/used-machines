@@ -94,7 +94,7 @@ export default function Cards({ items }: CardsProps) {
               <CardMedia
                 component='img'
                 height='289'
-                image={`src/assets/icons/${item.url}`}
+                image={`/src/assets/icons/${item.url}`}
                 alt={item.name}
                 sx={{ borderRadius: '10px' }}
               />

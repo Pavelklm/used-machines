@@ -3,8 +3,6 @@ import grinder from '@/assets/icons/grinder.png'
 import './style.css'
 
 export const Info = () => {
-  console.log('approved src =', approved)
-
   return (
     <div className='info'>
       <div className='container info__container'>
