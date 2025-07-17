@@ -1,5 +1,3 @@
-import approved from '@/assets/icons/approved.svg'
-import grinder from '@/assets/icons/grinder.png'
 import './style.css'
 
 export const Info = () => {
@@ -20,7 +18,7 @@ export const Info = () => {
             </button>
           </div>
           <div className='info__main__right'>
-            <img src={grinder} alt='grinder' />
+            <img src='/icons/grinder.png' alt='grinder' />
           </div>
         </div>
       </div>
@@ -30,7 +28,7 @@ export const Info = () => {
             <li className='info__benefit__item'>
               <img
                 className='info__benefit__item__img'
-                src={approved}
+                src='/icons/approved.svg'
                 alt='approved'
               />
               <p>Кожна техніка проходить повну перевірку.</p>
@@ -38,7 +36,7 @@ export const Info = () => {
             <li className='info__benefit__item'>
               <img
                 className='info__benefit__item__img'
-                src={approved}
+                src='/icons/approved.svg'
                 alt='approved'
               />
               <p>Швидка доставка по Україні.</p>
@@ -46,7 +44,7 @@ export const Info = () => {
             <li className='info__benefit__item'>
               <img
                 className='info__benefit__item__img'
-                src={approved}
+                src='/icons/approved.svg'
                 alt='approved'
               />
               <p>Допомагаємо підібрати рішення для вашого виробництва.</p>

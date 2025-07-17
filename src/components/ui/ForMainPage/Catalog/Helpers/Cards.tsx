@@ -34,7 +34,7 @@ export default function Cards({ items }: CardsProps) {
             type: 'spring',
             stiffness: 300,
             damping: 25,
-            delay: index * 0.04,
+            delay: index * 0.02,
           }}
           style={{ display: 'block' }}
         >
@@ -94,7 +94,7 @@ export default function Cards({ items }: CardsProps) {
               <CardMedia
                 component='img'
                 height='289'
-                image={`/src/assets/icons/${item.url}`}
+                image={`/icons/${item.url}`}
                 alt={item.name}
                 sx={{ borderRadius: '10px' }}
               />
