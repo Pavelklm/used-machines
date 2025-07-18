@@ -1,3 +1,4 @@
+import { allItems } from '@/varibles/cards'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
   Box,
@@ -11,13 +12,14 @@ import {
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
-type Keys = 'Компонент1' | 'Компонент2' | 'Компонент3'
+const itemNamesByCategory = Object.fromEntries(
+  Object.entries(allItems).map(([category, items]) => [
+    category,
+    items.map((item) => item.name),
+  ])
+)
 
-const nestedData: Record<Keys, string[]> = {
-  Компонент1: ['Куттер', 'Вовчок'],
-  Компонент2: ['Емульсатори', 'Фаршемішалки'],
-  Компонент3: ['Блокорізки', 'Сепаратори', 'Міксери'],
-}
+type Keys = keyof typeof itemNamesByCategory
 
 const listVariants = {
   hidden: { opacity: 0, height: 0 },
@@ -118,41 +120,45 @@ export const CatalogPopup = () => {
                     }}
                   >
                     <List sx={{ mr: '20px' }}>
-                      {(Object.keys(nestedData) as Keys[]).map((key) => (
-                        <ListItemButton
-                          key={key}
-                          onClick={() => handleItemClick(key)}
-                          selected={activeItem === key}
-                          sx={{
-                            backgroundColor:
-                              activeItem === key
-                                ? 'var(--main-color) !important'
-                                : '#fff !important',
-                            color: activeItem === key ? '#fff' : '#000',
-                            borderRadius: '10px',
-                            p: '16px',
-                            '&:hover': {
+                      {(Object.keys(itemNamesByCategory) as Keys[]).map(
+                        (key) => (
+                          <ListItemButton
+                            key={key}
+                            onClick={() => handleItemClick(key)}
+                            selected={activeItem === key}
+                            sx={{
                               backgroundColor:
-                                'var(--blue-bright-color) !important',
-                            },
-                          }}
-                        >
-                          <ListItemText primary={key} />
-                          <motion.div
-                            animate={{ rotate: activeItem === key ? 90 : 270 }}
-                            transition={{ type: 'spring', stiffness: 100 }}
+                                activeItem === key
+                                  ? 'var(--main-color) !important'
+                                  : '#fff !important',
+                              color: activeItem === key ? '#fff' : '#000',
+                              borderRadius: '10px',
+                              p: '16px',
+                              '&:hover': {
+                                backgroundColor:
+                                  'var(--blue-bright-color) !important',
+                              },
+                            }}
                           >
-                            <KeyboardArrowDownIcon
-                              sx={{
-                                color:
-                                  activeItem === key
-                                    ? '#fff'
-                                    : 'var(--black-color)',
+                            <ListItemText primary={key} />
+                            <motion.div
+                              animate={{
+                                rotate: activeItem === key ? 90 : 270,
                               }}
-                            />
-                          </motion.div>
-                        </ListItemButton>
-                      ))}
+                              transition={{ type: 'spring', stiffness: 100 }}
+                            >
+                              <KeyboardArrowDownIcon
+                                sx={{
+                                  color:
+                                    activeItem === key
+                                      ? '#fff'
+                                      : 'var(--black-color)',
+                                }}
+                              />
+                            </motion.div>
+                          </ListItemButton>
+                        )
+                      )}
                     </List>
                   </Box>
 
@@ -168,7 +174,7 @@ export const CatalogPopup = () => {
                           exit='exit'
                           style={{ listStyle: 'none', margin: 0, padding: 0 }}
                         >
-                          {nestedData[activeItem].map((item) => (
+                          {itemNamesByCategory[activeItem].map((item) => (
                             <motion.li key={item} variants={itemVariants}>
                               <ListItemButton
                                 sx={{ p: '12px 16px ', borderRadius: '10px' }}

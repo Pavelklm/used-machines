@@ -1,3 +1,4 @@
+import { allItems } from '@/varibles/cards'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
   Accordion,
@@ -11,22 +12,22 @@ import {
 import { AnimatePresence, motion, Variants } from 'framer-motion'
 import { useState } from 'react'
 
-type Keys = 'Приготування фаршу' | "Сепаратори м'яса" | 'Сепаратори м'
+const itemNamesByCategory = Object.fromEntries(
+  Object.entries(allItems).map(([category, items]) => [
+    category,
+    items.map((item) => item.name),
+  ])
+)
 
-const content: Record<Keys, string[]> = {
-  'Приготування фаршу': ['Куттери', 'Вовчки', 'Блокорізки'],
-  "Сепаратори м'яса": ['Маховик', 'Клапан', 'Галантерея'],
-  'Сепаратори м': ['Маховыик', 'Клапыан', 'Галантереыя'],
-}
+type Keys = keyof typeof itemNamesByCategory
 
-// Варианты для списка с задержкой по каждому элементу
 const listVariants: Variants = {
   visible: {
     opacity: 1,
     height: 'auto',
     transition: {
       when: 'beforeChildren',
-      staggerChildren: 0.05, // Задержка между появлением пунктов
+      staggerChildren: 0.05,
     },
   },
   hidden: {
@@ -74,7 +75,7 @@ export default function Filters() {
     <div className='сatalog__filters'>
       <Typography sx={{ padding: '16px' }}>Уся продукція</Typography>
 
-      {(Object.keys(content) as Keys[]).map((key) => {
+      {(Object.keys(itemNamesByCategory) as Keys[]).map((key) => {
         const expanded = activeItem === key
 
         return (
@@ -134,7 +135,7 @@ export default function Filters() {
                 >
                   <AccordionDetails sx={{ margin: 0, padding: '8px 0 16px' }}>
                     <List disablePadding>
-                      {content[key].map((item) => (
+                      {itemNamesByCategory[key].map((item) => (
                         <motion.div key={item} variants={itemVariants}>
                           <ListItem
                             disablePadding
