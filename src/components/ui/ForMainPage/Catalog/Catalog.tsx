@@ -1,31 +1,47 @@
+// Catalog.tsx
+import { useFilteredProducts } from '@/scripts/hooks/useFilteredProducts'
 import { usePagination } from '@/scripts/hooks/usePagination'
-import { allItems } from '@/varibles/cards'
+import { useState } from 'react'
 import Cards from './Helpers/Cards'
 import Filters from './Helpers/Filters'
 import Pagination from './Helpers/Pagination'
 import Sorter from './Helpers/Sorter'
 import './style.css'
 
-export const Catalog = () => {
-  const allItemsArray = Object.values(allItems).flat()
+export const Catalog = ({
+  catalogRef,
+}: {
+  catalogRef: React.RefObject<HTMLDivElement | null>
+}) => {
+  const [SortedItems, setSortedItems] = useState([])
+  const {
+    itemsToSort,
+    filterOptionsByGroup,
+    getFilteredProducts,
+    setFilteredItems,
+  } = useFilteredProducts()
 
   const { page, pageCount, changePage, fullPageItems } = usePagination(
-    allItemsArray,
-    12
+    SortedItems,
+    6
   )
 
   return (
-    <div className='catalog'>
+    <div ref={catalogRef} className='catalog'>
       <div className='container catalog__container'>
         <div className='catalog__head'>
           <div className='catalog__title'>Каталог</div>
           <div className='catalog__sort'>
-            <Sorter />
+            <Sorter itemsToSort={itemsToSort} setSortedItems={setSortedItems} />
           </div>
         </div>
         <div className='catalog__content'>
           <div className='catalog__filters'>
-            <Filters />
+            <Filters
+              catalogDataByCategory={filterOptionsByGroup}
+              getFilteredProducts={getFilteredProducts}
+              setFilteredItems={setFilteredItems}
+            />
           </div>
           <div className='catalog__items'>
             <div className='catalog__items__list'>

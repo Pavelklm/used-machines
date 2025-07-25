@@ -1,3 +1,5 @@
+'use client'
+
 import CatalogPopup from '../CatalogPopup/CatalogPopup'
 import Search from '../Search/Search'
 import Gmail from '../SVG/Gmail'

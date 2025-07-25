@@ -4,11 +4,13 @@ import Skeleton from '@mui/material/Skeleton'
 import { AnimatePresence, motion } from 'framer-motion'
 
 interface Item {
-  name: string
+  id: any
   price: number | string
   currency: string
   url: string
+  name: string
   isPlaceholder?: boolean
+  product_name?: string
 }
 
 interface CardsProps {
@@ -20,11 +22,7 @@ export default function Cards({ items }: CardsProps) {
     <AnimatePresence mode='wait'>
       {items.map((item, index) => (
         <motion.div
-          key={
-            item.isPlaceholder
-              ? `placeholder-${index}`
-              : `${item.name}-${index}`
-          }
+          key={item.isPlaceholder ? `placeholder-${index}` : `item-${item.id}`}
           layout
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -94,7 +92,7 @@ export default function Cards({ items }: CardsProps) {
               <CardMedia
                 component='img'
                 height='289'
-                image={`/icons/${item.url}`}
+                image={`${item.url}`}
                 alt={item.name}
                 sx={{ borderRadius: '10px' }}
               />
@@ -113,7 +111,7 @@ export default function Cards({ items }: CardsProps) {
                     lineHeight: '21px',
                   }}
                 >
-                  {item.name}
+                  {item.product_name}
                 </Typography>
                 <Box
                   sx={{
@@ -132,7 +130,10 @@ export default function Cards({ items }: CardsProps) {
                       color: 'var(--main-color)',
                     }}
                   >
-                    {item.price} {item.currency}
+                    {item.price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
+                    {item.currency}
                   </Typography>
                   <ChevronRightIcon color='primary' />
                 </Box>

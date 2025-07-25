@@ -1,5 +1,19 @@
-import { allItems } from '@/varibles/cards'
 import { Autocomplete, TextField } from '@mui/material'
+
+const allItems = {
+  Виробники: [
+    { name: 'Виробник 1' },
+    { name: 'Виробник 2' },
+    { name: 'Виробник 3' },
+    { name: 'Виробник 4' },
+  ],
+  Категорії: [
+    { name: 'Категорія 1' },
+    { name: 'Категорія 2' },
+    { name: 'Категорія 3' },
+    { name: 'Категорія 4' },
+  ],
+}
 
 export default function Search() {
   const allItemsNames = Object.values(allItems)

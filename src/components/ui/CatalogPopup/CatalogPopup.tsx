@@ -1,4 +1,7 @@
-import { allItems } from '@/varibles/cards'
+import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
+import { useAppDispatch } from '@/scripts/hooks/hooks'
+import { useFilteredProducts } from '@/scripts/hooks/useFilteredProducts'
+import { useProducts } from '@/scripts/hooks/useProducts'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
   Box,
@@ -11,15 +14,6 @@ import {
 } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-
-const itemNamesByCategory = Object.fromEntries(
-  Object.entries(allItems).map(([category, items]) => [
-    category,
-    items.map((item) => item.name),
-  ])
-)
-
-type Keys = keyof typeof itemNamesByCategory
 
 const listVariants = {
   hidden: { opacity: 0, height: 0 },
@@ -45,6 +39,10 @@ const itemVariants = {
 }
 
 export const CatalogPopup = () => {
+  const dispatch = useAppDispatch()
+  const { filterOptionsByGroup } = useProducts()
+  type Keys = keyof typeof filterOptionsByGroup
+
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeItem, setActiveItem] = useState<Keys | null>(null)
 
@@ -60,6 +58,15 @@ export const CatalogPopup = () => {
 
   const handleItemClick = (key: Keys) => {
     setActiveItem((prev) => (prev === key ? null : key))
+  }
+
+  const { getFilteredProducts, setFilteredItems } = useFilteredProducts()
+
+  const handleClick = (name: string) => {
+    const filtered = getFilteredProducts(name)
+    setFilteredItems(filtered)
+    handleClickAway()
+    dispatch(triggerScrollToCatalog())
   }
 
   return (
@@ -120,7 +127,7 @@ export const CatalogPopup = () => {
                     }}
                   >
                     <List sx={{ mr: '20px' }}>
-                      {(Object.keys(itemNamesByCategory) as Keys[]).map(
+                      {(Object.keys(filterOptionsByGroup) as Keys[]).map(
                         (key) => (
                           <ListItemButton
                             key={key}
@@ -137,6 +144,7 @@ export const CatalogPopup = () => {
                               '&:hover': {
                                 backgroundColor:
                                   'var(--blue-bright-color) !important',
+                                color: '#fff',
                               },
                             }}
                           >
@@ -163,7 +171,15 @@ export const CatalogPopup = () => {
                   </Box>
 
                   {/* Правая колонка */}
-                  <Box sx={{ minWidth: 289, ml: '20px' }}>
+                  <Box
+                    sx={{
+                      width: 289,
+                      ml: '20px',
+                      overflow: 'auto',
+                      overflowX: 'hidden',
+                      height: '400px',
+                    }}
+                  >
                     <AnimatePresence mode='sync'>
                       {activeItem && (
                         <motion.ul
@@ -172,17 +188,32 @@ export const CatalogPopup = () => {
                           initial='hidden'
                           animate='visible'
                           exit='exit'
-                          style={{ listStyle: 'none', margin: 0, padding: 0 }}
+                          style={{
+                            listStyle: 'none',
+                            margin: 0,
+                            padding: 0,
+                          }}
                         >
-                          {itemNamesByCategory[activeItem].map((item) => (
-                            <motion.li key={item} variants={itemVariants}>
-                              <ListItemButton
-                                sx={{ p: '12px 16px ', borderRadius: '10px' }}
-                              >
-                                <ListItemText primary={item} />
-                              </ListItemButton>
-                            </motion.li>
-                          ))}
+                          {filterOptionsByGroup[activeItem]?.map(
+                            (item: string) => (
+                              <motion.li key={item} variants={itemVariants}>
+                                <ListItemButton
+                                  onClick={() => handleClick(item)}
+                                  sx={{
+                                    p: '12px 16px ',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                      backgroundColor:
+                                        'var(--blue-bright-color) !important',
+                                      color: '#fff',
+                                    },
+                                  }}
+                                >
+                                  <ListItemText primary={item} />
+                                </ListItemButton>
+                              </motion.li>
+                            )
+                          )}
                         </motion.ul>
                       )}
                     </AnimatePresence>

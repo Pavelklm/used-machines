@@ -1,7 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export function usePagination<T>(items: T[], itemsPerPage: number) {
   const [page, setPage] = useState(1)
+
+  useEffect(() => {
+    setPage(1)
+  }, [items])
 
   const pageCount = Math.ceil(items.length / itemsPerPage)
 

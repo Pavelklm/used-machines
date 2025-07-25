@@ -1,4 +1,5 @@
-import { allItems } from '@/varibles/cards'
+import { clearFilteredItems } from '@/context/slices/filteredItems'
+import { useAppDispatch } from '@/scripts/hooks/hooks'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
   Accordion,
@@ -11,15 +12,6 @@ import {
 } from '@mui/material'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
 import { useState } from 'react'
-
-const itemNamesByCategory = Object.fromEntries(
-  Object.entries(allItems).map(([category, items]) => [
-    category,
-    items.map((item) => item.name),
-  ])
-)
-
-type Keys = keyof typeof itemNamesByCategory
 
 const listVariants: Variants = {
   visible: {
@@ -64,18 +56,46 @@ const headerVariants: Variants = {
   hover: { x: 2, transition: { type: 'spring', stiffness: 300, damping: 15 } },
 }
 
-export default function Filters() {
-  const [activeItem, setActiveItem] = useState<Keys | null>(null)
-
-  const handleToggle = (key: Keys) => {
+export default function Filters({
+  catalogDataByCategory,
+  getFilteredProducts,
+  setFilteredItems,
+}: {
+  catalogDataByCategory: Record<string, string[]>
+  getFilteredProducts: (name: string) => any[]
+  setFilteredItems: (items: any[]) => void
+}) {
+  const [activeItem, setActiveItem] = useState<string | null>(null)
+  const dispatch = useAppDispatch()
+  const handleToggle = (key: string) => {
     setActiveItem((prev) => (prev === key ? null : key))
+  }
+
+  const handleClick = (name: string) => {
+    const filtered = getFilteredProducts(name)
+    setFilteredItems(filtered)
   }
 
   return (
     <div className='сatalog__filters'>
-      <Typography sx={{ padding: '16px' }}>Уся продукція</Typography>
+      <Typography
+        onClick={() => dispatch(clearFilteredItems())}
+        sx={{
+          padding: '16px',
+          borderRadius: '16px',
+          boxShadow: 'none',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            background: 'var(--main-color)',
+            color: '#fff ',
+          },
+        }}
+      >
+        Уся продукція
+      </Typography>
 
-      {(Object.keys(itemNamesByCategory) as Keys[]).map((key) => {
+      {Object.keys(catalogDataByCategory).map((key) => {
         const expanded = activeItem === key
 
         return (
@@ -135,13 +155,13 @@ export default function Filters() {
                 >
                   <AccordionDetails sx={{ margin: 0, padding: '8px 0 16px' }}>
                     <List disablePadding>
-                      {itemNamesByCategory[key].map((item) => (
+                      {catalogDataByCategory[key].map((item) => (
                         <motion.div key={item} variants={itemVariants}>
                           <ListItem
                             disablePadding
                             sx={{
-                              padding: '12px 16px',
                               borderRadius: '10px',
+                              transition: 'all 0.3s ease',
                               '&:hover': {
                                 backgroundColor: 'var(--main-color)',
                                 color: '#fff',
@@ -149,10 +169,18 @@ export default function Filters() {
                             }}
                           >
                             <Link
+                              onClick={(e) => {
+                                e.preventDefault()
+                                handleClick(item)
+                              }}
                               underline='none'
                               href='#'
                               color='inherit'
-                              sx={{ display: 'block', width: '100%' }}
+                              sx={{
+                                display: 'block',
+                                width: '100%',
+                                padding: '12px 16px',
+                              }}
                             >
                               {item}
                             </Link>
