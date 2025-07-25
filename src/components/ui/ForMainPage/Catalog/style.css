@@ -3,6 +3,11 @@
   overflow-y: auto;
 }
 
+.catalog__sort {
+  position: relative;
+  z-index: 100;
+}
+
 .catalog__title {
   font-size: 26px;
   font-weight: 600;

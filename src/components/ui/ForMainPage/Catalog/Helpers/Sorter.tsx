@@ -13,7 +13,6 @@ type SorterProps = {
 
 export default function Sorter({ itemsToSort, setSortedItems }: SorterProps) {
   const [range, setRange] = React.useState('low')
-  console.log(itemsToSort)
 
   const handleSort = () => {
     const sorted = [...itemsToSort].sort(
@@ -38,7 +37,7 @@ export default function Sorter({ itemsToSort, setSortedItems }: SorterProps) {
   }, [range, itemsToSort])
 
   return (
-    <Box sx={{ width: 204 }}>
+    <Box sx={{ width: 204, position: 'relative', zIndex: 1 }}>
       <FormControl fullWidth>
         <InputLabel
           sx={{ color: 'var(--main-color)' }}
@@ -52,11 +51,36 @@ export default function Sorter({ itemsToSort, setSortedItems }: SorterProps) {
           value={range}
           label='range'
           onChange={handleChange}
+          MenuProps={{
+            disablePortal: true,
+            PaperProps: {
+              sx: {
+                maxHeight: 200,
+                position: 'absolute',
+                zIndex: 1300,
+                top: '100% !important',
+                left: '0 !important',
+                right: '0 !important',
+                transform: 'none !important',
+                marginTop: '4px',
+              },
+            },
+            container: document.body,
+          }}
           sx={{
             color: 'var(--main-color)',
             borderRadius: '10px',
-            '& .MuiBackdrop-root': {
-              overflow: 'hidden',
+            '& .MuiSelect-select': {
+              overflow: 'visible',
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'var(--blue-light-color)',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'var(--blue-light-color)',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'var(--main-color)',
             },
           }}
         >
