@@ -60,10 +60,12 @@ export default function Filters({
   catalogDataByCategory,
   getFilteredProducts,
   setFilteredItems,
+  onShowAllProducts, // Добавляем новый prop
 }: {
   catalogDataByCategory: Record<string, string[]>
   getFilteredProducts: (name: string) => any[]
   setFilteredItems: (items: any[]) => void
+  onShowAllProducts?: () => void // Новый опциональный callback
 }) {
   const [activeItem, setActiveItem] = useState<string | null>(null)
   const dispatch = useAppDispatch()
@@ -76,10 +78,18 @@ export default function Filters({
     setFilteredItems(filtered)
   }
 
+  const handleShowAllProducts = () => {
+    dispatch(clearFilteredItems())
+    // Вызываем callback для обновления animationKey
+    if (onShowAllProducts) {
+      onShowAllProducts()
+    }
+  }
+
   return (
     <div className='сatalog__filters'>
       <Typography
-        onClick={() => dispatch(clearFilteredItems())}
+        onClick={handleShowAllProducts}
         sx={{
           padding: '16px',
           borderRadius: '16px',
