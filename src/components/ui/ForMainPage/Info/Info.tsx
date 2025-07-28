@@ -1,3 +1,5 @@
+import { FullWidthLine } from '@/components/module/fullWidthLine/fullWidthLine'
+import MainButton from '@/components/module/mainButton'
 import './style.css'
 
 export const Info = () => {
@@ -13,9 +15,7 @@ export const Info = () => {
               Надійне обладнання для вашого виробництва — <br /> з гарантією
               та професійною підтримкою
             </h2>
-            <button className='info__main__button btn-reset default_button'>
-              Отримати консультацію
-            </button>
+            <MainButton />
           </div>
           <div className='info__main__right'>
             <img src='/icons/grinder.png' alt='grinder' />
@@ -23,6 +23,7 @@ export const Info = () => {
         </div>
       </div>
       <div className='info__benefit'>
+        <FullWidthLine />
         <div className='container'>
           <ul className='info__benefit__list list-reset'>
             <li className='info__benefit__item'>

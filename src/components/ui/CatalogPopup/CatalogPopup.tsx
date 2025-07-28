@@ -1,3 +1,4 @@
+import { setOverlay } from '@/context/slices/overlaySlice'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { useFilteredProducts } from '@/scripts/hooks/useFilteredProducts'
@@ -41,6 +42,7 @@ const itemVariants = {
 export const CatalogPopup = () => {
   const dispatch = useAppDispatch()
   const { filterOptionsByGroup } = useProducts()
+
   type Keys = keyof typeof filterOptionsByGroup
 
   const [menuOpen, setMenuOpen] = useState(false)
@@ -49,11 +51,18 @@ export const CatalogPopup = () => {
   const handleClickAway = () => {
     setMenuOpen(false)
     setActiveItem(null)
+    dispatch(setOverlay(false))
   }
 
   const handleMainClick = () => {
-    setMenuOpen((prev) => !prev)
-    if (menuOpen) setActiveItem(null)
+    const newMenuOpen = !menuOpen
+    setMenuOpen(newMenuOpen)
+
+    if (!newMenuOpen) {
+      setActiveItem(null)
+    }
+
+    dispatch(setOverlay(newMenuOpen))
   }
 
   const handleItemClick = (key: Keys) => {
@@ -108,18 +117,21 @@ export const CatalogPopup = () => {
                 position: 'absolute',
                 top: '100%',
                 left: 20,
-                zIndex: 10,
                 width: 'fit-content',
                 marginTop: 5,
+                zIndex: 300,
               }}
             >
               <Paper
                 sx={{
                   p: '30px 30px 12px 30px',
                   minWidth: 400,
+                  borderRadius: '20px',
                 }}
               >
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'row', zIndex: 300 }}
+                >
                   <Box
                     sx={{
                       minWidth: 309,
@@ -134,6 +146,7 @@ export const CatalogPopup = () => {
                             onClick={() => handleItemClick(key)}
                             selected={activeItem === key}
                             sx={{
+                              zIndex: 300,
                               backgroundColor:
                                 activeItem === key
                                   ? 'var(--main-color) !important'
@@ -173,6 +186,8 @@ export const CatalogPopup = () => {
                   {/* Правая колонка */}
                   <Box
                     sx={{
+                      zIndex: 300,
+
                       width: 289,
                       ml: '20px',
                       overflow: 'auto',
@@ -202,6 +217,8 @@ export const CatalogPopup = () => {
                                   sx={{
                                     p: '12px 16px ',
                                     borderRadius: '10px',
+                                    zIndex: 300,
+
                                     '&:hover': {
                                       backgroundColor:
                                         'var(--blue-bright-color) !important',

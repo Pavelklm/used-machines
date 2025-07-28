@@ -24,6 +24,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 53px;
 }
 
 .info__main__right {
@@ -33,14 +34,9 @@
 }
 
 .info__benefit {
-  background-color: var(--main-color);
   display: flex;
   align-items: center;
   height: 188px;
-}
-
-.info__main__button {
-  margin-bottom: 53px;
 }
 
 .info__benefit__item {
@@ -56,6 +52,7 @@
 }
 
 .info__benefit__list {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;

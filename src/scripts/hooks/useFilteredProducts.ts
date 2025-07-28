@@ -1,7 +1,7 @@
 import {
   clearFilteredItems,
   setFilteredItems,
-} from '@/context/slices/filteredItems'
+} from '@/context/slices/filteredItemsSlice'
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from './hooks'
 import { useProducts } from './useProducts'

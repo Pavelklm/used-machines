@@ -1,6 +1,6 @@
 .catalog {
   position: relative;
-  overflow-y: auto;
+  margin-bottom: 150px;
 }
 
 .catalog__sort {
@@ -38,11 +38,9 @@
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  height: 880px;
 }
 
 .catalog__items__list {
-  height: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;

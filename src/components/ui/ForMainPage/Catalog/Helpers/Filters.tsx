@@ -1,4 +1,4 @@
-import { clearFilteredItems } from '@/context/slices/filteredItems'
+import { clearFilteredItems } from '@/context/slices/filteredItemsSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
