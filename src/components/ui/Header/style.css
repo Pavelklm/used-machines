@@ -19,7 +19,6 @@
   align-items: center;
   flex-direction: row;
   max-height: 48px;
-  overflow: visible;
 }
 
 .header__email__link {

@@ -1,5 +1,7 @@
 .info {
   margin-bottom: 150px;
+  position: relative;
+  overflow: hidden;
 }
 
 .info__main__title {
@@ -37,6 +39,8 @@
   display: flex;
   align-items: center;
   height: 188px;
+  position: relative;
+  overflow: hidden;
 }
 
 .info__benefit__item {
@@ -56,4 +60,16 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.full-width-line {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  background-color: var(--main-color);
+  width: 100vw;
+  border-radius: 10px;
+  height: 100%;
+  z-index: -100;
+  overflow: hidden;
 }

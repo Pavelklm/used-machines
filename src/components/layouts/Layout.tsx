@@ -14,8 +14,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     return window.innerWidth - document.documentElement.clientWidth
   }
 
-  console.log(overlay)
-
   useEffect(() => {
     const scrollbarWidth = getScrollbarWidth()
     if (overlay) {
