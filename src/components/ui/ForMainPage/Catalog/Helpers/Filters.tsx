@@ -72,15 +72,16 @@ export default function Filters({
   const handleToggle = (key: string) => {
     setActiveItem((prev) => (prev === key ? null : key))
   }
+  const [selectedItem, setSelectedItem] = useState<string | null>(null)
 
-  const handleClick = (name: string) => {
-    const filtered = getFilteredProducts(name)
+  const handleClick = (item: string) => {
+    setSelectedItem(item)
+    const filtered = getFilteredProducts(item)
     setFilteredItems(filtered)
   }
 
   const handleShowAllProducts = () => {
     dispatch(clearFilteredItems())
-    // Вызываем callback для обновления animationKey
     if (onShowAllProducts) {
       onShowAllProducts()
     }
@@ -172,8 +173,13 @@ export default function Filters({
                             sx={{
                               borderRadius: '10px',
                               transition: 'all 0.3s ease',
+                              backgroundColor:
+                                selectedItem === item
+                                  ? 'var(--main-color)'
+                                  : 'transparent',
+                              color: selectedItem === item ? '#fff' : 'inherit',
                               '&:hover': {
-                                backgroundColor: 'var(--main-color)',
+                                backgroundColor: 'var(--blue-bright-color)',
                                 color: '#fff',
                               },
                             }}

@@ -79,35 +79,33 @@ export const CatalogPopup = () => {
   }
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
-      <Box
-        sx={{ display: 'inline-block', borderRadius: '10px', width: '195px' }}
+    <Box sx={{ display: 'inline-block', borderRadius: '10px', width: '195px' }}>
+      <ListItemButton
+        onClick={handleMainClick}
+        sx={{
+          backgroundColor: menuOpen
+            ? 'var(--blue-bright1-color) !important'
+            : 'var(--main-color) !important',
+          borderRadius: '10px',
+          p: '13.5px 30px',
+          color: '#fff ',
+          '&:hover': {
+            backgroundColor: 'var(--blue-bright-color) !important',
+          },
+        }}
       >
-        <ListItemButton
-          onClick={handleMainClick}
-          sx={{
-            backgroundColor: menuOpen
-              ? 'var(--blue-bright1-color) !important'
-              : 'var(--main-color) !important',
-            borderRadius: '10px',
-            p: '13.5px 30px',
-            color: '#fff ',
-            '&:hover': {
-              backgroundColor: 'var(--blue-bright-color) !important',
-            },
-          }}
+        <Typography sx={{ flexGrow: 1 }}>Каталог</Typography>
+        <motion.div
+          animate={{ rotate: menuOpen ? 180 : 0 }}
+          transition={{ type: 'spring', stiffness: 300 }}
         >
-          <Typography sx={{ flexGrow: 1 }}>Каталог</Typography>
-          <motion.div
-            animate={{ rotate: menuOpen ? 180 : 0 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <KeyboardArrowDownIcon sx={{ display: 'flex' }} />
-          </motion.div>
-        </ListItemButton>
+          <KeyboardArrowDownIcon sx={{ display: 'flex' }} />
+        </motion.div>
+      </ListItemButton>
 
-        <AnimatePresence>
-          {menuOpen && (
+      <AnimatePresence>
+        {menuOpen && (
+          <ClickAwayListener onClickAway={handleClickAway}>
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -238,10 +236,10 @@ export const CatalogPopup = () => {
                 </Box>
               </Paper>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </Box>
-    </ClickAwayListener>
+          </ClickAwayListener>
+        )}
+      </AnimatePresence>
+    </Box>
   )
 }
 
