@@ -1,4 +1,5 @@
-import MainButton from '@/components/module/mainButton/mainButton'
+import { LineBackground } from '@/components/module/LineBackground/LineBackground'
+import MainButton from '@/components/module/MainButton/MainButton'
 import './style.css'
 
 export const Info = () => {
@@ -22,7 +23,7 @@ export const Info = () => {
         </div>
       </div>
       <div className='info__benefit'>
-        <div className='full-width-line' />
+        <LineBackground className={'full-width-line-info'} />
         <div className='container'>
           <ul className='info__benefit__list list-reset'>
             <li className='info__benefit__item'>

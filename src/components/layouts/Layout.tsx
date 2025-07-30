@@ -4,7 +4,7 @@ import { RootState } from '@/context/store'
 import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
-import { Overlay } from '../module/overlay/overlay'
+import { Overlay } from '../module/Overlay/Overlay'
 import { Footer } from '../ui/Footer/Footer'
 import { Header } from '../ui/Header/Header'
 

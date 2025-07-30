@@ -1,9 +1,9 @@
 'use client'
 
-import CatalogPopup from '../CatalogPopup/CatalogPopup'
-import Search from '../Search/Search'
 import Gmail from '../SVG/Gmail'
 import Logo from '../SVG/Logo'
+import CatalogPopup from './CatalogPopup/CatalogPopup'
+import Search from './Search/Search'
 import './style.css'
 
 export const Header = () => {

@@ -35,7 +35,7 @@
     "**/*.tsx",
     "**/*.js",
     "src/types/**/*.d.ts"  // обязательно, чтобы TS видел декларации
-  ],
+, "src/components/forms/Form"  ],
   "exclude": [
     "node_modules"
   ]

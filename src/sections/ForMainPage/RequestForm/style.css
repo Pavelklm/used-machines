@@ -1,0 +1,16 @@
+.request-form-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.main-form {
+  position: relative;
+  height: 100%;
+  margin-bottom: 150px;
+}
+
+.full-width-line-form {
+  bottom: -2px;
+}

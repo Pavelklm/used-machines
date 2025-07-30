@@ -1,6 +1,7 @@
-import { About } from '@/components/ui/ForMainPage/About/About'
-import { CatalogWrapper } from '@/components/ui/ForMainPage/Catalog/CatalogWrapper'
-import { Info } from '@/components/ui/ForMainPage/Info/Info'
+import { About } from '@/sections/ForMainPage/About/About'
+import { CatalogWrapper } from '@/sections/ForMainPage/Catalog/CatalogWrapper'
+import { Info } from '@/sections/ForMainPage/Info/Info'
+import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
 
 export const Home = () => {
   return (
@@ -8,6 +9,7 @@ export const Home = () => {
       <Info />
       <CatalogWrapper />
       <About />
+      <RequestForm />
     </div>
   )
 }
