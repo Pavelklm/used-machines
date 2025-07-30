@@ -5,7 +5,7 @@ import './Form.css'
 import Kyivstar from './svg/Kyivstar'
 import Lifecell from './svg/Lifecell'
 import Ukrtelecom from './svg/Ukrtelecom'
-import Vodafone from './svg/vodafone'
+import Vodafone from './svg/Vodafone'
 import {
   API_ENDPOINTS,
   ERROR_MESSAGES,
