@@ -1,6 +1,7 @@
 'use client'
 
-import { Overlay } from '@/components/module/overlay/Overlay'
+import { Overlay } from '@/components/module/Overlay/Overlay'
+
 import { Footer } from '@/components/ui/Footer/Footer'
 import { Header } from '@/components/ui/Header/Header'
 import { RootState } from '@/context/store'
