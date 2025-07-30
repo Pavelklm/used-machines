@@ -1,4 +1,5 @@
-import MainButton from '@/components/module/MainButton/MainButton'
+import MainButton from '@/components/module/mainButton/MainButton'
+
 import './style.css'
 
 export const About = () => {
