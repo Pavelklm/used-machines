@@ -1,12 +1,12 @@
 'use client'
 
+import { Overlay } from '@/components/module/Overlay/Overlay'
+import { Footer } from '@/components/ui/Footer/Footer'
+import { Header } from '@/components/ui/Header/Header'
 import { RootState } from '@/context/store'
 import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
-import { Overlay } from '../module/Overlay/Overlay'
-import { Footer } from '../ui/Footer/Footer'
-import { Header } from '../ui/Header/Header'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const overlay = useSelector((state: RootState) => state.overlay)
