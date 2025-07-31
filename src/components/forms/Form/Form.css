@@ -326,35 +326,6 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .request-form-box {
-    background-color: #1e1e2e;
-  }
-
-  .request-form-input {
-    background-color: #2a2a3e;
-    color: #f5f5f5;
-    border-color: #3a3a4e;
-  }
-
-  .request-form-input::placeholder {
-    color: #8a8a9e;
-  }
-
-  .request-form-title,
-  .request-form-subtitle {
-    color: #f5f5f5;
-  }
-
-  .request-form-privacy-policy {
-    color: #8a8a9e;
-  }
-
-  .operator-badge {
-    background-color: rgba(42, 42, 62, 0.9);
-  }
-}
-
 .operator-logo {
   transition: transform 0.2s ease;
 }
