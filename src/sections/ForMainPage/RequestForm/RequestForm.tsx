@@ -14,6 +14,7 @@ export const RequestForm = () => {
               alt='Обладнання для різання'
               className='request-form-image'
               loading='lazy'
+              draggable='false'
             />
           </div>
           <div className='form__content_right'>

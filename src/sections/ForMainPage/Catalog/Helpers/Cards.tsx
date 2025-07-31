@@ -145,6 +145,8 @@ export default function Cards({ items, animationKey }: CardsProps) {
                     image={`${item.url}`}
                     alt={item.name}
                     sx={{ borderRadius: '10px' }}
+                    loading='lazy'
+                    draggable='false'
                   />
                   <CardContent
                     sx={{

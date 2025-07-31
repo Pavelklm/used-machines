@@ -3,7 +3,7 @@ export async function fetchProducts(filters: Record<string, any>[] = []) {
   const token = import.meta.env.VITE_API_TOKEN
 
   if (!baseUrl || !token) {
-    console.error('❌ Нет переменных окружения для API')
+    console.error('Нет переменных окружения для API')
     return []
   }
 
@@ -25,7 +25,39 @@ export async function fetchProducts(filters: Record<string, any>[] = []) {
     const data = await res.json()
     return data.data
   } catch (err) {
-    console.error('💥 Ошибка загрузки продуктов:', err)
+    console.error('Ошибка загрузки продуктов:', err)
+    return []
+  }
+}
+
+export async function fetchBrands(filters: Record<string, any>[] = []) {
+  const brandsUrl = import.meta.env.VITE_API_BRANDS_URL
+  const token = import.meta.env.VITE_API_TOKEN
+
+  if (!brandsUrl || !token) {
+    console.error('Нет переменных окружения для API')
+    return []
+  }
+
+  const mergedFilters = {
+    status: { _eq: 'published' },
+  }
+
+  const query = encodeURIComponent(JSON.stringify(mergedFilters))
+  const url = `${brandsUrl}?filter=${query}`
+
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    const data = await res.json()
+
+    return data.data
+  } catch (err) {
+    console.error('Ошибка загрузки брендов:', err)
     return []
   }
 }

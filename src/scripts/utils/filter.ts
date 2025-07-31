@@ -4,6 +4,7 @@ export function brand(name: string) {
   return {
     brands_names: {
       brand_name: { _eq: name },
+      brand__image: { _eq: name },
     },
   }
 }

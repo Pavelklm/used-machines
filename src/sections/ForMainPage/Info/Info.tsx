@@ -18,7 +18,7 @@ export const Info = () => {
             <MainButton />
           </div>
           <div className='info__main__right'>
-            <img src='/icons/grinder.png' alt='grinder' />
+            <img src='/icons/grinder.png' alt='grinder' draggable='false' />
           </div>
         </div>
       </div>
@@ -31,6 +31,7 @@ export const Info = () => {
                 className='info__benefit__item__img'
                 src='/icons/approved.svg'
                 alt='approved'
+                draggable='false'
               />
               <p>Кожна техніка проходить повну перевірку.</p>
             </li>
@@ -39,6 +40,7 @@ export const Info = () => {
                 className='info__benefit__item__img'
                 src='/icons/approved.svg'
                 alt='approved'
+                draggable='false'
               />
               <p>Швидка доставка по Україні.</p>
             </li>
@@ -47,6 +49,7 @@ export const Info = () => {
                 className='info__benefit__item__img'
                 src='/icons/approved.svg'
                 alt='approved'
+                draggable='false'
               />
               <p>Допомагаємо підібрати рішення для вашого виробництва.</p>
             </li>

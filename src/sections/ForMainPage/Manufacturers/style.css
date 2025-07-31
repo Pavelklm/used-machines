@@ -1,0 +1,10 @@
+.manufacturers__item__img {
+  width: 186px;
+}
+
+.manufacturers__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  align-items: center;
+}

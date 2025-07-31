@@ -1,12 +1,33 @@
-import { loadProducts } from '@/api/loadProducts'
+import { loadBrands, loadProducts } from '@/api/loadProducts'
+import { BrandInfo } from '@/types/products'
 import { useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from './hooks'
 
 export const useProducts = () => {
   const products = useAppSelector((state) => state.products.products)
   const dispatch = useAppDispatch()
+  const brands = useAppSelector((state) => state.brands.brands)
 
   const PHOTO_URL = import.meta.env.VITE_API_PHOTO_URL
+
+  const allBrands = useMemo(() => {
+    const seen = new Set<string>()
+    const uniqueBrands: BrandInfo[] = []
+
+    brands.forEach((brand) => {
+      if (!brand?.brand_name) return
+
+      if (!seen.has(brand.brand_name)) {
+        seen.add(brand.brand_name)
+        uniqueBrands.push({
+          brand_name: brand.brand_name,
+          brand__image: `${PHOTO_URL}/${brand.brand__image}`,
+        })
+      }
+    })
+
+    return uniqueBrands
+  }, [brands])
 
   const productsArray = useMemo(() => {
     const map = new Map()
@@ -26,6 +47,7 @@ export const useProducts = () => {
 
   useEffect(() => {
     dispatch(loadProducts())
+    dispatch(loadBrands())
   }, [dispatch])
 
   const categories = useMemo(() => {
@@ -81,5 +103,6 @@ export const useProducts = () => {
     productsArray,
     filterOptionsByGroup,
     getFilteredProducts,
+    allBrands,
   }
 }

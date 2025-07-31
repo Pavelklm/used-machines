@@ -1,3 +1,8 @@
+export interface BrandInfo {
+  brand_name: string
+  brand__image: string
+}
+
 export type Product = {
   id: any
   price: number
@@ -6,9 +11,8 @@ export type Product = {
   currency_name?: {
     currency_name: string
   }
-  brands_names: {
-    brand_name: string
-  }
+  brands_names: BrandInfo
+
   categories_names: {
     categorie_name: string
   }

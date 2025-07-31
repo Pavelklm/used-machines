@@ -32,7 +32,6 @@ export const Catalog = ({
     setAnimationKey((prev) => prev + 1)
   }
 
-  // Новый обработчик для "Уся продукція"
   const handleShowAllProducts = () => {
     setAnimationKey((prev) => prev + 1)
   }

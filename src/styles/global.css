@@ -33,7 +33,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden;
   margin: 0;
   min-height: 100vh;
 }
@@ -171,4 +171,13 @@ p {
 
 .no-scroll {
   overflow: hidden;
+}
+
+.logo__icon {
+  color: var(--main-color);
+}
+
+.logo__icon:hover {
+  color: var(--blue-bright-color);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
 }
