@@ -7,8 +7,7 @@ export const useProducts = () => {
   const products = useAppSelector((state) => state.products.products)
   const dispatch = useAppDispatch()
   const brands = useAppSelector((state) => state.brands.brands)
-
-  const PHOTO_URL = import.meta.env.VITE_API_PHOTO_URL
+  const directusUrl = import.meta.env.VITE_API_BASE_URL
 
   const allBrands = useMemo(() => {
     const seen = new Set<string>()
@@ -21,7 +20,7 @@ export const useProducts = () => {
         seen.add(brand.brand_name)
         uniqueBrands.push({
           brand_name: brand.brand_name,
-          brand__image: `${PHOTO_URL}/${brand.brand__image}`,
+          brand__image: `${directusUrl}assets/${brand.brand__image}`,
         })
       }
     })
@@ -38,12 +37,12 @@ export const useProducts = () => {
           product_name: product.product_name,
           price: product.price,
           currency: product.currency_name?.currency_name,
-          url: `${PHOTO_URL}/${product.photo_url}`,
+          url: `${directusUrl}assets/${product.photo_url}`,
         })
       }
     })
     return Array.from(map.values())
-  }, [products, PHOTO_URL])
+  }, [products, directusUrl])
 
   useEffect(() => {
     dispatch(loadProducts())
@@ -92,7 +91,7 @@ export const useProducts = () => {
         currency: product.currency_name?.currency_name,
         price: product.price,
         product_name: product.product_name,
-        url: `${PHOTO_URL}/${product.photo_url}`,
+        url: `${directusUrl}assets/${product.photo_url}`,
         equipment_name: product.equipments_names?.equipment_name,
         brand: product.brands_names?.brand_name,
         category: product.categories_names?.categorie_name,

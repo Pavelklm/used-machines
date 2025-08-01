@@ -1,3 +1,4 @@
+// components/ui/Header/CatalogPopup/CatalogPopup.tsx
 import { setOverlay } from '@/context/slices/overlaySlice'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
@@ -15,6 +16,7 @@ import {
 } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const listVariants = {
   hidden: { opacity: 0, height: 0 },
@@ -41,6 +43,8 @@ const itemVariants = {
 
 export const CatalogPopup = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
   const { filterOptionsByGroup } = useProducts()
 
   type Keys = keyof typeof filterOptionsByGroup
@@ -74,8 +78,21 @@ export const CatalogPopup = () => {
   const handleClick = (name: string) => {
     const filtered = getFilteredProducts(name)
     setFilteredItems(filtered)
+
     handleClickAway()
-    dispatch(triggerScrollToCatalog())
+
+    const isOnHomePage = location.pathname === '/'
+
+    if (isOnHomePage) {
+      dispatch(triggerScrollToCatalog())
+    } else {
+      navigate('/', {
+        state: {
+          shouldScrollToCatalog: true,
+          filteredBy: name,
+        },
+      })
+    }
   }
 
   return (
@@ -185,7 +202,6 @@ export const CatalogPopup = () => {
                   <Box
                     sx={{
                       zIndex: 300,
-
                       width: 289,
                       ml: '20px',
                       overflow: 'auto',
@@ -216,7 +232,6 @@ export const CatalogPopup = () => {
                                     p: '12px 16px ',
                                     borderRadius: '10px',
                                     zIndex: 300,
-
                                     '&:hover': {
                                       backgroundColor:
                                         'var(--blue-bright-color) !important',

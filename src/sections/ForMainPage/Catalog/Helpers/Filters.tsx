@@ -38,7 +38,6 @@ const itemVariants: Variants = {
   hidden: { opacity: 0, x: -20 },
 }
 
-// Вращение стрелочки с пружиной
 const iconVariants: Variants = {
   open: {
     rotate: 180,
@@ -60,12 +59,12 @@ export default function Filters({
   catalogDataByCategory,
   getFilteredProducts,
   setFilteredItems,
-  onShowAllProducts, // Добавляем новый prop
+  onShowAllProducts,
 }: {
   catalogDataByCategory: Record<string, string[]>
   getFilteredProducts: (name: string) => any[]
   setFilteredItems: (items: any[]) => void
-  onShowAllProducts?: () => void // Новый опциональный callback
+  onShowAllProducts?: () => void
 }) {
   const [activeItem, setActiveItem] = useState<string | null>(null)
   const dispatch = useAppDispatch()

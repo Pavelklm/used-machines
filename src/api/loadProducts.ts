@@ -1,4 +1,4 @@
-import { fetchBrands, fetchProducts } from '@/api/cards'
+import { fetchBrands, fetchProductById, fetchProducts } from '@/api/cards'
 import { Product } from '@/types/products'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
@@ -23,5 +23,22 @@ export const loadBrands = createAsyncThunk<Product['brands_names'][], void>(
     )
 
     return Array.from(data.values())
+  }
+)
+
+export const loadProductById = createAsyncThunk<Product, string>(
+  'products/loadProductById',
+  async (productId: string, thunkAPI) => {
+    try {
+      const data = await fetchProductById(productId)
+      if (!data) {
+        throw new Error('Product not found')
+      }
+      return data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error instanceof Error ? error.message : 'Unknown error'
+      )
+    }
   }
 )

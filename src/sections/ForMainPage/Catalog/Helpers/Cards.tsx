@@ -1,8 +1,10 @@
+// sections/ForMainPage/Catalog/Helpers/Cards.tsx
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material'
 import Skeleton from '@mui/material/Skeleton'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom' // 🆕 Добавили импорт
 
 interface Item {
   id: any
@@ -16,17 +18,15 @@ interface Item {
 
 interface CardsProps {
   items: Item[]
-  animationKey?: string | number // Ключ для запуска анимации при изменении
+  animationKey?: string | number
 }
 
 export default function Cards({ items, animationKey }: CardsProps) {
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
-    // Запускаем анимацию при изменении animationKey (фильтра)
     if (animationKey !== undefined) {
       setIsAnimating(true)
-      // Сбрасываем флаг после завершения анимации
       const timer = setTimeout(() => setIsAnimating(false), 1000)
       return () => clearTimeout(timer)
     }
@@ -41,11 +41,10 @@ export default function Cards({ items, animationKey }: CardsProps) {
         }}
       >
         {items.map((item, index) => {
-          const rowIndex = Math.floor(index / 3) // Для сетки 3x2
+          const rowIndex = Math.floor(index / 3)
           const colIndex = index % 3
-
-          const centerX = 1 - colIndex // Сдвиг к центральной колонке
-          const centerY = 1 - rowIndex // Сдвиг к середине по вертикали
+          const centerX = 1 - colIndex
+          const centerY = 1 - rowIndex
 
           return (
             <motion.div
@@ -57,8 +56,8 @@ export default function Cards({ items, animationKey }: CardsProps) {
                   ? {
                       opacity: 0,
                       scale: 0.5,
-                      x: centerX * 309, // 289px ширина + 20px gap
-                      y: centerY * 410, // 390px высота + 20px gap
+                      x: centerX * 309,
+                      y: centerY * 410,
                       rotate: (Math.random() - 0.5) * 10,
                       zIndex: items.length - index,
                     }
@@ -122,75 +121,80 @@ export default function Cards({ items, animationKey }: CardsProps) {
                   </Typography>
                 </Card>
               ) : (
-                <Card
-                  sx={{
-                    width: 289,
-                    cursor: 'pointer',
-                    borderRadius: '10px',
-                    boxShadow: '0 0 0 1px var(--blue-light-color)',
-                    filter: 'brightness(1)',
-                    transform: 'translateY(0)',
-                    transition:
-                      'transform 0.4s ease, filter 0.4s ease, box-shadow 0.4s ease',
-                    '&:hover': {
-                      boxShadow: '0 0 0 1px var(--blue-bright-color)',
-                      transform: 'translateY(-4px)',
-                      filter: 'brightness(0.85)',
-                    },
-                  }}
+                <Link
+                  to={`/product/${item.id}`}
+                  style={{ textDecoration: 'none' }}
                 >
-                  <CardMedia
-                    component='img'
-                    height='289'
-                    image={`${item.url}`}
-                    alt={item.name}
-                    sx={{ borderRadius: '10px' }}
-                    loading='lazy'
-                    draggable='false'
-                  />
-                  <CardContent
+                  <Card
                     sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 1,
+                      width: 289,
+                      cursor: 'pointer',
+                      borderRadius: '10px',
+                      boxShadow: '0 0 0 1px var(--blue-light-color)',
+                      filter: 'brightness(1)',
+                      transform: 'translateY(0)',
+                      transition:
+                        'transform 0.4s ease, filter 0.4s ease, box-shadow 0.4s ease',
+                      '&:hover': {
+                        boxShadow: '0 0 0 1px var(--blue-bright-color)',
+                        transform: 'translateY(-4px)',
+                        filter: 'brightness(0.85)',
+                      },
                     }}
                   >
-                    <Typography
-                      variant='body2'
-                      sx={{
-                        fontSize: '18px',
-                        fontWeight: '400',
-                        lineHeight: '21px',
-                      }}
-                    >
-                      {item.product_name}
-                    </Typography>
-                    <Box
+                    <CardMedia
+                      component='img'
+                      height='289'
+                      image={`${item.url}`}
+                      alt={item.name}
+                      sx={{ borderRadius: '10px' }}
+                      loading='lazy'
+                      draggable='false'
+                    />
+                    <CardContent
                       sx={{
                         display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        mt: 1,
+                        flexDirection: 'column',
+                        gap: 1,
                       }}
                     >
                       <Typography
-                        variant='h6'
+                        variant='body2'
                         sx={{
-                          fontSize: '16px',
+                          fontSize: '18px',
                           fontWeight: '400',
-                          lineHeight: '19px',
-                          color: 'var(--main-color)',
+                          lineHeight: '21px',
                         }}
                       >
-                        {item.price
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
-                        {item.currency}
+                        {item.product_name}
                       </Typography>
-                      <ChevronRightIcon color='primary' />
-                    </Box>
-                  </CardContent>
-                </Card>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          mt: 1,
+                        }}
+                      >
+                        <Typography
+                          variant='h6'
+                          sx={{
+                            fontSize: '16px',
+                            fontWeight: '400',
+                            lineHeight: '19px',
+                            color: 'var(--main-color)',
+                          }}
+                        >
+                          {item.price
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
+                          {item.currency}
+                        </Typography>
+                        <ChevronRightIcon color='primary' />
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Link>
               )}
             </motion.div>
           )
