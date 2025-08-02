@@ -1,7 +1,4 @@
-'use client'
-
 import { Overlay } from '@/components/module/Overlay/Overlay'
-
 import { Footer } from '@/components/ui/Footer/Footer'
 import { Header } from '@/components/ui/Header/Header'
 import { RootState } from '@/context/store'
@@ -9,7 +6,7 @@ import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 
-export const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   const overlay = useSelector((state: RootState) => state.overlay)
   function getScrollbarWidth() {
     return window.innerWidth - document.documentElement.clientWidth
@@ -36,3 +33,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     </>
   )
 }
+
+export default Layout
+export { Layout }

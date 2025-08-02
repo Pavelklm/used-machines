@@ -1,9 +1,21 @@
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { defineConfig } from 'vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      include: "**/*.{jsx,tsx}",
+    }),
+    // Bundle analyzer - увидишь что жрёт место
+    visualizer({
+      filename: 'dist/stats.html',
+      open: false, // Не открываем автоматически
+      gzipSize: true,
+      brotliSize: true,
+    })
+  ],
   assetsInclude: ['**/*.svg'],
   resolve: {
     alias: {
@@ -11,26 +23,58 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          redux: ['@reduxjs/toolkit', 'react-redux'],
-          ui: ['@mui/material', '@mui/icons-material'],
-          motion: ['framer-motion'],
-        }
-      }
-    },
-    target: 'es2015',
+    target: 'es2020', // Современнее = меньше полифиллов
     minify: 'esbuild',
     sourcemap: false,
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 500, // Строже контроль
+    
+    rollupOptions: {
+      output: {
+        // Агрессивный code splitting
+        manualChunks: {
+          // React ecosystem
+          'react-vendor': ['react', 'react-dom'],
+          'react-router': ['react-router-dom'],
+          
+          // State management
+          'state': ['@reduxjs/toolkit', 'react-redux'],
+          
+          // UI библиотеки разделяем точно
+          'mui-core': ['@mui/material'],
+          'mui-icons': ['@mui/icons-material'], 
+          'mui-joy': ['@mui/joy'],
+          'emotion': ['@emotion/react', '@emotion/styled'],
+          
+          // Анимации отдельно
+          'motion': ['framer-motion'],
+          
+          // Утилиты
+          'utils': ['html-react-parser', 'react-hot-toast']
+        },
+        
+        // Хеш для кеширования
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
+      },
+      
+      // Tree shaking на максимум
+      treeshake: {
+        preset: 'recommended',
+        manualPureFunctions: ['console.log', 'console.info', 'console.debug'],
+      }
+    },
   },
-  server: {
-    open: true
-  },
+  
+  // Оптимизация esbuild
   esbuild: {
     drop: ['console', 'debugger'],
+    legalComments: 'none',
+    target: 'es2020',
+    treeShaking: true,
+  },
+  
+  server: {
+    open: true
   }
 })
