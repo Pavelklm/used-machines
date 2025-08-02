@@ -1,25 +1,37 @@
-// pages/ProductPage.tsx (ИСПРАВЛЕННАЯ версия)
+// pages/ProductPage.tsx (ИСПРАВЛЕННАЯ версия с глобальным состоянием)
+import { loadProductById } from '@/api/loadProducts'
 import { Breadcrumbs } from '@/components/product/Breadcrumbs/Breadcrumbs'
 import { ProductDetail } from '@/components/product/ProductDetail/ProductDetail'
+import { clearCurrentProduct, clearError } from '@/context/slices/productSlice'
+import { RootState } from '@/context/store'
 import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturers'
 import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
-import { Product } from '@/types/products'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
 export const ProductPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const [product, setProduct] = useState<Product | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const dispatch = useDispatch()
+
+  const {
+    currentProduct: product,
+    productLoading: loading,
+    error,
+  } = useSelector((state: RootState) => state.products)
 
   useEffect(() => {
     if (id) {
-      fetchProduct(id)
+      dispatch(loadProductById(id) as any)
     }
-  }, [id])
+
+    return () => {
+      dispatch(clearCurrentProduct())
+      dispatch(clearError())
+    }
+  }, [id, dispatch])
 
   useEffect(() => {
     if (product) {
@@ -49,6 +61,13 @@ export const ProductPage = () => {
     }
   }, [product])
 
+  // Обрабатываем ошибку 404
+  useEffect(() => {
+    if (error === 'Product not found') {
+      navigate('/', { replace: true })
+    }
+  }, [error, navigate])
+
   const updateMetaTag = (name: string, content: string) => {
     const property = name.startsWith('og:') ? 'property' : 'name'
     let element = document.querySelector(`meta[${property}="${name}"]`)
@@ -60,44 +79,6 @@ export const ProductPage = () => {
     }
 
     element.setAttribute('content', content)
-  }
-
-  const fetchProduct = async (productId: string) => {
-    try {
-      setLoading(true)
-      setError(null)
-
-      const token = import.meta.env.VITE_API_TOKEN
-
-      if (!token) {
-        throw new Error('API token not found')
-      }
-
-      const baseUrl = 'https://admin.hornsandhooves.pp.ua'
-      const productUrl = `${baseUrl}/items/products/${productId}?fields=*,brands_names.*,categories_names.*,equipments_names.*,currency_name.*`
-
-      const response = await fetch(productUrl, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          navigate('/', { replace: true })
-          return
-        }
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.json()
-      setProduct(data.data)
-    } catch (err) {
-      console.error('Error fetching product:', err)
-      setError(err instanceof Error ? err.message : 'Unknown error')
-    } finally {
-      setLoading(false)
-    }
   }
 
   const formatPrice = (price: number | string) => {
@@ -141,7 +122,7 @@ export const ProductPage = () => {
           }}
         >
           <div style={{ color: '#f44336', fontSize: '18px' }}>
-            {error && 'Товар не знайдено'}
+            Товар не знайдено
           </div>
         </div>
       </motion.div>

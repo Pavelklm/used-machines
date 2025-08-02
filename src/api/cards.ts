@@ -72,10 +72,8 @@ export async function fetchProductById(id: string) {
     console.error('Нет переменных окружения для API')
     return null
   }
-  const productUrl = baseUrl.replace(
-    '/items/products/',
-    `/items/products/${id}`
-  )
+
+  const productUrl = `${baseUrl}items/products/${id}?fields=*,brands_names.*,categories_names.*,equipments_names.*,currency_name.*`
 
   try {
     const res = await fetch(productUrl, {

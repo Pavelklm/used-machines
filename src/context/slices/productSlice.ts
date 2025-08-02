@@ -1,4 +1,4 @@
-// context/slices/productSlice.ts (ОБНОВЛЕННЫЙ)
+// context/slices/productSlice.ts (улучшенная версия)
 import { loadProductById, loadProducts } from '@/api/loadProducts'
 import { createSlice } from '@reduxjs/toolkit'
 import { Product } from '../../types/products'
@@ -31,12 +31,18 @@ export const productsSlice = createSlice({
     },
     clearCurrentProduct: (state) => {
       state.currentProduct = null
+      // Также очищаем ошибки при очистке продукта
+      state.error = null
     },
     setLoading: (state, action) => {
       state.loading = action.payload
     },
     setError: (state, action) => {
       state.error = action.payload
+    },
+    // Новый action для очистки ошибок
+    clearError: (state) => {
+      state.error = null
     },
   },
   extraReducers: (builder) => {
@@ -70,7 +76,11 @@ export const productsSlice = createSlice({
   },
 })
 
-export const { setProducts, setCurrentProduct, clearCurrentProduct } =
-  productsSlice.actions
+export const {
+  setProducts,
+  setCurrentProduct,
+  clearCurrentProduct,
+  clearError,
+} = productsSlice.actions
 
 export default productsSlice.reducer

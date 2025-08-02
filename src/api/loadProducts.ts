@@ -13,16 +13,18 @@ export const loadProducts = createAsyncThunk(
 export const loadBrands = createAsyncThunk<Product['brands_names'][], void>(
   'products/loadBrands',
   async () => {
-    const data = await fetchBrands()
+    const brandsData = await fetchBrands()
 
-    data.forEach(
-      ({ brands_names }: { brands_names: Product['brands_names'] }) => {
-        const key = brands_names?.brand_name
-        if (key && !data.has(key)) data.set(key, brands_names)
+    const brandsMap = new Map<string, Product['brands_names']>()
+
+    brandsData.forEach((item: any) => {
+      const brand = item.brands_names
+      if (brand?.brand_name && !brandsMap.has(brand.brand_name)) {
+        brandsMap.set(brand.brand_name, brand)
       }
-    )
+    })
 
-    return Array.from(data.values())
+    return Array.from(brandsMap.values())
   }
 )
 
