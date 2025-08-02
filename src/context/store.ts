@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit'
-import brandsSlice from './slices/barndsSlice'
 import filteredItemsSlice from './slices/filteredItemsSlice'
 import overlaySlice from './slices/overlaySlice'
 import productsReducer from './slices/productSlice'
@@ -11,7 +10,6 @@ export const store = configureStore({
     filteredItems: filteredItemsSlice,
     scroll: scrollSlice,
     overlay: overlaySlice,
-    brands: brandsSlice,
   },
 })
 

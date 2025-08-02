@@ -1,4 +1,4 @@
-import { loadBrands, loadProducts } from '@/api/loadProducts'
+import { loadProducts } from '@/api/loadProducts'
 import { BrandInfo } from '@/types/products'
 import { useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from './hooks'
@@ -6,14 +6,30 @@ import { useAppDispatch, useAppSelector } from './hooks'
 export const useProducts = () => {
   const products = useAppSelector((state) => state.products.products)
   const dispatch = useAppDispatch()
-  const brands = useAppSelector((state) => state.brands.brands)
   const directusUrl = import.meta.env.VITE_API_BASE_URL
 
   const allBrands = useMemo(() => {
+    let productsToProcess = products
+
+    // Если products пустой, пытаемся взять из localStorage кэша
+    if (productsToProcess.length === 0) {
+      const cached = localStorage.getItem('products_cache')
+      const cacheTime = localStorage.getItem('products_cache_time')
+      
+      if (cached && cacheTime) {
+        const age = Date.now() - parseInt(cacheTime)
+        if (age < 1 * 60 * 1000) {
+          productsToProcess = JSON.parse(cached)
+        }
+      }
+    }
+
+    // Извлекаем бренды из products (не кэшируем отдельно)
     const seen = new Set<string>()
     const uniqueBrands: BrandInfo[] = []
 
-    brands.forEach((brand) => {
+    productsToProcess.forEach((product: any) => {
+      const brand = product.brands_names
       if (!brand?.brand_name) return
 
       if (!seen.has(brand.brand_name)) {
@@ -26,7 +42,7 @@ export const useProducts = () => {
     })
 
     return uniqueBrands
-  }, [brands])
+  }, [products, directusUrl])
 
   const productsArray = useMemo(() => {
     const map = new Map()
@@ -45,9 +61,10 @@ export const useProducts = () => {
   }, [products, directusUrl])
 
   useEffect(() => {
-    dispatch(loadProducts())
-    dispatch(loadBrands())
-  }, [dispatch])
+    if (products.length === 0) {
+      dispatch(loadProducts())
+    }
+  }, [dispatch, products.length])
 
   const categories = useMemo(() => {
     return Array.from(

@@ -1,8 +1,7 @@
-// pages/ProductPage.tsx (ИСПРАВЛЕННАЯ версия с глобальным состоянием)
-import { loadProductById } from '@/api/loadProducts'
+import { loadProductById, loadProducts } from '@/api/loadProducts'
 import { Breadcrumbs } from '@/components/product/Breadcrumbs/Breadcrumbs'
 import { ProductDetail } from '@/components/product/ProductDetail/ProductDetail'
-import { clearCurrentProduct, clearError } from '@/context/slices/productSlice'
+import { clearCurrentProduct, clearError, setCurrentProduct } from '@/context/slices/productSlice'
 import { RootState } from '@/context/store'
 import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturers'
 import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
@@ -17,21 +16,41 @@ export const ProductPage = () => {
   const dispatch = useDispatch()
 
   const {
+    products,
     currentProduct: product,
-    productLoading: loading,
+    productLoading,
+    loading: productsLoading,
     error,
   } = useSelector((state: RootState) => state.products)
 
   useEffect(() => {
     if (id) {
-      dispatch(loadProductById(id) as any)
+      if (products.length === 0) {
+        dispatch(loadProducts() as any)
+      } else {
+        const foundProduct = products.find(p => p.id === id)
+        if (foundProduct) {
+          dispatch(setCurrentProduct(foundProduct))
+        } else {
+          dispatch(loadProductById(id) as any)
+        }
+      }
     }
 
     return () => {
       dispatch(clearCurrentProduct())
       dispatch(clearError())
     }
-  }, [id, dispatch])
+  }, [id, dispatch, products])
+
+  useEffect(() => {
+    if (id && products.length > 0 && !product) {
+      const foundProduct = products.find(p => p.id === id)
+      if (foundProduct) {
+        dispatch(setCurrentProduct(foundProduct))
+      }
+    }
+  }, [products, id, product, dispatch])
 
   useEffect(() => {
     if (product) {
@@ -61,7 +80,6 @@ export const ProductPage = () => {
     }
   }, [product])
 
-  // Обрабатываем ошибку 404
   useEffect(() => {
     if (error === 'Product not found') {
       navigate('/', { replace: true })
@@ -85,7 +103,7 @@ export const ProductPage = () => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
   }
 
-  if (loading) {
+  if (productsLoading || productLoading) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
