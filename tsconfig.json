@@ -17,11 +17,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+
       "baseUrl": ".",  
       "paths": {
         "@/*": ["src/*"]
@@ -30,12 +26,12 @@
     "target": "ES2017"
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "src/types/**/*.d.ts"  // обязательно, чтобы TS видел декларации
-, "src/components/forms/Form"  ],
+    "src/types/**/*.d.ts",
+    "src/components/forms/Form"
+  ],
   "exclude": [
     "node_modules"
   ]
