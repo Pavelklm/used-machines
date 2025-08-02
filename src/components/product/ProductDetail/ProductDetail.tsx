@@ -63,13 +63,13 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
             <CardMedia
               component='img'
               image={`${directusUrl}assets/${product.photo_url}`}
-              alt={product.product_name}
+              alt={`${product.product_name} від ${product.brands_names.brand_name} - професійне м'ясне обладнання`}
               sx={{
                 width: '100%',
                 aspectRatio: '1/1',
                 objectFit: 'cover',
               }}
-              loading='eager'
+              loading='lazy'
             />
           </Card>
         </motion.div>

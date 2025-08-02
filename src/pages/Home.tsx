@@ -8,7 +8,7 @@ import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-export const Home = () => {
+const Home = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
 
@@ -45,3 +45,5 @@ export const Home = () => {
     </div>
   )
 }
+
+export default Home

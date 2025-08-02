@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
-export const ProductPage = () => {
+const ProductPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -165,3 +165,5 @@ export const ProductPage = () => {
     </motion.div>
   )
 }
+
+export default ProductPage

@@ -146,7 +146,7 @@ export default function Cards({ items, animationKey }: CardsProps) {
                       component='img'
                       height='289'
                       image={`${item.url}`}
-                      alt={item.name}
+                      alt={`${item.product_name} - професійне м'ясне обладнання`}
                       sx={{ borderRadius: '10px' }}
                       loading='lazy'
                       draggable='false'

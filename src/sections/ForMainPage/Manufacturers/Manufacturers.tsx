@@ -15,7 +15,7 @@ export const Manufacturers = () => {
             <li className='manufacturers__item' key={index}>
               <img
                 src={item.brand__image}
-                alt={item.brand_name}
+                alt={`Логотип бренду ${item.brand_name} - виробник м'ясного обладнання`}
                 className='manufacturers__item__img'
                 loading='lazy'
                 draggable='false'
