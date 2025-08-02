@@ -39,11 +39,8 @@ export default defineConfig({
           // State management
           'state': ['@reduxjs/toolkit', 'react-redux'],
           
-          // UI библиотеки разделяем точно
-          'mui-core': ['@mui/material'],
-          'mui-icons': ['@mui/icons-material'], 
-          'mui-joy': ['@mui/joy'],
-          'emotion': ['@emotion/react', '@emotion/styled'],
+          // UI библиотеки ВМЕСТЕ (MUI нужен Emotion)
+          'mui': ['@mui/material', '@mui/icons-material', '@mui/joy', '@emotion/react', '@emotion/styled'],
           
           // Анимации отдельно
           'motion': ['framer-motion'],
