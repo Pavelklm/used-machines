@@ -31,7 +31,7 @@ export const Breadcrumbs = ({ productName }: BreadcrumbsProps) => {
   }
 
   return (
-    <Box sx={{ mb: 3 }}>
+    <Box sx={{ mb: '40px' }}>
       <MUIBreadcrumbs
         separator={
           <img

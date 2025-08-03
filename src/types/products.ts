@@ -4,7 +4,16 @@ export interface BrandInfo {
 }
 
 export type Product = {
-  id: any
+  all_photos: [
+    {
+      directus_files_id: string
+      id: string | number
+      products_id: string | number
+    },
+  ]
+  teaser: string
+  description: string
+  id: string | number
   price: number
   photo_url: string
   product_name: string

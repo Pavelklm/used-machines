@@ -1,41 +1,23 @@
-import { Product } from '@/types/products'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { Box, ClickAwayListener, Paper, Typography } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
 
 type SorterProps = {
-  itemsToSort: Product[]
-  setSortedItems: React.Dispatch<React.SetStateAction<any>>
+  sortType: string
+  onSortChange: (sortType: string) => void
 }
 
 const options = [
-  { value: 'low', label: 'Ціна від дешевих' },
   { value: 'high', label: 'Ціна від дорогих' },
+  { value: 'low', label: 'Ціна від дешевих' },
 ]
 
-export default function CustomSorter({
-  itemsToSort,
-  setSortedItems,
-}: SorterProps) {
-  const [range, setRange] = React.useState('low')
+export default function CustomSorter({ sortType, onSortChange }: SorterProps) {
   const [isOpen, setIsOpen] = React.useState(false)
 
-  const handleSort = React.useCallback(() => {
-    const sorted = [...itemsToSort].sort(
-      (a, b) => Number(a.price) - Number(b.price)
-    )
-    if (range === 'low') {
-      setSortedItems(sorted)
-    } else if (range === 'high') {
-      setSortedItems(sorted.reverse())
-    } else {
-      setSortedItems(itemsToSort)
-    }
-  }, [range, itemsToSort, setSortedItems])
-
   const handleSelect = (value: string) => {
-    setRange(value)
+    onSortChange(value)
     setIsOpen(false)
   }
 
@@ -43,11 +25,7 @@ export default function CustomSorter({
     setIsOpen(false)
   }
 
-  React.useEffect(() => {
-    handleSort()
-  }, [handleSort])
-
-  const selectedOption = options.find((option) => option.value === range)
+  const selectedOption = options.find((option) => option.value === sortType)
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -111,10 +89,12 @@ export default function CustomSorter({
                       padding: '14px 16px',
                       cursor: 'pointer',
                       backgroundColor:
-                        range === option.value ? 'var(--main-color)' : 'white',
+                        sortType === option.value
+                          ? 'var(--main-color)'
+                          : 'white',
                       '&:hover': {
                         backgroundColor:
-                          range === option.value
+                          sortType === option.value
                             ? 'var(--main-color)'
                             : 'var(--blue-light-color)',
                         '& .MuiTypography-root': {
@@ -129,7 +109,7 @@ export default function CustomSorter({
                     <Typography
                       sx={{
                         color:
-                          range === option.value
+                          sortType === option.value
                             ? 'white'
                             : 'var(--main-color)',
                         fontSize: '16px',

@@ -73,7 +73,7 @@ export async function fetchProductById(id: string) {
     return null
   }
 
-  const productUrl = `${baseUrl}items/products/${id}?fields=*,brands_names.*,categories_names.*,equipments_names.*,currency_name.*`
+  const productUrl = `${baseUrl}items/products/${id}?fields=*,brands_names.*,categories_names.*,equipments_names.*,currency_name.*,all_photos.*`
 
   try {
     const res = await fetch(productUrl, {

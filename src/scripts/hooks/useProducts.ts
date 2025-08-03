@@ -1,21 +1,18 @@
-import { loadProducts } from '@/api/loadProducts'
 import { BrandInfo } from '@/types/products'
-import { useEffect, useMemo } from 'react'
-import { useAppDispatch, useAppSelector } from './hooks'
+import { useMemo } from 'react'
+import { useAppSelector } from './hooks'
 
 export const useProducts = () => {
   const products = useAppSelector((state) => state.products.products)
-  const dispatch = useAppDispatch()
   const directusUrl = import.meta.env.VITE_API_BASE_URL
 
   const allBrands = useMemo(() => {
     let productsToProcess = products
 
-    // Если products пустой, пытаемся взять из localStorage кэша
     if (productsToProcess.length === 0) {
       const cached = localStorage.getItem('products_cache')
       const cacheTime = localStorage.getItem('products_cache_time')
-      
+
       if (cached && cacheTime) {
         const age = Date.now() - parseInt(cacheTime)
         if (age < 1 * 60 * 1000) {
@@ -24,7 +21,6 @@ export const useProducts = () => {
       }
     }
 
-    // Извлекаем бренды из products (не кэшируем отдельно)
     const seen = new Set<string>()
     const uniqueBrands: BrandInfo[] = []
 
@@ -59,12 +55,6 @@ export const useProducts = () => {
     })
     return Array.from(map.values())
   }, [products, directusUrl])
-
-  useEffect(() => {
-    if (products.length === 0) {
-      dispatch(loadProducts())
-    }
-  }, [dispatch, products.length])
 
   const categories = useMemo(() => {
     return Array.from(

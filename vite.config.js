@@ -55,17 +55,18 @@ export default defineConfig({
         assetFileNames: 'assets/[name]-[hash].[ext]',
       },
       
-      // Tree shaking на максимум
-      treeshake: {
+      // Tree shaking на максимум (только в production)
+      treeshake: process.env.NODE_ENV === 'production' ? {
         preset: 'recommended',
         manualPureFunctions: ['console.log', 'console.info', 'console.debug'],
-      }
+      } : false,
     },
   },
   
   // Оптимизация esbuild
   esbuild: {
-    drop: ['console', 'debugger'],
+    // Убираем console только в production
+    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
     legalComments: 'none',
     target: 'es2020',
     treeShaking: true,

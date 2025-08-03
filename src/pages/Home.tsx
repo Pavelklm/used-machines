@@ -22,10 +22,6 @@ const Home = () => {
       const handleScroll = () => {
         requestAnimationFrame(() => {
           dispatch(triggerScrollToCatalog())
-          console.log(
-            'Scrolling to catalog after navigation, filtered by:',
-            state.filteredBy
-          )
         })
       }
 
@@ -33,7 +29,7 @@ const Home = () => {
 
       window.history.replaceState({}, document.title)
     }
-  }, [location.state, dispatch])
+  }, [location.key, dispatch])
 
   return (
     <div>

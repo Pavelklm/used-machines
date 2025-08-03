@@ -2,7 +2,7 @@ import {
   clearFilteredItems,
   setFilteredItems,
 } from '@/context/slices/filteredItemsSlice'
-import { useEffect } from 'react'
+import { useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from './hooks'
 import { useProducts } from './useProducts'
 
@@ -16,13 +16,16 @@ export const useFilteredProducts = () => {
     (state) => state.filteredItems.filteredItems
   )
 
-  useEffect(() => {
-    if (filteredItems.length === 0) {
-      dispatch(setFilteredItems(productsArray))
+  // Простое мемоизированное вычисление - никаких side effects!
+  const itemsToSort = useMemo(() => {
+    // Если есть отфильтрованные элементы - используем их
+    if (filteredItems.length > 0) {
+      return filteredItems
     }
-  }, [productsArray, dispatch, filteredItems.length])
-
-  const itemsToSort = filteredItems.length === 0 ? productsArray : filteredItems
+    
+    // Иначе используем все продукты
+    return productsArray
+  }, [filteredItems, productsArray])
 
   return {
     itemsToSort,

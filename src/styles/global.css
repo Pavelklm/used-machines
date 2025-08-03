@@ -204,3 +204,51 @@ p {
 .layout-stable {
   contain: layout style;
 }
+
+/* Красивый спиннер без JS */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid var(--main-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Альтернативный dots спиннер */
+.dots-spinner {
+  display: flex;
+  gap: 4px;
+}
+
+.dots-spinner > div {
+  width: 8px;
+  height: 8px;
+  background: var(--main-color);
+  border-radius: 50%;
+  animation: dots-bounce 1.2s infinite;
+}
+
+.dots-spinner > div:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.dots-spinner > div:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+@keyframes dots-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-10px);
+    opacity: 0.7;
+  }
+}

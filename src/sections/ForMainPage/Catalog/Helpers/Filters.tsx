@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 const listVariants: Variants = {
   visible: {
@@ -68,23 +68,25 @@ export default function Filters({
 }) {
   const [activeItem, setActiveItem] = useState<string | null>(null)
   const dispatch = useAppDispatch()
-  const handleToggle = (key: string) => {
-    setActiveItem((prev) => (prev === key ? null : key))
-  }
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
 
-  const handleClick = (item: string) => {
+  const handleToggle = useCallback((key: string) => {
+    setActiveItem((prev) => (prev === key ? null : key))
+  }, [])
+
+  const handleClick = useCallback((item: string) => {
     setSelectedItem(item)
     const filtered = getFilteredProducts(item)
     setFilteredItems(filtered)
-  }
+  }, [getFilteredProducts, setFilteredItems])
 
-  const handleShowAllProducts = () => {
+  const handleShowAllProducts = useCallback(() => {
     dispatch(clearFilteredItems())
+    setSelectedItem('Уся продукція')
     if (onShowAllProducts) {
       onShowAllProducts()
     }
-  }
+  }, [dispatch, onShowAllProducts])
 
   return (
     <div className='сatalog__filters'>
@@ -96,6 +98,8 @@ export default function Filters({
           boxShadow: 'none',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
+          backgroundColor: selectedItem === 'Уся продукція' ? 'var(--main-color)' : 'transparent',
+          color: selectedItem === 'Уся продукція' ? '#fff' : 'inherit',
           '&:hover': {
             background: 'var(--main-color)',
             color: '#fff ',

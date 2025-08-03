@@ -1,7 +1,7 @@
 import { loadProductById, loadProducts } from '@/api/loadProducts'
 import { Breadcrumbs } from '@/components/product/Breadcrumbs/Breadcrumbs'
 import { ProductDetail } from '@/components/product/ProductDetail/ProductDetail'
-import { clearCurrentProduct, clearError, setCurrentProduct } from '@/context/slices/productSlice'
+import { clearCurrentProduct, clearError } from '@/context/slices/productSlice'
 import { RootState } from '@/context/store'
 import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturers'
 import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
@@ -23,81 +23,52 @@ const ProductPage = () => {
     error,
   } = useSelector((state: RootState) => state.products)
 
+  // Единственный useEffect для загрузки данных
   useEffect(() => {
-    if (id) {
-      if (products.length === 0) {
-        dispatch(loadProducts() as any)
+    if (!id) return
+
+    // Простая логика без сложных условий
+    if (products.length === 0) {
+      dispatch(loadProducts() as any)
+    } else {
+      const foundProduct = products.find(p => p.id === id)
+      if (foundProduct) {
+        // Используем setTimeout чтобы избежать batch updates
+        setTimeout(() => {
+          if (!product || product.id !== id) {
+            dispatch({ type: 'products/setCurrentProduct', payload: foundProduct })
+          }
+        }, 0)
       } else {
-        const foundProduct = products.find(p => p.id === id)
-        if (foundProduct) {
-          dispatch(setCurrentProduct(foundProduct))
-        } else {
-          dispatch(loadProductById(id) as any)
-        }
+        dispatch(loadProductById(id) as any)
       }
     }
+  }, [id, products.length]) // Минимальные зависимости
 
+  // Отдельный useEffect для cleanup
+  useEffect(() => {
     return () => {
       dispatch(clearCurrentProduct())
       dispatch(clearError())
     }
-  }, [id, dispatch, products])
+  }, [])
 
-  useEffect(() => {
-    if (id && products.length > 0 && !product) {
-      const foundProduct = products.find(p => p.id === id)
-      if (foundProduct) {
-        dispatch(setCurrentProduct(foundProduct))
-      }
-    }
-  }, [products, id, product, dispatch])
-
+  // Обработка meta тегов
   useEffect(() => {
     if (product) {
       document.title = `${product.product_name} - М'ясне обладнання`
-
-      updateMetaTag(
-        'description',
-        `${product.product_name} від ${product.brands_names.brand_name}. Ціна: ${formatPrice(product.price)} ${product.currency_name?.currency_name || '₴'}`
-      )
-      updateMetaTag('og:title', product.product_name)
-      updateMetaTag(
-        'og:description',
-        `${product.product_name} від ${product.brands_names.brand_name}`
-      )
-      updateMetaTag(
-        'og:image',
-        `${import.meta.env.VITE_API_PHOTO_URL}/${product.photo_url}`
-      )
     }
-
     return () => {
       document.title = "М'ясне обладнання - Каталог"
-      updateMetaTag(
-        'description',
-        "Професійне обладнання для м'ясопереробної промисловості"
-      )
     }
-  }, [product])
+  }, [product?.product_name])
 
+  // Обработка ошибок
   useEffect(() => {
     if (error === 'Product not found') {
       navigate('/', { replace: true })
     }
-  }, [error, navigate])
-
-  const updateMetaTag = (name: string, content: string) => {
-    const property = name.startsWith('og:') ? 'property' : 'name'
-    let element = document.querySelector(`meta[${property}="${name}"]`)
-
-    if (!element) {
-      element = document.createElement('meta')
-      element.setAttribute(property, name)
-      document.head.appendChild(element)
-    }
-
-    element.setAttribute('content', content)
-  }
+  }, [error])
 
   const formatPrice = (price: number | string) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')

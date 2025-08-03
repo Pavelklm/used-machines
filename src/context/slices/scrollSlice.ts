@@ -2,7 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const scrollSlice = createSlice({
   name: 'scroll',
-  initialState: { scrollToCatalog: false },
+  initialState: { 
+    scrollToCatalog: false,
+    scrollToForm: false 
+  },
   reducers: {
     triggerScrollToCatalog(state) {
       state.scrollToCatalog = true
@@ -10,9 +13,19 @@ const scrollSlice = createSlice({
     resetScrollToCatalog(state) {
       state.scrollToCatalog = false
     },
+    triggerScrollToForm(state) {
+      state.scrollToForm = true
+    },
+    resetScrollToForm(state) {
+      state.scrollToForm = false
+    },
   },
 })
 
-export const { triggerScrollToCatalog, resetScrollToCatalog } =
-  scrollSlice.actions
+export const { 
+  triggerScrollToCatalog, 
+  resetScrollToCatalog,
+  triggerScrollToForm,
+  resetScrollToForm 
+} = scrollSlice.actions
 export default scrollSlice.reducer

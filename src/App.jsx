@@ -9,28 +9,43 @@ const Home = lazy(() => import('./pages/Home'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
 
 const PageLoader = () => (
-  <div style={{ 
+  <div style={{
     display: 'flex',
-    justifyContent: 'center', 
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     height: '50vh',
-    fontFamily: 'system-ui',
-    color: '#666'
+    gap: '20px'
   }}>
-    <div>⚡ Завантаження...</div>
+    <div className="dots-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div style={{ color: '#666', fontSize: '14px' }}>Завантаження...</div>
   </div>
 )
 
 const LayoutLoader = () => (
   <div style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
     width: '100vw',
     height: '100vh',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    gap: '20px'
   }}>
-    <div style={{ fontSize: '24px' }}>🚀</div>
+    <div className="dots-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div style={{ color: '#2b4c7e', fontSize: '16px' }}>Завантаження...</div>
   </div>
 )
 

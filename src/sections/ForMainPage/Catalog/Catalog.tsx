@@ -1,6 +1,6 @@
 import { useFilteredProducts } from '@/scripts/hooks/useFilteredProducts'
 import { usePagination } from '@/scripts/hooks/usePagination'
-import { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Cards from './Helpers/Cards'
 import Filters from './Helpers/Filters'
 import Pagination from './Helpers/Pagination'
@@ -12,7 +12,7 @@ export const Catalog = ({
 }: {
   catalogRef: React.RefObject<HTMLDivElement | null>
 }) => {
-  const [SortedItems, setSortedItems] = useState([])
+  const [sortType, setSortType] = useState('high')
   const [animationKey, setAnimationKey] = useState(0)
 
   const {
@@ -22,8 +22,20 @@ export const Catalog = ({
     setFilteredItems,
   } = useFilteredProducts()
 
+  const sortedItems = useMemo(() => {
+    if (!itemsToSort || itemsToSort.length === 0) return []
+
+    const sorted = [...itemsToSort].sort(
+      (a, b) => Number(a.price) - Number(b.price)
+    )
+    if (sortType === 'high') {
+      sorted.reverse()
+    }
+    return sorted
+  }, [itemsToSort, sortType])
+
   const { page, pageCount, changePage, fullPageItems } = usePagination(
-    SortedItems,
+    sortedItems,
     6
   )
 
@@ -42,10 +54,7 @@ export const Catalog = ({
         <div className='catalog__head'>
           <div className='catalog__title'>Каталог</div>
           <div className='catalog__sort'>
-            <CustomSorter
-              itemsToSort={itemsToSort}
-              setSortedItems={setSortedItems}
-            />
+            <CustomSorter sortType={sortType} onSortChange={setSortType} />
           </div>
         </div>
         <div className='catalog__content'>

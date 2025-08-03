@@ -4,14 +4,11 @@ import { Provider } from 'react-redux'
 import App from './App.jsx'
 import { store } from './context/store'
 
-// Убираем loader когда React загрузился
 const loader = document.querySelector('.app-loader')
 if (loader) loader.style.display = 'none'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <StrictMode>
-      <App />
-    </StrictMode>
+    <App />
   </Provider>
 )
