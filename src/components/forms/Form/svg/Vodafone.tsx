@@ -1,11 +1,9 @@
 import React from 'react'
 
-// Define the type for className prop
 type VodafoneProps = {
   className: string
 }
 
-// Define the component function
 const Vodafone: React.FC<VodafoneProps> = ({ className }) => (
   <svg
     className={className}

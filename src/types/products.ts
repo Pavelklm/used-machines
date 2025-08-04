@@ -11,6 +11,7 @@ export type Product = {
       products_id: string | number
     },
   ]
+  characteristics: [{ characteristic: string; value: string }]
   teaser: string
   description: string
   id: string | number
