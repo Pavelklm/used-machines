@@ -19,15 +19,15 @@ export const Breadcrumbs = ({ productName }: BreadcrumbsProps) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const handleHomeClick = (event: React.MouseEvent) => {
-    event.preventDefault()
-    navigate('/')
-  }
-
   const handleCatalogClick = (event: React.MouseEvent) => {
     event.preventDefault()
     navigate('/')
     dispatch(triggerScrollToCatalog())
+  }
+
+  const handleHomeClick = (event: React.MouseEvent) => {
+    event.preventDefault()
+    navigate('/')
   }
 
   return (

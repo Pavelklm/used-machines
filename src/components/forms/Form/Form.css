@@ -153,14 +153,10 @@
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Дополнительные стили для отображения оператора */
-
-/* Увеличиваем правый отступ когда показывается оператор */
 .request-form-input-with-operator {
   padding-right: 120px !important;
 }
 
-/* Стили для бейджа оператора */
 .operator-badge {
   position: absolute;
   right: 12px;

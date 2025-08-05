@@ -1,5 +1,6 @@
 'use client'
 
+import { useNavigate } from 'react-router-dom'
 import Gmail from '../SVG/Gmail'
 import Logo from '../SVG/Logo'
 import CatalogPopup from './CatalogPopup/CatalogPopup'
@@ -7,11 +8,16 @@ import Search from './Search/Search'
 import './style.css'
 
 export const Header = () => {
+  const navigate = useNavigate()
+
+  const handleLogoClick = () => {
+    navigate('/')
+  }
   return (
     <header className='header'>
       <div className='container header__container'>
         <div className='header__logo'>
-          <a href='/'>
+          <a className='link-reset logo__link' onClick={handleLogoClick}>
             <Logo className='logo__icon' />
           </a>
         </div>

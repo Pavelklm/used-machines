@@ -19,7 +19,6 @@ import {
 } from '@mui/material'
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
-import './style.css'
 
 interface ProductDetailProps {
   product: Product
@@ -551,7 +550,6 @@ const ProductInfo = ({ product }: { product: Product }) => {
                   `,
                 }}
               >
-                {/* Анимация цифр по одной */}
                 <Box sx={{ display: 'flex', whiteSpace: 'pre' }}>
                   {digits.map((digit, index) => (
                     <Typography
@@ -658,7 +656,7 @@ const Characteristics = ({ product }: { product: Product }) => {
           key={key}
           sx={{
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-end',
             mb: '20px',
             gap: '10px',
           }}
@@ -688,6 +686,7 @@ const Characteristics = ({ product }: { product: Product }) => {
             label={value}
             sx={{
               justifyContent: 'flex-start',
+              alignItems: 'flex-end',
               color: '#000',
               backgroundColor: '#fff',
               fontSize: '16px',
@@ -719,6 +718,7 @@ const tabContentStyles = {
 const tabPanelStyles = {
   display: 'flex',
   flexDirection: 'column',
+
   p: '40px',
   borderRadius: '20px',
   border: '1px solid rgb(178, 200, 227)',
@@ -730,7 +730,7 @@ const tabPanelStyles = {
 
 const tabPanelStylesSpaceBetween = {
   ...tabPanelStyles,
-  justifyContent: 'space-between', // Только для характеристик
+  justifyContent: 'space-between',
 }
 
 export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {

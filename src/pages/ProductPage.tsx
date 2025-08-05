@@ -23,29 +23,27 @@ const ProductPage = () => {
     error,
   } = useSelector((state: RootState) => state.products)
 
-  // Единственный useEffect для загрузки данных
   useEffect(() => {
     if (!id) return
 
-    // Простая логика без сложных условий
     if (products.length === 0) {
       dispatch(loadProducts() as any)
     } else {
-      const foundProduct = products.find(p => p.id === id)
+      const foundProduct = products.find((p) => p.id === id)
+
       if (foundProduct) {
-        // Используем setTimeout чтобы избежать batch updates
-        setTimeout(() => {
-          if (!product || product.id !== id) {
-            dispatch({ type: 'products/setCurrentProduct', payload: foundProduct })
-          }
-        }, 0)
+        if (!product || product.id !== id) {
+          dispatch({
+            type: 'products/setCurrentProduct',
+            payload: foundProduct,
+          })
+        }
       } else {
         dispatch(loadProductById(id) as any)
       }
     }
-  }, [id, products.length]) // Минимальные зависимости
+  }, [id, products.length])
 
-  // Отдельный useEffect для cleanup
   useEffect(() => {
     return () => {
       dispatch(clearCurrentProduct())
@@ -53,7 +51,6 @@ const ProductPage = () => {
     }
   }, [])
 
-  // Обработка meta тегов
   useEffect(() => {
     if (product) {
       document.title = `${product.product_name} - М'ясне обладнання`
@@ -63,16 +60,11 @@ const ProductPage = () => {
     }
   }, [product?.product_name])
 
-  // Обработка ошибок
   useEffect(() => {
     if (error === 'Product not found') {
       navigate('/', { replace: true })
     }
   }, [error])
-
-  const formatPrice = (price: number | string) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-  }
 
   if (productsLoading || productLoading) {
     return (

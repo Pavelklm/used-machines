@@ -14,14 +14,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const scrollbarWidth = getScrollbarWidth()
-    if (overlay) {
+    if (overlay.isOpen) {
       document.documentElement.style.overflow = 'hidden'
       document.documentElement.style.paddingRight = `${scrollbarWidth}px`
     } else {
       document.documentElement.style.overflow = ''
       document.documentElement.style.paddingRight = ''
     }
-  }, [overlay])
+  }, [overlay.isOpen])
 
   return (
     <>

@@ -40,19 +40,18 @@ const itemVariants: Variants = {
 
 const iconVariants: Variants = {
   open: {
-    rotate: 180,
-    transition: { type: 'spring', stiffness: 400, damping: 20 },
+    rotate: 0,
+    transition: { type: 'spring', stiffness: 200, damping: 40 },
   },
   closed: {
     rotate: 0,
-    transition: { type: 'spring', stiffness: 400, damping: 20 },
+    transition: { type: 'spring', stiffness: 200, damping: 40 },
   },
 }
 
-// Параллакс для заголовка при наведении
 const headerVariants: Variants = {
-  rest: { x: 0 },
-  hover: { x: 2, transition: { type: 'spring', stiffness: 300, damping: 15 } },
+  rest: { y: 0 },
+  hover: { y: -2, transition: { type: 'spring', stiffness: 300, damping: 15 } },
 }
 
 export default function Filters({
@@ -74,11 +73,14 @@ export default function Filters({
     setActiveItem((prev) => (prev === key ? null : key))
   }, [])
 
-  const handleClick = useCallback((item: string) => {
-    setSelectedItem(item)
-    const filtered = getFilteredProducts(item)
-    setFilteredItems(filtered)
-  }, [getFilteredProducts, setFilteredItems])
+  const handleClick = useCallback(
+    (item: string) => {
+      setSelectedItem(item)
+      const filtered = getFilteredProducts(item)
+      setFilteredItems(filtered)
+    },
+    [getFilteredProducts, setFilteredItems]
+  )
 
   const handleShowAllProducts = useCallback(() => {
     dispatch(clearFilteredItems())
@@ -98,7 +100,10 @@ export default function Filters({
           boxShadow: 'none',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
-          backgroundColor: selectedItem === 'Уся продукція' ? 'var(--main-color)' : 'transparent',
+          backgroundColor:
+            selectedItem === 'Уся продукція'
+              ? 'var(--main-color)'
+              : 'transparent',
           color: selectedItem === 'Уся продукція' ? '#fff' : 'inherit',
           '&:hover': {
             background: 'var(--main-color)',

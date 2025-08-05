@@ -8,7 +8,7 @@ export const Overlay = () => {
 
   return (
     <AnimatePresence>
-      {overlay && (
+      {overlay.isOpen && (
         <motion.div
           className='overlay overlay-active'
           initial={{ opacity: 0 }}
