@@ -100,9 +100,9 @@ main {
 }
 
 .overlay {
+  backdrop-filter: blur(8px);
   background: rgba(43, 76, 126, 0.4);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(8px);
   height: 100%;
   left: 0;
   position: fixed;
@@ -116,7 +116,7 @@ main {
 
 .overlay-active {
   pointer-events: auto;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .header__search {
