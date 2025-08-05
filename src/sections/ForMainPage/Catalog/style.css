@@ -53,3 +53,10 @@
 -MuiPaginationItem-root.Mui-selected {
   background-color: var(--main-color) !important;
 }
+
+.empty_product_img {
+  width: 289px;
+  height: 220px;
+  object-fit: cover;
+  position: absolute;
+}

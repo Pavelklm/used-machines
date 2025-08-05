@@ -97,14 +97,25 @@ export default function Cards({ items, animationKey }: CardsProps) {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    position: 'relative',
                   }}
                 >
+                  <img
+                    draggable='false'
+                    className='empty_product_img'
+                    src='/icons/empty_product.svg'
+                    alt='empty product'
+                  />
                   <Skeleton
                     variant='circular'
                     width={289}
-                    height={289}
+                    height={220}
                     animation='wave'
-                    sx={{ borderRadius: 2 }}
+                    sx={{
+                      borderRadius: 2,
+                      background: 'transparent',
+                      draggable: 'false',
+                    }}
                   />
                   <Typography
                     variant='body2'
