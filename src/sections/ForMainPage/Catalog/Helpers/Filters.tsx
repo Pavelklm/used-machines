@@ -107,6 +107,7 @@ export default function Filters({
   const handleShowAllProducts = useCallback(() => {
     dispatch(clearFilteredItems())
     setSelectedItem('Уся продукція')
+    setActiveItem(null)
     if (onShowAllProducts) {
       onShowAllProducts()
     }
