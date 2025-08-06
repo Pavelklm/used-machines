@@ -1,3 +1,7 @@
+import {
+  setActiveEquipment,
+  setCategory,
+} from '@/context/slices/filteredItemsSlice'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { useFilteredProducts } from '@/scripts/hooks/useFilteredProducts'
@@ -13,14 +17,16 @@ export const Manufacturers = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const { getCategoryFromEquipment } = useProducts()
 
-  // Дублируем бренды для бесконечной ленты
   const duplicatedBrands = [...allBrands, ...allBrands]
 
-  // Обработчик клика по бренду
   const handleBrandClick = (brandName: string) => {
     const filtered = getFilteredProducts(brandName)
     setFilteredItems(filtered)
+    const category = getCategoryFromEquipment(brandName)
+    dispatch(setCategory(category))
+    dispatch(setActiveEquipment(brandName))
 
     const isOnHomePage = location.pathname === '/'
 
@@ -40,16 +46,15 @@ export const Manufacturers = () => {
     <div className='manufacturers'>
       <div className='manufacturers__container container'>
         <h2 className='manufacturers__title'>Виробники устаткування</h2>
-        
-        {/* Бесконечная бегущая строка с кликабельными брендами */}
+
         <div className='manufacturers__slider'>
           <div className='manufacturers__track'>
             {duplicatedBrands.map((item: BrandInfo, index: Key) => (
-              <div 
-                className='manufacturers__slide' 
+              <div
+                className='manufacturers__slide'
                 key={`${item.brand_name}-${index}`}
                 onClick={() => handleBrandClick(item.brand_name)}
-                role="button"
+                role='button'
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {

@@ -84,7 +84,7 @@ export const useProducts = () => {
       ),
       ...categoryMap,
     }
-  }, [products, categories])
+  }, [products, categories]) as Record<string, string[]>
 
   const getFilteredProducts = (name: string) => {
     return products
@@ -105,10 +105,18 @@ export const useProducts = () => {
       }))
   }
 
+  const getCategoryFromEquipment = (equipment: string) => {
+    const category = Object.keys(filterOptionsByGroup).find((key) =>
+      filterOptionsByGroup[key].includes(equipment)
+    )
+    return category
+  }
+
   return {
     productsArray,
     filterOptionsByGroup,
     getFilteredProducts,
     allBrands,
+    getCategoryFromEquipment,
   }
 }

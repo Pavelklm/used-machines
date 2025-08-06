@@ -38,17 +38,14 @@ export default function Search() {
 
   const searchZIndex = useMemo(() => {
     if (!overlay.isOpen) {
-      console.log('closed')
       return 1001 // Обычный z-index когда overlay закрыт
     }
 
     if (overlay.source === 'catalog') {
-      console.log('catalog')
       return 400 // Под overlay'em (500) когда открыт каталог
     }
 
     if (overlay.source === 'search') {
-      console.log('search')
       return 1001 // Над overlay'em когда открыт поиск
     }
 

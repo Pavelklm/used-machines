@@ -1,4 +1,8 @@
-import { clearFilteredItems } from '@/context/slices/filteredItemsSlice'
+import {
+  clearFilteredItems,
+  setActiveScroll,
+} from '@/context/slices/filteredItemsSlice'
+import { RootState } from '@/context/store'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
@@ -11,7 +15,8 @@ import {
   Typography,
 } from '@mui/material'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const listVariants: Variants = {
   visible: {
@@ -68,6 +73,23 @@ export default function Filters({
   const [activeItem, setActiveItem] = useState<string | null>(null)
   const dispatch = useAppDispatch()
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
+  const category = useSelector(
+    (state: RootState) => state.filteredItems.category
+  )
+  const equipment = useSelector(
+    (state: RootState) => state.filteredItems.activeEquipment
+  )
+  const activeScroll = useSelector(
+    (state: RootState) => state.filteredItems.activeScroll
+  )
+
+  useEffect(() => {
+    if (activeScroll) {
+      setActiveItem(category)
+      setSelectedItem(equipment)
+      dispatch(setActiveScroll(false))
+    }
+  }, [activeScroll])
 
   const handleToggle = useCallback((key: string) => {
     setActiveItem((prev) => (prev === key ? null : key))

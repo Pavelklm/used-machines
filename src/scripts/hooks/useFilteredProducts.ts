@@ -16,14 +16,11 @@ export const useFilteredProducts = () => {
     (state) => state.filteredItems.filteredItems
   )
 
-  // Простое мемоизированное вычисление - никаких side effects!
   const itemsToSort = useMemo(() => {
-    // Если есть отфильтрованные элементы - используем их
     if (filteredItems.length > 0) {
       return filteredItems
     }
-    
-    // Иначе используем все продукты
+
     return productsArray
   }, [filteredItems, productsArray])
 

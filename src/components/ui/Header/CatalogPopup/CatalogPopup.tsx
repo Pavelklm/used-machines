@@ -1,4 +1,8 @@
 // components/ui/Header/CatalogPopup/CatalogPopup.tsx
+import {
+  setActiveEquipment,
+  setCategory,
+} from '@/context/slices/filteredItemsSlice'
 import { setCatalogOverlay } from '@/context/slices/overlaySlice'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
@@ -45,7 +49,7 @@ export const CatalogPopup = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const { filterOptionsByGroup } = useProducts()
+  const { filterOptionsByGroup, getCategoryFromEquipment } = useProducts()
 
   type Keys = keyof typeof filterOptionsByGroup
 
@@ -78,6 +82,9 @@ export const CatalogPopup = () => {
   const handleClick = (name: string) => {
     const filtered = getFilteredProducts(name)
     setFilteredItems(filtered)
+    const category = getCategoryFromEquipment(name)
+    dispatch(setCategory(category))
+    dispatch(setActiveEquipment(name))
 
     handleClickAway()
 
