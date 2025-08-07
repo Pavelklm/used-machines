@@ -1,12 +1,7 @@
 import React from 'react'
 
-type VodafoneProps = {
-  className: string
-}
-
-const Vodafone: React.FC<VodafoneProps> = ({ className }) => (
+const Vodafone: React.FC = () => (
   <svg
-    className={className}
     xmlns='http://www.w3.org/2000/svg'
     x='0px'
     y='0px'

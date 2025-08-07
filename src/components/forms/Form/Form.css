@@ -263,10 +263,25 @@
   }
 
   .operator-badge {
-    right: 8px;
-    padding: 3px 6px;
-    font-size: 11px;
-    gap: 4px;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--operator-color, #ccc); /* ← ДОБАВЬ ЭТУ СТРОКУ */
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    z-index: 1;
+    transition: all 0.3s ease;
+    user-select: none;
+    pointer-events: none;
+    animation: fadeInSlide 0.3s ease-out;
   }
 
   .request-form-title {
@@ -326,6 +341,19 @@
   transition: transform 0.2s ease;
 }
 
-.operator-badge:hover .operator-logo {
+.operator-badge:hover .operator-icon {
   transform: scale(1.1);
+}
+
+.character-counter {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.operator-icon {
+  height: 25px;
+  width: auto;
+  flex-shrink: 0;
 }

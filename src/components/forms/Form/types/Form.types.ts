@@ -1,9 +1,3 @@
-// Form.types.ts - Правильная версия с импортами
-// Убери эту строку, она вызывает ошибку:
-// import Vodafone from '@/components/forms/Form/svg/vodafone'
-
-import { JSX } from 'react'
-
 export interface IFormData {
   name: string
   phone: string
@@ -21,34 +15,8 @@ export interface IFormErrors {
 export interface IApiResponse {
   success: boolean
   message?: string
-  data?: any
+  data?: Record<string, unknown>
 }
-
-export interface IOperatorInfo {
-  name: string
-  color: string
-  emoji: JSX.Element
-}
-
-// Пока без SVG компонентов, чтобы избежать ошибок импорта
-export const UKRAINE_OPERATORS = {
-  '067': { name: 'Kyivstar', color: '#185F8D', emoji: '⭐' },
-  '068': { name: 'Kyivstar', color: '#185F8D', emoji: '⭐' },
-  '096': { name: 'Kyivstar', color: '#185F8D', emoji: '⭐' },
-  '097': { name: 'Kyivstar', color: '#185F8D', emoji: '⭐' },
-  '098': { name: 'Kyivstar', color: '#185F8D', emoji: '⭐' },
-
-  '050': { name: 'Vodafone', color: '#E60000', emoji: '🔴' },
-  '066': { name: 'Vodafone', color: '#E60000', emoji: '🔴' },
-  '095': { name: 'Vodafone', color: '#E60000', emoji: '🔴' },
-  '099': { name: 'Vodafone', color: '#E60000', emoji: '🔴' },
-
-  '063': { name: 'lifecell', color: '#ffd300', emoji: '🍃' },
-  '073': { name: 'lifecell', color: '#ffd300', emoji: '🍃' },
-  '093': { name: 'lifecell', color: '#ffd300', emoji: '🍃' },
-
-  '091': { name: 'Укртелеком', color: '#FF8C00', emoji: '🏛️' },
-} as const
 
 export const FORM_PLACEHOLDERS = {
   name: "Ваше ім'я",
