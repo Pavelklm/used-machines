@@ -1,5 +1,5 @@
 // RequestForm.tsx - Обновленная версия с использованием новых типов
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useState, useRef } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import './Form.css'
 import Kyivstar from './svg/Kyivstar'
@@ -75,6 +75,36 @@ const Form: React.FC = () => {
     null
   )
 
+  // Ref для телефонного поля
+  const phoneInputRef = useRef<HTMLInputElement>(null)
+
+  // Принудительно ставим курсор в конец
+  const setCursorToEnd = () => {
+    if (phoneInputRef.current) {
+      const length = phoneInputRef.current.value.length
+      phoneInputRef.current.setSelectionRange(length, length)
+    }
+  }
+
+  // Обработчик клавиш для телефонного поля
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Блокируем стрелки, Home, End
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Home' || e.key === 'End') {
+      e.preventDefault()
+      setCursorToEnd()
+    }
+  }
+
+  // Обработчик клика по телефонному полю
+  const handlePhoneClick = () => {
+    setCursorToEnd()
+  }
+
+  // Обработчик выделения текста
+  const handlePhoneSelect = () => {
+    setCursorToEnd()
+  }
+
   const formatPhoneInput = (value: string): string => {
     const cleaned = value.replace(/\D/g, '').replace(/^38/, '')
 
@@ -128,6 +158,8 @@ const Form: React.FC = () => {
         filteredValue = formatPhoneInput(value)
         const operator = getOperatorInfo(filteredValue)
         setCurrentOperator(operator)
+        // Курсор в конец после форматирования
+        setTimeout(setCursorToEnd, 0)
         break
       case 'email':
         filteredValue = filterEmailInput(value)
@@ -411,11 +443,15 @@ const Form: React.FC = () => {
       <div className='request-form-input-wrapper'>
         <div style={{ position: 'relative' }}>
           <input
+            ref={isPhoneField ? phoneInputRef : undefined}
             name={name}
             type={type}
             placeholder={FORM_PLACEHOLDERS[name]}
             value={formData[name]}
             onChange={handleChange}
+            onKeyDown={isPhoneField ? handlePhoneKeyDown : undefined}
+            onClick={isPhoneField ? handlePhoneClick : undefined}
+            onSelect={isPhoneField ? handlePhoneSelect : undefined}
             className={`request-form-input ${hasError ? 'request-form-input-error' : ''} ${isPhoneField && currentOperator ? 'request-form-input-with-operator' : ''}`}
             aria-label={FORM_PLACEHOLDERS[name]}
             aria-invalid={hasError}
