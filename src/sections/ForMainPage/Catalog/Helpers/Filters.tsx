@@ -89,6 +89,9 @@ export default function Filters({
       setSelectedItem(equipment)
       dispatch(setActiveScroll(false))
     }
+    if (selectedItem === null) {
+      setSelectedItem('Уся продукція')
+    }
   }, [activeScroll])
 
   const handleToggle = useCallback((key: string) => {

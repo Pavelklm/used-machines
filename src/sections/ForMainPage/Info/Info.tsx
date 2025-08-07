@@ -9,7 +9,7 @@ export const Info = () => {
         <div className='info__main'>
           <div className='info__main__left'>
             <h1 className='info__main__title'>
-              Перевірене вживане обладнання для м’ясної промисловості
+              Перевірене вживане обладнання для <br /> м’ясної промисловості
             </h1>
             <h2 className='info__main__subtitle'>
               Надійне обладнання для вашого виробництва — <br /> з гарантією
