@@ -1,5 +1,5 @@
 // RequestForm.tsx - Обновленная версия с использованием новых типов
-import React, { ChangeEvent, FormEvent, useState, useRef } from 'react'
+import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import './Form.css'
 import Kyivstar from './svg/Kyivstar'
@@ -89,13 +89,17 @@ const Form: React.FC = () => {
   // Обработчик клавиш для телефонного поля
   const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Блокируем стрелки, Home, End
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Home' || e.key === 'End') {
+    if (
+      e.key === 'ArrowLeft' ||
+      e.key === 'ArrowRight' ||
+      e.key === 'Home' ||
+      e.key === 'End'
+    ) {
       e.preventDefault()
       setCursorToEnd()
     }
   }
 
-  // Обработчик клика по телефонному полю
   const handlePhoneClick = () => {
     setCursorToEnd()
   }
@@ -480,7 +484,7 @@ const Form: React.FC = () => {
                 zIndex: 1,
               }}
             >
-              <span>{currentOperator.emoji}</span>
+              <span style={{ height: '25px' }}>{currentOperator.emoji}</span>
             </div>
           )}
         </div>
