@@ -2,11 +2,50 @@
 import '@/styles/global.css'
 import '@/styles/variables.css'
 import { lazy, Suspense } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 const Layout = lazy(() => import('@/components/layouts/Layout'))
 const Home = lazy(() => import('./pages/Home'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
+
+// Конфигурация тостера - выносим отдельно для читаемости
+const TOAST_CONFIG = {
+  position: 'top-right',
+  reverseOrder: false,
+  gutter: 8,
+  toastOptions: {
+    duration: 4000,
+    style: {
+      background: '#fff',
+      color: '#363636',
+      fontSize: '14px',
+      maxWidth: '500px',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+      borderRadius: '8px',
+    },
+    success: {
+      duration: 5000,
+      iconTheme: {
+        primary: '#10b981',
+        secondary: '#fff',
+      },
+    },
+    error: {
+      duration: 6000,
+      iconTheme: {
+        primary: '#ef4444',
+        secondary: '#fff',
+      },
+    },
+    loading: {
+      iconTheme: {
+        primary: '#3b82f6',
+        secondary: '#fff',
+      },
+    },
+  },
+}
 
 const PageLoader = () => (
   <div style={{
@@ -62,6 +101,10 @@ function App() {
           </Suspense>
         </Layout>
       </Suspense>
+      
+      {/* Toaster должен быть ЗДЕСЬ - вне Layout но внутри Router */}
+      {/* Так он будет доступен на всех страницах но не будет дублироваться */}
+      <Toaster {...TOAST_CONFIG} />
     </Router>
   )
 }

@@ -1,7 +1,5 @@
-import { useFormUI } from '@/scripts/hooks/useFormUI'
-import { useSendRequestForm } from '@/scripts/hooks/useSendRequestForm'
-import React from 'react'
-import { Toaster } from 'react-hot-toast'
+import { useConsultationForm } from '@/scripts/hooks/useConsultationForm'
+import React, { useMemo } from 'react'
 import { FormInput } from './components/FormInput'
 import { FormTextarea } from './components/FormTextarea'
 import './Form.css'
@@ -9,64 +7,18 @@ import { FORM_PLACEHOLDERS } from './types/Form.types'
 
 const Form: React.FC = () => {
   const {
-    getOperatorInfo,
-    setCurrentOperator,
-    setErrors,
-    setFormData,
-    handleSubmit,
     formData,
     errors,
     isSubmitting,
     currentOperator,
-  } = useSendRequestForm()
+    handleChange,
+    handleSubmit,
+  } = useConsultationForm()
 
-  const { handleChange } = useFormUI({
-    formData,
-    setFormData,
-    errors,
-    setErrors,
-    getOperatorInfo,
-    setCurrentOperator,
-  })
+  const memoizedHandleSubmit = useMemo(() => handleSubmit, [handleSubmit])
 
   return (
     <>
-      {/* Toaster конфигурация */}
-      <Toaster
-        position='top-right'
-        reverseOrder={false}
-        gutter={8}
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#fff',
-            color: '#363636',
-            fontSize: '14px',
-            maxWidth: '500px',
-          },
-          success: {
-            duration: 5000,
-            iconTheme: {
-              primary: '#10b981',
-              secondary: '#fff',
-            },
-          },
-          error: {
-            duration: 6000,
-            iconTheme: {
-              primary: '#ef4444',
-              secondary: '#fff',
-            },
-          },
-          loading: {
-            iconTheme: {
-              primary: '#3b82f6',
-              secondary: '#fff',
-            },
-          },
-        }}
-      />
-
       <div className='request-form-box'>
         <div className='request-form-content'>
           <h2 className='request-form-title'>Отримати консультацію</h2>
@@ -76,13 +28,19 @@ const Form: React.FC = () => {
             вибором обладнання
           </p>
 
-          <form onSubmit={handleSubmit} className='request-form' noValidate>
+          <form
+            onSubmit={memoizedHandleSubmit}
+            className='request-form'
+            noValidate
+            aria-label='Форма для получения консультации'
+          >
             <FormInput
               name='name'
               type='text'
               value={formData.name}
               onChange={handleChange}
               error={errors.name}
+              aria-describedby={errors.name ? 'name-error' : undefined}
             />
 
             <FormInput
@@ -92,7 +50,10 @@ const Form: React.FC = () => {
               onChange={handleChange}
               error={errors.phone}
               currentOperator={currentOperator}
-              additionalProps={{ placeholder: FORM_PLACEHOLDERS.phone }}
+              additionalProps={{
+                placeholder: FORM_PLACEHOLDERS.phone,
+                'aria-describedby': errors.phone ? 'phone-error' : undefined,
+              }}
             />
 
             <FormInput
@@ -101,7 +62,10 @@ const Form: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               error={errors.email}
-              additionalProps={{ placeholder: FORM_PLACEHOLDERS.email }}
+              additionalProps={{
+                placeholder: FORM_PLACEHOLDERS.email,
+                'aria-describedby': errors.email ? 'email-error' : undefined,
+              }}
             />
 
             <FormTextarea
@@ -119,7 +83,11 @@ const Form: React.FC = () => {
               {isSubmitting ? 'Відправка...' : 'Отримати консультацію'}
             </button>
 
-            <p className='request-form-privacy-policy'>
+            <p
+              id='privacy-policy-text'
+              className='request-form-privacy-policy'
+              role='note'
+            >
               Натискаючи на кнопку, ви даєте згоду <br /> на обробку
               персональних даних
             </p>
