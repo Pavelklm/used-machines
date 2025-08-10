@@ -2,11 +2,11 @@
 import {
   setActiveEquipment,
   setCategory,
+  setFilteredItems,
 } from '@/context/slices/filteredItemsSlice'
 import { setCatalogOverlay } from '@/context/slices/overlaySlice'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
-import { useFilteredProducts } from '@/scripts/hooks/useFilteredProducts'
 import { useProducts } from '@/scripts/hooks/useProducts'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
@@ -49,7 +49,7 @@ export const CatalogPopup = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const { filterOptionsByGroup, getCategoryFromEquipment } = useProducts()
+  const { filterOptionsByGroup, getCategoryFromEquipment, getFilteredProducts } = useProducts()
 
   type Keys = keyof typeof filterOptionsByGroup
 
@@ -77,11 +77,9 @@ export const CatalogPopup = () => {
     setActiveItem((prev) => (prev === key ? null : key))
   }
 
-  const { getFilteredProducts, setFilteredItems } = useFilteredProducts()
-
   const handleClick = (name: string) => {
     const filtered = getFilteredProducts(name)
-    setFilteredItems(filtered)
+    dispatch(setFilteredItems(filtered))
     const category = getCategoryFromEquipment(name)
     dispatch(setCategory(category))
     dispatch(setActiveEquipment(name))

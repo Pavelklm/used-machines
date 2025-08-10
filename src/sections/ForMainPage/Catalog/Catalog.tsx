@@ -1,26 +1,69 @@
-import { useFilteredProducts } from '@/scripts/hooks/useFilteredProducts'
+import { loadProducts } from '@/api/loadProducts'
+import { setActiveScroll, setFilteredItems, clearFilteredItems } from '@/context/slices/filteredItemsSlice'
+import { resetScrollToCatalog } from '@/context/slices/scrollSlice'
+import { RootState } from '@/context/store'
+import { useScrollEndDetection } from '@/scripts/hooks/useScrollEndDetection'
+import { useProducts } from '@/scripts/hooks/useProducts'
+import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { usePagination } from '@/scripts/hooks/usePagination'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import Cards from './Helpers/Cards'
 import Filters from './Helpers/Filters'
 import Pagination from './Helpers/Pagination'
 import CustomSorter from './Helpers/Sorter'
 import './style.css'
 
-export const Catalog = ({
-  catalogRef,
-}: {
-  catalogRef: React.RefObject<HTMLDivElement | null>
-}) => {
+export const Catalog = () => {
+  const catalogRef = useRef<HTMLDivElement>(null)
   const [sortType, setSortType] = useState('high')
   const [animationKey, setAnimationKey] = useState(0)
 
-  const {
-    itemsToSort,
-    filterOptionsByGroup,
-    getFilteredProducts,
-    setFilteredItems,
-  } = useFilteredProducts()
+  const dispatch = useAppDispatch()
+  const filteredItems = useAppSelector(state => state.filteredItems.filteredItems)
+  
+  // Логика из CatalogWrapper
+  const { products, loading } = useSelector((state: RootState) => state.products)
+  const scrollToCatalog = useSelector((state: RootState) => state.scroll.scrollToCatalog)
+  
+  const { startTracking, stopTracking } = useScrollEndDetection(() => {
+    dispatch(setActiveScroll(true))
+  }, {
+    threshold: 0.5,
+    stableFrames: 8,
+  })
+  
+  // useEffect для загрузки продуктов
+  useEffect(() => {
+    if (products.length === 0 && !loading) {
+      dispatch(loadProducts() as any)
+    }
+  }, [])
+  
+  // useEffect для скролла к каталогу
+  useEffect(() => {
+    if (scrollToCatalog && catalogRef.current) {
+      catalogRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      startTracking()
+      dispatch(resetScrollToCatalog())
+    }
+  }, [scrollToCatalog, dispatch])
+  
+  // useEffect для cleanup
+  useEffect(() => {
+    return () => {
+      stopTracking()
+    }
+  }, [])
+  
+  const { productsArray, filterOptionsByGroup, getFilteredProducts } = useProducts()
+  
+  const itemsToSort = useMemo(() => {
+    if (filteredItems.length > 0) {
+      return filteredItems
+    }
+    return productsArray
+  }, [filteredItems, productsArray])
 
   const sortedItems = useMemo(() => {
     if (!itemsToSort || itemsToSort.length === 0) return []
@@ -40,7 +83,7 @@ export const Catalog = ({
   )
 
   const handleFilterChange = (items: any[]) => {
-    setFilteredItems(items)
+    dispatch(setFilteredItems(items))
     setAnimationKey((prev) => prev + 1)
   }
 

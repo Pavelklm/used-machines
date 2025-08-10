@@ -1,10 +1,10 @@
 import {
   setActiveEquipment,
   setCategory,
+  setFilteredItems,
 } from '@/context/slices/filteredItemsSlice'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
-import { useFilteredProducts } from '@/scripts/hooks/useFilteredProducts'
 import { useProducts } from '@/scripts/hooks/useProducts'
 import { BrandInfo } from '@/types/products'
 import { Key } from 'react'
@@ -12,18 +12,16 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import './style.css'
 
 export const Manufacturers = () => {
-  const { allBrands } = useProducts()
-  const { getFilteredProducts, setFilteredItems } = useFilteredProducts()
+  const { allBrands, getFilteredProducts, getCategoryFromEquipment } = useProducts()
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { getCategoryFromEquipment } = useProducts()
 
   const duplicatedBrands = [...allBrands, ...allBrands]
 
   const handleBrandClick = (brandName: string) => {
     const filtered = getFilteredProducts(brandName)
-    setFilteredItems(filtered)
+    dispatch(setFilteredItems(filtered))
     const category = getCategoryFromEquipment(brandName)
     dispatch(setCategory(category))
     dispatch(setActiveEquipment(brandName))

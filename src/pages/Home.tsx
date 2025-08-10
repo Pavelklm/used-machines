@@ -1,7 +1,7 @@
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { About } from '@/sections/ForMainPage/About/About'
-import { CatalogWrapper } from '@/sections/ForMainPage/Catalog/CatalogWrapper'
+import { Catalog } from '@/sections/ForMainPage/Catalog/Catalog'
 import { Info } from '@/sections/ForMainPage/Info/Info'
 import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturers'
 import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
@@ -34,7 +34,7 @@ const Home = () => {
   return (
     <div>
       <Info />
-      <CatalogWrapper />
+      <Catalog />
       <About />
       <RequestForm />
       <Manufacturers />
