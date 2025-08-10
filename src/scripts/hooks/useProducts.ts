@@ -1,30 +1,24 @@
 import { BrandInfo } from '@/types/products'
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import { useAppSelector } from './hooks'
+
+// Helper для построения asset URL
+const buildAssetUrl = (baseUrl: string, assetPath: string) => {
+  if (!assetPath) return ''
+  return `${baseUrl}assets/${assetPath}`
+}
 
 export const useProducts = () => {
   const products = useAppSelector((state) => state.products.products)
   const directusUrl = import.meta.env.VITE_API_BASE_URL
 
   const allBrands = useMemo(() => {
-    let productsToProcess = products
-
-    if (productsToProcess.length === 0) {
-      const cached = localStorage.getItem('products_cache')
-      const cacheTime = localStorage.getItem('products_cache_time')
-
-      if (cached && cacheTime) {
-        const age = Date.now() - parseInt(cacheTime)
-        if (age < 1 * 60 * 1000) {
-          productsToProcess = JSON.parse(cached)
-        }
-      }
-    }
-
+    // Убираем localStorage логику - антипаттерн в useMemo!
+    // Кеширование должно быть на уровне Redux или отдельного сервиса
     const seen = new Set<string>()
     const uniqueBrands: BrandInfo[] = []
 
-    productsToProcess.forEach((product: any) => {
+    products.forEach((product: any) => {
       const brand = product.brands_names
       if (!brand?.brand_name) return
 
@@ -32,7 +26,7 @@ export const useProducts = () => {
         seen.add(brand.brand_name)
         uniqueBrands.push({
           brand_name: brand.brand_name,
-          brand__image: `${directusUrl}assets/${brand.brand__image}`,
+          brand__image: buildAssetUrl(directusUrl, brand.brand__image),
         })
       }
     })
@@ -41,19 +35,21 @@ export const useProducts = () => {
   }, [products, directusUrl])
 
   const productsArray = useMemo(() => {
-    const map = new Map()
-    products.forEach((product) => {
-      if (!map.has(product.product_name)) {
-        map.set(product.product_name, {
+    // Оптимизируем: вместо Map.has в forEach используем reduce
+    const uniqueProducts = products.reduce((acc, product) => {
+      if (!acc[product.product_name]) {
+        acc[product.product_name] = {
           id: product.id,
           product_name: product.product_name,
           price: product.price,
           currency: product.currency_name?.currency_name,
-          url: `${directusUrl}assets/${product.photo_url}`,
-        })
+          url: buildAssetUrl(directusUrl, product.photo_url),
+        }
       }
-    })
-    return Array.from(map.values())
+      return acc
+    }, {} as Record<string, any>)
+    
+    return Object.values(uniqueProducts)
   }, [products, directusUrl])
 
   const categories = useMemo(() => {
@@ -62,9 +58,6 @@ export const useProducts = () => {
     ).filter(Boolean) as string[]
   }, [products])
 
-  const uniqueStrings = (arr: (string | undefined | null)[]) =>
-    Array.from(new Set(arr.filter(Boolean) as string[]))
-
   const filterOptionsByGroup = useMemo(() => {
     const categoryMap = categories.reduce(
       (acc, category) => {
@@ -72,21 +65,29 @@ export const useProducts = () => {
           .filter((item) => item.categories_names?.categorie_name === category)
           .map((item) => item.equipments_names?.equipment_name)
 
-        acc[category] = uniqueStrings(equipmentsForCategory)
+        // Инлайним uniqueStrings - убираем избыточную функцию
+        acc[category] = Array.from(
+          new Set(equipmentsForCategory.filter(Boolean) as string[])
+        )
         return acc
       },
       {} as Record<string, string[]>
     )
 
     return {
-      Виробники: uniqueStrings(
-        products.map((item) => item.brands_names?.brand_name)
+      Виробники: Array.from(
+        new Set(
+          products
+            .map((item) => item.brands_names?.brand_name)
+            .filter(Boolean) as string[]
+        )
       ),
       ...categoryMap,
     }
   }, [products, categories]) as Record<string, string[]>
 
-  const getFilteredProducts = (name: string) => {
+  // Мемоизируем функцию для оптимизации
+  const getFilteredProducts = useCallback((name: string) => {
     return products
       .filter(
         (product) =>
@@ -98,19 +99,20 @@ export const useProducts = () => {
         currency: product.currency_name?.currency_name,
         price: product.price,
         product_name: product.product_name,
-        url: `${directusUrl}assets/${product.photo_url}`,
+        url: buildAssetUrl(directusUrl, product.photo_url),
         equipment_name: product.equipments_names?.equipment_name,
         brand: product.brands_names?.brand_name,
         category: product.categories_names?.categorie_name,
       }))
-  }
+  }, [products, directusUrl])
 
-  const getCategoryFromEquipment = (equipment: string) => {
+  // Мемоизируем и эту функцию
+  const getCategoryFromEquipment = useCallback((equipment: string) => {
     const category = Object.keys(filterOptionsByGroup).find((key) =>
       filterOptionsByGroup[key].includes(equipment)
     )
     return category
-  }
+  }, [filterOptionsByGroup])
 
   return {
     productsArray,

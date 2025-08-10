@@ -77,7 +77,7 @@ export const Catalog = () => {
     return sorted
   }, [itemsToSort, sortType])
 
-  const { page, pageCount, changePage, fullPageItems } = usePagination(
+  const { page, pageCount, changePage, currentItems } = usePagination(
     sortedItems,
     6
   )
@@ -111,7 +111,7 @@ export const Catalog = () => {
           </div>
           <div className='catalog__items'>
             <div className='catalog__items__list'>
-              <Cards items={fullPageItems || []} animationKey={animationKey} />
+              <Cards items={currentItems || []} itemsPerPage={6} animationKey={animationKey} />
             </div>
             <div className='catalog__pagination'>
               <Pagination

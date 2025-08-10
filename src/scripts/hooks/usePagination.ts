@@ -19,21 +19,6 @@ export function usePagination<T>(items: T[], itemsPerPage: number) {
     setPage(newPage)
   }
 
-  const fullPageItems = [
-    ...currentItems,
-    ...Array.from({
-      length: Math.max(0, itemsPerPage - currentItems.length),
-    }).map(
-      () =>
-        ({
-          name: '',
-          price: '',
-          currency: '',
-          url: '',
-          isPlaceholder: true,
-        }) as unknown as T & { isPlaceholder: boolean }
-    ),
-  ]
-
-  return { page, pageCount, changePage, fullPageItems }
+  // Чистая логика пагинации - только данные!
+  return { page, pageCount, changePage, currentItems }
 }

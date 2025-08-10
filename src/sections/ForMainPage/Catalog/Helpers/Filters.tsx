@@ -1,5 +1,7 @@
 import {
   clearFilteredItems,
+  setCategory,
+  setActiveEquipment,
   setActiveScroll,
 } from '@/context/slices/filteredItemsSlice'
 import { RootState } from '@/context/store'
@@ -15,8 +17,24 @@ import {
   Typography,
 } from '@mui/material'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState, useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+
+// Константы
+const ALL_PRODUCTS = 'Уся продукція' as const
+
+// Типизация для состояния фильтров
+interface FilterState {
+  activeCategory: string | null  // какая категория раскрыта
+  selectedItem: string           // что выбрано (подсвечено)
+}
+
+interface FiltersProps {
+  catalogDataByCategory: Record<string, string[]>
+  getFilteredProducts: (name: string) => any[]
+  setFilteredItems: (items: any[]) => void
+  onShowAllProducts?: () => void
+}
 
 const listVariants: Variants = {
   visible: {
@@ -64,53 +82,77 @@ export default function Filters({
   getFilteredProducts,
   setFilteredItems,
   onShowAllProducts,
-}: {
-  catalogDataByCategory: Record<string, string[]>
-  getFilteredProducts: (name: string) => any[]
-  setFilteredItems: (items: any[]) => void
-  onShowAllProducts?: () => void
-}) {
-  const [activeItem, setActiveItem] = useState<string | null>(null)
+}: FiltersProps) {
+  // Объединяем состояние в одно место
+  const [filterState, setFilterState] = useState<FilterState>({
+    activeCategory: null,
+    selectedItem: ALL_PRODUCTS,
+  })
+  
   const dispatch = useAppDispatch()
-  const [selectedItem, setSelectedItem] = useState<string | null>(null)
-  const category = useSelector(
-    (state: RootState) => state.filteredItems.category
-  )
-  const equipment = useSelector(
-    (state: RootState) => state.filteredItems.activeEquipment
-  )
-  const activeScroll = useSelector(
-    (state: RootState) => state.filteredItems.activeScroll
-  )
-
+  
+  // Мемоизируем обратный индекс item -> category для оптимизации
+  const itemToCategoryMap = useMemo(() => {
+    const map: Record<string, string> = {}
+    Object.entries(catalogDataByCategory).forEach(([category, items]) => {
+      items.forEach((item) => {
+        map[item] = category
+      })
+    })
+    return map
+  }, [catalogDataByCategory])
+  
+  // Оригинальные селекторы для восстановления состояния фильтров
+  const category = useSelector((state: RootState) => state.filteredItems.category)
+  const equipment = useSelector((state: RootState) => state.filteredItems.activeEquipment)
+  const activeScroll = useSelector((state: RootState) => state.filteredItems.activeScroll)
+  
+  // Упрощенная логика восстановления
   useEffect(() => {
-    if (activeScroll) {
-      setActiveItem(category)
-      setSelectedItem(equipment)
+    if (activeScroll && category && equipment) {
+      setFilterState({
+        activeCategory: category,
+        selectedItem: equipment,
+      })
       dispatch(setActiveScroll(false))
+      
+      // Автоматически применяем фильтр
+      const filtered = getFilteredProducts(equipment)
+      setFilteredItems(filtered)
     }
-    if (selectedItem === null) {
-      setSelectedItem('Уся продукція')
-    }
-  }, [activeScroll])
+  }, [activeScroll, category, equipment, dispatch, getFilteredProducts, setFilteredItems])
 
   const handleToggle = useCallback((key: string) => {
-    setActiveItem((prev) => (prev === key ? null : key))
+    setFilterState((prev) => ({
+      ...prev,
+      activeCategory: prev.activeCategory === key ? null : key,
+    }))
   }, [])
 
   const handleClick = useCallback(
     (item: string) => {
-      setSelectedItem(item)
+      // Используем оптимизированный поиск категории
+      const categoryForItem = itemToCategoryMap[item]
+      
+      setFilterState({
+        activeCategory: categoryForItem || null,
+        selectedItem: item,
+      })
+      
       const filtered = getFilteredProducts(item)
       setFilteredItems(filtered)
     },
-    [getFilteredProducts, setFilteredItems]
+    [itemToCategoryMap, getFilteredProducts, setFilteredItems]
   )
 
   const handleShowAllProducts = useCallback(() => {
     dispatch(clearFilteredItems())
-    setSelectedItem('Уся продукція')
-    setActiveItem(null)
+    dispatch(setCategory(''))
+    dispatch(setActiveEquipment(''))
+    setFilterState({
+      activeCategory: null,
+      selectedItem: ALL_PRODUCTS,
+    })
     if (onShowAllProducts) {
       onShowAllProducts()
     }
@@ -128,21 +170,21 @@ export default function Filters({
           cursor: 'pointer',
           transition: 'all 0.3s ease',
           backgroundColor:
-            selectedItem === 'Уся продукція'
+            filterState.selectedItem === ALL_PRODUCTS
               ? 'var(--main-color)'
               : 'transparent',
-          color: selectedItem === 'Уся продукція' ? '#fff' : 'inherit',
+          color: filterState.selectedItem === ALL_PRODUCTS ? '#fff' : 'inherit',
           '&:hover': {
             background: 'var(--blue-bright-color)',
             color: '#fff ',
           },
         }}
       >
-        Уся продукція
+        {ALL_PRODUCTS}
       </Typography>
 
       {Object.keys(catalogDataByCategory).map((key) => {
-        const expanded = activeItem === key
+        const expanded = filterState.activeCategory === key
 
         return (
           <Accordion
@@ -213,10 +255,10 @@ export default function Filters({
                               borderRadius: '10px',
                               transition: 'all 0.3s ease',
                               backgroundColor:
-                                selectedItem === item
+                                filterState.selectedItem === item
                                   ? 'var(--main-color)'
                                   : 'transparent',
-                              color: selectedItem === item ? '#fff' : 'inherit',
+                              color: filterState.selectedItem === item ? '#fff' : 'inherit',
                               '&:hover': {
                                 backgroundColor: 'var(--blue-bright-color)',
                                 color: '#fff',

@@ -18,11 +18,28 @@ interface Item {
 
 interface CardsProps {
   items: Item[]
+  itemsPerPage: number
   animationKey?: string | number
 }
 
-export default function Cards({ items, animationKey }: CardsProps) {
+export default function Cards({ items, itemsPerPage, animationKey }: CardsProps) {
   const [isAnimating, setIsAnimating] = useState(false)
+
+  // Переносим логику placeholder'ов сюда из usePagination
+  const fullPageItems: (Item & { isPlaceholder?: boolean })[] = [
+    ...items,
+    ...Array.from({
+      length: Math.max(0, itemsPerPage - items.length),
+    }).map((_, index) => ({
+      id: `placeholder-${index}`,
+      price: '',
+      currency: '',
+      url: '',
+      name: '',
+      product_name: '',
+      isPlaceholder: true,
+    } as Item & { isPlaceholder: boolean }))
+  ]
 
   useEffect(() => {
     if (animationKey !== undefined) {
@@ -40,7 +57,7 @@ export default function Cards({ items, animationKey }: CardsProps) {
           display: 'contents',
         }}
       >
-        {items.map((item, index) => {
+        {fullPageItems.map((item, index) => {
           const rowIndex = Math.floor(index / 3)
           const colIndex = index % 3
           const centerX = 1 - colIndex
@@ -59,7 +76,7 @@ export default function Cards({ items, animationKey }: CardsProps) {
                       x: centerX * 309,
                       y: centerY * 410,
                       rotate: (Math.random() - 0.5) * 10,
-                      zIndex: items.length - index,
+                      zIndex: fullPageItems.length - index,
                     }
                   : {
                       opacity: 0,
