@@ -123,6 +123,7 @@ export default function Filters({
         sx={{
           padding: '16px',
           borderRadius: '16px',
+          marginBottom: '5px',
           boxShadow: 'none',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
@@ -132,7 +133,7 @@ export default function Filters({
               : 'transparent',
           color: selectedItem === 'Уся продукція' ? '#fff' : 'inherit',
           '&:hover': {
-            background: 'var(--main-color)',
+            background: 'var(--blue-bright-color)',
             color: '#fff ',
           },
         }}
@@ -153,7 +154,9 @@ export default function Filters({
                 : '1px solid transparent',
               borderRadius: '16px',
               boxShadow: 'none',
-              mb: 1,
+              '&:before': {
+                display: 'none',
+              },
             }}
             disableGutters
             square
@@ -173,6 +176,8 @@ export default function Filters({
               sx={{
                 padding: '16px',
                 borderRadius: '16px',
+                paddingBottom: '0px !important',
+
                 minHeight: 0,
                 overflow: 'hidden',
               }}
@@ -198,7 +203,7 @@ export default function Filters({
                   exit='hidden'
                   style={{ overflow: 'hidden' }}
                 >
-                  <AccordionDetails sx={{ margin: 0, padding: '8px 0 16px' }}>
+                  <AccordionDetails sx={{ margin: 0, padding: '0 0 16px 0' }}>
                     <List disablePadding>
                       {catalogDataByCategory[key].map((item) => (
                         <motion.div key={item} variants={itemVariants}>

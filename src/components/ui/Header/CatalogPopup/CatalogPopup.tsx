@@ -103,7 +103,13 @@ export const CatalogPopup = () => {
   }
 
   return (
-    <Box sx={{ display: 'inline-block', borderRadius: '10px', width: '195px' }}>
+    <Box
+      sx={{
+        display: 'inline-block',
+        borderRadius: '10px',
+        width: '195px',
+      }}
+    >
       <ListItemButton
         onClick={handleMainClick}
         sx={{
@@ -141,6 +147,8 @@ export const CatalogPopup = () => {
                 left: 20,
                 width: 'fit-content',
                 marginTop: 5,
+                border: '1px solid var(--blue-light-color)',
+                borderRadius: '20px',
                 zIndex: 500,
               }}
             >
@@ -183,7 +191,14 @@ export const CatalogPopup = () => {
                               },
                             }}
                           >
-                            <ListItemText primary={key} />
+                            <ListItemText
+                              primary={key}
+                              slotProps={{
+                                primary: {
+                                  sx: { width: '200px' },
+                                },
+                              }}
+                            />
                             <motion.div
                               animate={{
                                 rotate: activeItem === key ? 90 : 270,
@@ -238,6 +253,7 @@ export const CatalogPopup = () => {
                                   sx={{
                                     p: '12px 16px ',
                                     borderRadius: '10px',
+                                    marginRight: '10px',
                                     zIndex: 500,
                                     '&:hover': {
                                       backgroundColor:
