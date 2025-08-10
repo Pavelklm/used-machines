@@ -58,6 +58,7 @@ export const useConsultationForm = (
   const [touchedFields, setTouchedFields] = useState<Set<keyof IFormData>>(
     new Set()
   )
+  const [lastSubmitTime, setLastSubmitTime] = useState(0)
 
   // Эффект для определения оператора при инициализации
   useEffect(() => {
@@ -77,6 +78,7 @@ export const useConsultationForm = (
     setCurrentOperator(null)
     setIsDirty(false)
     setTouchedFields(new Set())
+    setLastSubmitTime(0) // Сбрасываем дебаунс
   }, [initialData])
 
   // Очистка конкретной ошибки
@@ -223,6 +225,15 @@ export const useConsultationForm = (
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
+      // Защита от дабл-клика (дебаунс)
+      const now = Date.now()
+      if (now - lastSubmitTime < 3000) { // 3 секунды
+        notificationService.error('Почекайте трошки перед наступною відправкою')
+        return
+      }
+      
+      setLastSubmitTime(now)
+
       // Валидация
       const validation = validateForm(formData)
       if (!validation.isValid) {
@@ -349,7 +360,7 @@ export const useConsultationForm = (
         setIsSubmitting(false)
       }
     },
-    [formData, resetForm, onSubmitSuccess, onSubmitError, resetOnSuccess]
+    [formData, resetForm, onSubmitSuccess, onSubmitError, resetOnSuccess, lastSubmitTime]
   )
 
   // Возвращаем все необходимые методы и состояние

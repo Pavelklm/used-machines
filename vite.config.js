@@ -23,10 +23,10 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'es2020', // Современнее = меньше полифиллов
+    target: 'es2020', 
     minify: 'esbuild',
     sourcemap: false,
-    chunkSizeWarningLimit: 500, // Строже контроль
+    chunkSizeWarningLimit: 500,
 
     rollupOptions: {
       output: {
@@ -84,6 +84,12 @@ export default defineConfig({
   },
 
   server: {
-    open: true,
+    proxy: {
+      '/api': {
+        target: 'https://api.hornsandhooves.pp.ua',
+        changeOrigin: true,
+        secure: false, // ставь true, если у тебя нормальный SSL
+      },
+    },
   },
 })

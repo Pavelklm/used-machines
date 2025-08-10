@@ -1,8 +1,7 @@
 // API конфигурация
 export const API_CONFIG = {
   // Базовый URL (можно изменить для разных окружений)
-  // baseURL: process.env.REACT_APP_API_URL || '',
-  baseURL: '',
+  baseURL: import.meta.env.VITE_API_URL || '',
 
   // Таймаут запросов (в миллисекундах)
   timeout: 30000,
