@@ -36,22 +36,6 @@ export default function Search() {
 
   const hasInput = inputValue.length > 0
 
-  const searchZIndex = useMemo(() => {
-    if (!overlay.isOpen) {
-      return 1001 // Обычный z-index когда overlay закрыт
-    }
-
-    if (overlay.source === 'catalog') {
-      return 400 // Под overlay'em (500) когда открыт каталог
-    }
-
-    if (overlay.source === 'search') {
-      return 1001 // Над overlay'em когда открыт поиск
-    }
-
-    return 1001
-  }, [overlay.isOpen, overlay.source])
-
   const highlightText = useCallback(
     (text: string, query: string): HighlightPart[] => {
       if (!query) return [{ text, highlight: false }]
@@ -133,7 +117,6 @@ export default function Search() {
     <Box
       sx={{
         position: 'relative',
-        zIndex: searchZIndex, // Динамический z-index
       }}
     >
       <Autocomplete
@@ -154,7 +137,7 @@ export default function Search() {
         slotProps={{
           paper: {
             sx: {
-              marginTop: '10px',
+              marginTop: '31px',
               borderRadius: '20px',
               boxShadow: '0 4px 20px var(--blue-light-color)',
               zIndex: 1003,

@@ -137,7 +137,7 @@ export const CatalogPopup = () => {
               transition={{ duration: 0.25 }}
               style={{
                 position: 'absolute',
-                top: '100%',
+                top: '75px',
                 left: 20,
                 width: 'fit-content',
                 marginTop: 5,

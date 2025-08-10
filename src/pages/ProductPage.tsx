@@ -116,7 +116,12 @@ const ProductPage = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      style={{ padding: '0', maxWidth: '1200px', margin: '0 auto' }}
+      style={{
+        padding: '0',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        marginTop: '158px',
+      }}
     >
       <Breadcrumbs productName={product.product_name} />
       <ProductDetail

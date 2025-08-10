@@ -14,12 +14,29 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const scrollbarWidth = getScrollbarWidth()
+
     if (overlay.isOpen) {
       document.documentElement.style.overflow = 'hidden'
-      document.documentElement.style.paddingRight = `${scrollbarWidth}px`
+
+      const main = document.querySelector('.main') as HTMLElement
+      if (main) {
+        main.style.paddingRight = `${scrollbarWidth}px`
+      }
+      const header = document.querySelector('.header') as HTMLElement
+      if (header) {
+        header.style.paddingRight = `${scrollbarWidth}px`
+      }
     } else {
       document.documentElement.style.overflow = ''
-      document.documentElement.style.paddingRight = ''
+
+      const main = document.querySelector('.main') as HTMLElement
+      if (main) {
+        main.style.paddingRight = ''
+      }
+      const header = document.querySelector('.header') as HTMLElement
+      if (header) {
+        header.style.paddingRight = ''
+      }
     }
   }, [overlay.isOpen])
 
