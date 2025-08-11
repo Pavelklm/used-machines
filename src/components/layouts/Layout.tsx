@@ -5,9 +5,11 @@ import { RootState } from '@/context/store'
 import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
+import { motion } from 'framer-motion'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const overlay = useSelector((state: RootState) => state.overlay)
+  
   function getScrollbarWidth() {
     return window.innerWidth - document.documentElement.clientWidth
   }
@@ -44,8 +46,25 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <>
       <Overlay />
       <Toaster position='top-center' reverseOrder={false} />
-      <Header />
-      <main className='main'>{children}</main>
+      
+      {/* Анимированный Header - появляется при загрузке страницы */}
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ 
+          duration: 0.5, 
+          ease: [0.25, 0.46, 0.45, 0.94] 
+        }}
+      >
+        <Header />
+      </motion.div>
+
+      {/* Main контейнер без анимации - секции анимируются по скроллу */}
+      <main className='main'>
+        {children}
+      </main>
+
+      {/* Footer без анимации */}
       <Footer />
     </>
   )

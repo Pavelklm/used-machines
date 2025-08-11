@@ -1,6 +1,7 @@
 import { loadProductById, loadProducts } from '@/api/loadProducts'
 import { Breadcrumbs } from '@/components/product/Breadcrumbs/Breadcrumbs'
 import { ProductDetail } from '@/components/product/ProductDetail/ProductDetail'
+import SimpleAnimatedSection from '@/components/ui/AnimatedSection/SimpleAnimatedSection'
 import { clearCurrentProduct, clearError } from '@/context/slices/productSlice'
 import { RootState } from '@/context/store'
 import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturers'
@@ -123,13 +124,28 @@ const ProductPage = () => {
         marginTop: '158px',
       }}
     >
-      <Breadcrumbs productName={product.product_name} />
-      <ProductDetail
-        product={product}
-        directusUrl={import.meta.env.VITE_API_BASE_URL}
-      />
-      <RequestForm />
-      <Manufacturers />
+      {/* Хлебные крошки - плавное появление */}
+      <SimpleAnimatedSection direction="fade" delay={0.1}>
+        <Breadcrumbs productName={product.product_name} />
+      </SimpleAnimatedSection>
+      
+      {/* Детали продукта - выезжает снизу */}
+      <SimpleAnimatedSection direction="up" delay={0.1}>
+        <ProductDetail
+          product={product}
+          directusUrl={import.meta.env.VITE_API_BASE_URL}
+        />
+      </SimpleAnimatedSection>
+      
+      {/* Форма запроса - выезжает слева */}
+      <SimpleAnimatedSection direction="left" delay={0.0}>
+        <RequestForm />
+      </SimpleAnimatedSection>
+      
+      {/* Производители - выезжают справа */}
+      <SimpleAnimatedSection direction="right" delay={0.0}>
+        <Manufacturers />
+      </SimpleAnimatedSection>
     </motion.div>
   )
 }

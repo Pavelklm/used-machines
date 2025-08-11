@@ -7,7 +7,6 @@ import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturer
 import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import SimpleAnimatedSection from '@/components/ui/AnimatedSection/SimpleAnimatedSection'
 
 const Home = () => {
   const location = useLocation()
@@ -34,30 +33,12 @@ const Home = () => {
 
   return (
     <div>
-      {/* Info секция - плавное появление при скролле */}
-      <SimpleAnimatedSection direction="fade" delay={0}>
-        <Info />
-      </SimpleAnimatedSection>
-
-      {/* Каталог выезжает снизу */}
-      <SimpleAnimatedSection direction="up" delay={0.1}>
-        <Catalog />
-      </SimpleAnimatedSection>
-
-      {/* О нас появляется слева */}
-      <SimpleAnimatedSection direction="left" delay={0.2}>
-        <About />
-      </SimpleAnimatedSection>
-
-      {/* Форма запроса выезжает справа */}
-      <SimpleAnimatedSection direction="right" delay={0.1}>
-        <RequestForm />
-      </SimpleAnimatedSection>
-
-      {/* Производители выезжают снизу */}
-      <SimpleAnimatedSection direction="up" delay={0.2}>
-        <Manufacturers />
-      </SimpleAnimatedSection>
+      {/* ТЕСТОВАЯ ВЕРСИЯ БЕЗ АНИМАЦИЙ - для проверки работы контента */}
+      <Info />
+      <Catalog />
+      <About />
+      <RequestForm />
+      <Manufacturers />
     </div>
   )
 }

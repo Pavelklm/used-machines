@@ -1,6 +1,7 @@
 // App.jsx
 import '@/styles/global.css'
 import '@/styles/variables.css'
+import '@/styles/animations.css'
 import { lazy, Suspense } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
