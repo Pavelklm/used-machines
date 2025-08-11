@@ -157,7 +157,19 @@ export const ImageGallery = ({
                       border: isActive
                         ? '2px solid var(--blue-bright-color)'
                         : 'none',
-                      filter: isActive ? 'brightness(1)' : 'brightness(0.4)',
+                      position: 'relative',
+                      boxShadow: isActive ? 'none' : 'none',
+                      '&::before': !isActive ? {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: '#04022966',
+                        zIndex: 1,
+                        borderRadius: '10px',
+                      } : {},
                       borderRadius: '10px',
                       overflow: 'hidden',
                       transition: 'all 0.2s ease',
@@ -419,9 +431,21 @@ export const ImageGallery = ({
                               border: isActive
                                 ? '2px solid var(--blue-bright-color)'
                                 : 'none',
-                              filter: isActive
-                                ? 'brightness(1)'
-                                : 'brightness(0.4)',
+                              position: 'relative',
+                              boxShadow: isActive
+                                ? 'none'
+                                : 'none',
+                              '&::before': !isActive ? {
+                                content: '""',
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: '#04022966',
+                                zIndex: 1,
+                                borderRadius: '10px',
+                              } : {},
                               borderRadius: '10px',
                               overflow: 'hidden',
                               transition: 'all 0.2s ease',

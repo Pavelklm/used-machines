@@ -53,12 +53,8 @@ const ProductInfo = ({ product }: { product: Product }) => {
         sx={{
           height: '500px',
           width: '100%',
-          background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
           borderRadius: '20px',
           padding: '32px',
-          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.1)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          backdropFilter: 'blur(10px)',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -110,15 +106,6 @@ const ProductInfo = ({ product }: { product: Product }) => {
                   alignItems: 'center',
                   gap: 1,
                   background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  borderRadius: '24px',
-                  padding: '16px 24px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  boxShadow: `
-                    0 8px 32px rgba(0, 0, 0, 0.12),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-                    inset 0 -1px 0 rgba(0, 0, 0, 0.05)
-                  `,
                 }}
               >
                 <Box sx={{ display: 'flex', whiteSpace: 'pre' }}>
@@ -127,11 +114,9 @@ const ProductInfo = ({ product }: { product: Product }) => {
                       key={`price-${index}`}
                       sx={{
                         color: 'var(--main-color)',
-                        fontSize: '28px',
-                        fontWeight: 700,
+                        fontSize: '26px',
+                        fontWeight: '400',
                         lineHeight: '32px',
-                        textShadow:
-                          '0 1px 3px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05)',
                         fontVariantNumeric: 'tabular-nums',
                         opacity: 0,
                         animation: `fadeInUp 0.5s ease-out ${index * 0.05}s forwards`,
@@ -148,10 +133,9 @@ const ProductInfo = ({ product }: { product: Product }) => {
                 </Box>
                 <Typography
                   sx={{
-                    color: 'rgba(26, 26, 46, 0.7)',
-                    fontWeight: 600,
-                    fontSize: '18px',
-                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+                    color: '#000',
+                    fontSize: '26px',
+                    fontWeight: '400',
                     opacity: 0,
                     animation: `fadeIn 0.5s ease-out ${digits.length * 0.05 + 0.2}s forwards`,
                     '@keyframes fadeIn': {
