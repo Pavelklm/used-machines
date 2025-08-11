@@ -32,7 +32,8 @@ export default function PaginationRounded({
             margin: '5px',
             transition: 'all 0.3s ease',
             '&:hover': {
-              backgroundColor: 'var(--blue-light-color) !important',
+              backgroundColor: 'var(--blue-bright-color) !important',
+              color: '#fff' + '!important',
             },
           },
           '& .MuiPaginationItem-previousNext': {
