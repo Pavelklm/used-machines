@@ -20,12 +20,18 @@
   );
 }
 
+.manufacturers__title {
+  margin: 0;
+  margin-bottom: 40px;
+}
+
 .manufacturers__track {
   display: flex;
   width: fit-content;
   gap: 40px;
   /* Бесконечная анимация */
   animation: marquee 30s linear infinite;
+  margin-bottom: 150px;
 }
 
 .manufacturers__track:hover {
