@@ -1,5 +1,5 @@
 import MainButton from '@/components/module/MainButton/MainButton'
-import { FormattedText } from '@/components/ui/FormattedText'
+import { FormattedText } from '@/components/ui/FormattedText/FormattedText'
 import { Product } from '@/types/products'
 import { Box, Chip, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
@@ -278,9 +278,7 @@ const tabPanelStyles = {
   borderRadius: '20px',
   border: '1px solid rgb(178, 200, 227)',
   transition: 'all 0.3s ease',
-  height: '380px',
-  overflowY: 'auto',
-  overflowX: 'hidden',
+  marginBottom: '150px',
 }
 
 const tabPanelStylesSpaceBetween = {
@@ -341,7 +339,7 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
           </TabButton>
         </Box>
 
-        <Box sx={{ height: '420px' }}>
+        <Box sx={{ height: '100%' }}>
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, x: 20 }}
