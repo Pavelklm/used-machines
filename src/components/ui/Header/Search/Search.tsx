@@ -140,8 +140,9 @@ export default function Search() {
               borderRadius: '20px',
               boxShadow: '0 4px 20px var(--blue-light-color)',
               zIndex: 1003,
-              padding: '0 20px',
-              marginRight: '10px',
+              '& .MuiAutocomplete-listbox': {
+                padding: '20px',
+              },
               '& .MuiAutocomplete-option': {
                 borderRadius: '20px',
                 '&:hover': {
@@ -215,7 +216,6 @@ export default function Search() {
               },
               '& .MuiOutlinedInput-input': {
                 height: '100%',
-                padding: '0 0 0 20px !important',
                 margin: 0,
                 lineHeight: '48px',
               },
