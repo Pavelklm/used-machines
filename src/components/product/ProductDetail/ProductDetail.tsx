@@ -11,7 +11,6 @@ interface ProductDetailProps {
   directusUrl: string
 }
 
-// Утилиты
 const getProductImages = (product: Product) => {
   const images = []
 
@@ -77,7 +76,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             mb: 2,
-            textAlign: 'center',
+            textAlign: 'flex-start',
           }}
         >
           {product.product_name}
@@ -92,7 +91,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
             fontWeight: 400,
             mb: 3,
             fontStyle: 'italic',
-            textAlign: 'center',
+            textAlign: 'flex-start',
           }}
         >
           {product.teaser}

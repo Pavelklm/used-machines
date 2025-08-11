@@ -3,7 +3,7 @@ import { useAppDispatch } from '@/scripts/hooks/hooks'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import ZoomInIcon from '@mui/icons-material/ZoomIn'
-import { Box, Card, CardMedia, IconButton } from '@mui/material'
+import { Box, Card, CardMedia, IconButton, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
@@ -324,6 +324,27 @@ export const ImageGallery = ({
               }}
               onClick={(e) => e.stopPropagation()}
             >
+              <Typography
+                variant='h6'
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'var(--main-color)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '5px',
+                  width: '660px',
+                  position: 'absolute',
+                  left: '50%',
+                  transform: 'translate(-50%)',
+                  marginTop: '46px',
+                  fontSize: '26px',
+                  fontWeight: '400',
+                }}
+              >
+                {productName}
+              </Typography>
+
               <CardMedia
                 component='img'
                 image={`${directusUrl}assets/${images[currentImageIndex] || images[0]}`}
