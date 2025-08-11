@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// 🆕 Типизируем состояние scroll
+// Типизируем состояние scroll
 interface ScrollState {
   scrollToCatalog: boolean
   scrollToForm: boolean
 }
 
-// 🆕 Типизированное начальное состояние
-const initialState: ScrollState = {
+// Типизированное начальное состояние
+const initialState: ScrollState = { 
   scrollToCatalog: false,
-  scrollToForm: false,
+  scrollToForm: false 
 }
 
 const scrollSlice = createSlice({
@@ -31,14 +31,14 @@ const scrollSlice = createSlice({
   },
 })
 
-export const {
-  triggerScrollToCatalog,
+export const { 
+  triggerScrollToCatalog, 
   resetScrollToCatalog,
   triggerScrollToForm,
-  resetScrollToForm,
+  resetScrollToForm 
 } = scrollSlice.actions
 
-// 🆕 Экспортируем тип для использования
+// Экспортируем тип для использования
 export type { ScrollState }
 
 export default scrollSlice.reducer

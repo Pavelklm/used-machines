@@ -43,6 +43,9 @@ export const useProducts = () => {
             currency: product.currency_name?.currency_name,
             url: buildAssetUrl(directusUrl, product.photo_url),
             brand_name: product.brands_names?.brand_name,
+            brand_image: product.brands_names?.brand__image 
+              ? buildAssetUrl(directusUrl, product.brands_names.brand__image)
+              : null,
           }
         }
         return acc
@@ -86,8 +89,6 @@ export const useProducts = () => {
     }
   }, [products, categories]) as Record<string, string[]>
 
-  // В useProducts.ts, исправь getFilteredProducts:
-
   const getFilteredProducts = useCallback(
     (name: string) => {
       return products
@@ -103,9 +104,7 @@ export const useProducts = () => {
           product_name: product.product_name,
           url: buildAssetUrl(directusUrl, product.photo_url),
           equipment_name: product.equipments_names?.equipment_name,
-          // 🔥 ИСПРАВЛЯЕМ: было "brand", стало "brand_name"
           brand_name: product.brands_names?.brand_name,
-          // 🆕 ДОБАВЛЯЕМ: изображение бренда тоже
           brand_image: product.brands_names?.brand__image
             ? buildAssetUrl(directusUrl, product.brands_names.brand__image)
             : null,

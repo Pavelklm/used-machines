@@ -2,6 +2,8 @@ import { loadProducts } from '@/api/loadProducts'
 import {
   setActiveScroll,
   setFilteredItems,
+  clearFilteredItems,
+  type FilteredItem,
 } from '@/context/slices/filteredItemsSlice'
 import { resetScrollToCatalog } from '@/context/slices/scrollSlice'
 import { RootState } from '@/context/store'
@@ -27,11 +29,11 @@ export const Catalog = () => {
   )
 
   const { products, loading } = useAppSelector(
-    (state: RootState) => state.products
+    (state) => state.products
   )
 
   const scrollToCatalog = useAppSelector(
-    (state: RootState) => state.scroll.scrollToCatalog
+    (state) => state.scroll.scrollToCatalog
   )
 
   const { startTracking, stopTracking } = useScrollEndDetection(
@@ -39,8 +41,8 @@ export const Catalog = () => {
       dispatch(setActiveScroll(true))
     },
     {
-      threshold: 0.5,
-      stableFrames: 8,
+      threshold: 2,
+      stableFrames: 15,
     }
   )
 
@@ -55,10 +57,14 @@ export const Catalog = () => {
   useEffect(() => {
     if (scrollToCatalog && catalogRef.current) {
       catalogRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      startTracking()
+      
+      setTimeout(() => {
+        startTracking()
+      }, 150)
+      
       dispatch(resetScrollToCatalog())
     }
-  }, [scrollToCatalog, dispatch])
+  }, [scrollToCatalog, dispatch, startTracking])
 
   // useEffect для cleanup
   useEffect(() => {
@@ -94,12 +100,13 @@ export const Catalog = () => {
     6
   )
 
-  const handleFilterChange = (items: any[]) => {
+  const handleFilterChange = (items: FilteredItem[]) => {
     dispatch(setFilteredItems(items))
     setAnimationKey((prev) => prev + 1)
   }
 
   const handleShowAllProducts = () => {
+    dispatch(clearFilteredItems())
     setAnimationKey((prev) => prev + 1)
   }
 

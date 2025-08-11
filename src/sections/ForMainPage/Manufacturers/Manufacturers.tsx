@@ -1,7 +1,6 @@
 import {
   setActiveEquipment,
   setCategory,
-  setFilteredItems,
 } from '@/context/slices/filteredItemsSlice'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
@@ -12,7 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import './style.css'
 
 export const Manufacturers = () => {
-  const { allBrands, getFilteredProducts, getCategoryFromEquipment } = useProducts()
+  const { allBrands, getCategoryFromEquipment } = useProducts()
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -20,10 +19,8 @@ export const Manufacturers = () => {
   const duplicatedBrands = [...allBrands, ...allBrands]
 
   const handleBrandClick = (brandName: string) => {
-    const filtered = getFilteredProducts(brandName)
-    dispatch(setFilteredItems(filtered))
     const category = getCategoryFromEquipment(brandName)
-    dispatch(setCategory(category))
+    dispatch(setCategory(category || ''))
     dispatch(setActiveEquipment(brandName))
 
     const isOnHomePage = location.pathname === '/'

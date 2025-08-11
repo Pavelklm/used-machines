@@ -3,9 +3,10 @@ import {
   setCategory,
   setActiveEquipment,
   setActiveScroll,
+  type FilteredItem,
 } from '@/context/slices/filteredItemsSlice'
 import { RootState } from '@/context/store'
-import { useAppDispatch } from '@/scripts/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
   Accordion,
@@ -18,7 +19,6 @@ import {
 } from '@mui/material'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
 import { useCallback, useState, useEffect, useMemo } from 'react'
-import { useSelector } from 'react-redux'
 
 // Константы
 const ALL_PRODUCTS = 'Уся продукція' as const
@@ -31,8 +31,8 @@ interface FilterState {
 
 interface FiltersProps {
   catalogDataByCategory: Record<string, string[]>
-  getFilteredProducts: (name: string) => any[]
-  setFilteredItems: (items: any[]) => void
+  getFilteredProducts: (name: string) => FilteredItem[]
+  setFilteredItems: (items: FilteredItem[]) => void
   onShowAllProducts?: () => void
 }
 
@@ -103,9 +103,9 @@ export default function Filters({
   }, [catalogDataByCategory])
   
   // Оригинальные селекторы для восстановления состояния фильтров
-  const category = useSelector((state: RootState) => state.filteredItems.category)
-  const equipment = useSelector((state: RootState) => state.filteredItems.activeEquipment)
-  const activeScroll = useSelector((state: RootState) => state.filteredItems.activeScroll)
+  const category = useAppSelector((state) => state.filteredItems.category)
+  const equipment = useAppSelector((state) => state.filteredItems.activeEquipment)
+  const activeScroll = useAppSelector((state) => state.filteredItems.activeScroll)
   
   // Упрощенная логика восстановления
   useEffect(() => {
@@ -116,7 +116,7 @@ export default function Filters({
       })
       dispatch(setActiveScroll(false))
       
-      // Автоматически применяем фильтр
+      // Применяем фильтр ПОСЛЕ скролла - это даст правильную последовательность!
       const filtered = getFilteredProducts(equipment)
       setFilteredItems(filtered)
     }

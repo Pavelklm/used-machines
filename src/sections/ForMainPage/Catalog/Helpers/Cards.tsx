@@ -9,12 +9,13 @@ import { Link } from 'react-router-dom' // 🆕 Добавили импорт
 interface Item {
   id: any
   price: number | string
-  currency: string
-  url: string
-  name: string
+  currency?: string
+  url?: string
+  name?: string
   isPlaceholder?: boolean
   product_name?: string
   brand_name?: string
+  brand_image?: string | null
 }
 
 interface CardsProps {
@@ -39,6 +40,7 @@ export default function Cards({
         ({
           id: `placeholder-${index}`,
           brand_name: '',
+          brand_image: null,
           price: '',
           currency: '',
           url: '',
@@ -114,7 +116,7 @@ export default function Cards({
                 <Card
                   sx={{
                     width: 289,
-                    height: 390,
+                    height: '383px',
                     borderRadius: '10px',
                     border: '1px dashed var(--blue-light-color)',
                     opacity: 0.6,
@@ -164,6 +166,7 @@ export default function Cards({
                   <Card
                     sx={{
                       width: 289,
+                      height: 383,
                       cursor: 'pointer',
                       borderRadius: '10px',
                       boxShadow: '0 0 0 1px var(--blue-light-color)',
@@ -174,16 +177,21 @@ export default function Cards({
                       '&:hover': {
                         boxShadow: '0 0 0 1px var(--blue-bright-color)',
                         transform: 'translateY(-4px)',
-                        filter: 'brightness(0.85)',
+                        filter: 'brightness(0.97)',
                       },
                     }}
                   >
                     <CardMedia
                       component='img'
-                      height='289'
-                      image={`${item.url}`}
-                      alt={`${item.product_name} - професійне м'ясне обладнання`}
-                      sx={{ borderRadius: '10px' }}
+                      height='220'
+                      width='289'
+                      image={item.url || '/images/placeholder.jpg'}
+                      alt={`${item.product_name || 'Продукт'} - професійне м'ясне обладнання`}
+                      sx={{
+                        borderRadius: '10px',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                      }}
                       loading='lazy'
                       draggable='false'
                     />
@@ -192,35 +200,63 @@ export default function Cards({
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 1,
+                        padding: '20px',
                       }}
                     >
-                      <Typography
-                        variant='body2'
-                        sx={{
-                          fontSize: '16px',
-                          fontWeight: '400',
-                          lineHeight: '19px',
-                          color: 'var(--main-color)',
-                        }}
-                      >
-                        {item.brand_name}
-                      </Typography>
+                      {item.brand_name && (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1,
+                            marginBottom: '10px',
+                            color: 'var(--main-color)',
+                          }}
+                        >
+                          {item.brand_image && (
+                            <Box
+                              component='img'
+                              src={item.brand_image}
+                              alt={item.brand_name}
+                              sx={{
+                                width: '30px',
+                                height: '30px',
+                                objectFit: 'contain',
+                              }}
+                            />
+                          )}
+                          <Typography
+                            variant='caption'
+                            sx={{
+                              fontSize: '12px',
+                              fontWeight: '500',
+                              color: 'var(--main-color)',
+                              textTransform: 'uppercase',
+                            }}
+                          >
+                            {item.brand_name}
+                          </Typography>
+                        </Box>
+                      )}
+
                       <Typography
                         variant='body2'
                         sx={{
                           fontSize: '18px',
                           fontWeight: '400',
                           lineHeight: '21px',
+                          marginBottom: '15px',
                         }}
                       >
-                        {item.product_name}
+                        {item.product_name || 'Назва продукту'}
                       </Typography>
+
                       <Box
                         sx={{
                           display: 'flex',
                           justifyContent: 'space-between',
                           alignItems: 'center',
-                          mt: 1,
+                          mt: 'auto',
                         }}
                       >
                         <Typography
@@ -232,12 +268,12 @@ export default function Cards({
                             color: 'var(--main-color)',
                           }}
                         >
-                          {item.price
+                          {(item.price || 0)
                             .toString()
                             .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
-                          {item.currency}
+                          {item.currency || 'грн'}
                         </Typography>
-                        <ChevronRightIcon color='primary' />
+                        <ChevronRightIcon sx={{ color: 'var(--main-color)' }} />
                       </Box>
                     </CardContent>
                   </Card>

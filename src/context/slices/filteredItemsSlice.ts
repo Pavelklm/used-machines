@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-// 🆕 Добавляем типы для фильтрованных элементов
+// Типы для фильтрованных элементов
 interface FilteredItem {
   id: string | number
   currency?: string
@@ -13,7 +13,7 @@ interface FilteredItem {
   category?: string
 }
 
-// 🆕 Типизируем состояние слайса
+// Типизируем состояние слайса
 interface FilteredItemsState {
   filteredItems: FilteredItem[]
   category: string
@@ -21,7 +21,7 @@ interface FilteredItemsState {
   activeScroll: boolean
 }
 
-// 🆕 Типизированное начальное состояние
+// Типизированное начальное состояние
 const initialState: FilteredItemsState = {
   filteredItems: [],
   category: '',
@@ -33,7 +33,7 @@ export const filteredItemsSlice = createSlice({
   name: 'filteredItems',
   initialState,
   reducers: {
-    // 🆕 Типизируем actions
+    // Типизируем actions
     setFilteredItems: (state, action: PayloadAction<FilteredItem[]>) => {
       state.filteredItems = action.payload
     },
@@ -60,7 +60,7 @@ export const {
   setActiveScroll,
 } = filteredItemsSlice.actions
 
-// 🆕 Экспортируем типы для использования в компонентах
+// Экспортируем типы для использования в компонентах
 export type { FilteredItem, FilteredItemsState }
 
 export default filteredItemsSlice.reducer

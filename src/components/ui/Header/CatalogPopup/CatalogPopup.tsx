@@ -2,7 +2,6 @@
 import {
   setActiveEquipment,
   setCategory,
-  setFilteredItems,
 } from '@/context/slices/filteredItemsSlice'
 import { setCatalogOverlay } from '@/context/slices/overlaySlice'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
@@ -52,7 +51,6 @@ export const CatalogPopup = () => {
   const {
     filterOptionsByGroup,
     getCategoryFromEquipment,
-    getFilteredProducts,
   } = useProducts()
 
   type Keys = keyof typeof filterOptionsByGroup
@@ -82,10 +80,8 @@ export const CatalogPopup = () => {
   }
 
   const handleClick = (name: string) => {
-    const filtered = getFilteredProducts(name)
-    dispatch(setFilteredItems(filtered))
     const category = getCategoryFromEquipment(name)
-    dispatch(setCategory(category))
+    dispatch(setCategory(category || ''))
     dispatch(setActiveEquipment(name))
 
     handleClickAway()
