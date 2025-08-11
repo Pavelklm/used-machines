@@ -9,6 +9,8 @@
   position: relative;
   height: 100%;
   margin-bottom: 150px;
+  /* Scroll offset для учета fixed header */
+  scroll-margin-top: var(--scroll-total-offset);
 }
 
 .full-width-line-form {

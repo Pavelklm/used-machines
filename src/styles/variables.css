@@ -1,0 +1,20 @@
+/* CSS переменные для header и скролла */
+:root {
+  /* Header размеры */
+  --header-padding: 30px;
+  --header-content-height: 48px;
+  --header-total-height: calc(var(--header-padding) * 2 + var(--header-content-height));
+  
+  /* Offset для скролла */
+  --scroll-comfort-offset: 20px;
+  --scroll-total-offset: calc(var(--header-total-height) + var(--scroll-comfort-offset));
+}
+
+/* Респонсивные значения для мобильных устройств */
+@media (max-width: 768px) {
+  :root {
+    --header-padding: 20px;
+    --header-content-height: 40px;
+    --scroll-comfort-offset: 15px;
+  }
+}

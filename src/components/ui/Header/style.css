@@ -1,11 +1,3 @@
-:root {
-  --header-padding: 30px;
-  --header-content-height: 48px;
-  --header-total-height: calc(var(--header-padding) * 2 + var(--header-content-height));
-  --scroll-comfort-offset: 20px;
-  --scroll-total-offset: calc(var(--header-total-height) + var(--scroll-comfort-offset));
-}
-
 .header {
   padding: var(--header-padding) 0;
   margin-bottom: 50px;
@@ -76,13 +68,4 @@
 /* Scroll offset для учета fixed header */
 .catalog {
   scroll-margin-top: var(--scroll-total-offset);
-}
-
-/* Респонсивные значения для мобильных устройств */
-@media (max-width: 768px) {
-  :root {
-    --header-padding: 20px;
-    --header-content-height: 40px;
-    --scroll-comfort-offset: 15px;
-  }
 }

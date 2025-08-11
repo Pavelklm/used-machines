@@ -18,7 +18,6 @@ interface HighlightPart {
 export default function Search() {
   const { productsArray } = useProducts()
   const loading = useAppSelector((state) => state.products.loading)
-  const overlay = useAppSelector((state) => state.overlay) // Получаем состояние overlay
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [inputValue, setInputValue] = useState('')
@@ -146,7 +145,7 @@ export default function Search() {
               '& .MuiAutocomplete-option': {
                 borderRadius: '20px',
                 '&:hover': {
-                  backgroundColor: 'var(--blue-bright-color)',
+                  backgroundColor: 'var(--blue-bright-color) !important',
                   color: 'white',
                 },
               },

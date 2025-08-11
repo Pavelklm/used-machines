@@ -1,4 +1,3 @@
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { Box, ClickAwayListener, Paper, Typography } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
@@ -15,6 +14,7 @@ const options = [
 
 export default function CustomSorter({ sortType, onSortChange }: SorterProps) {
   const [isOpen, setIsOpen] = React.useState(false)
+  const [isHovered, setIsHovered] = React.useState(false)
 
   const handleSelect = (value: string) => {
     onSortChange(value)
@@ -32,29 +32,36 @@ export default function CustomSorter({ sortType, onSortChange }: SorterProps) {
       <Box sx={{ width: 204, position: 'relative' }}>
         <Box
           onClick={() => setIsOpen(!isOpen)}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '14px 16px',
-            border: '1px solid var(--blue-light-color)',
+            border: '2px solid var(--blue-light-color)',
             borderRadius: '10px',
             cursor: 'pointer',
             backgroundColor: 'white',
-            '&:hover': {
-              borderColor: 'var(--main-color)',
-            },
+            borderColor: isHovered
+              ? 'var(--main-color)'
+              : 'var(--blue-light-color)',
+            transition: 'border-color 0.2s ease',
           }}
         >
+          <motion.img
+            src='/icons/sort.svg'
+            alt='sort'
+            animate={{
+              scale: isHovered ? 1.1 : 1,
+              rotate: isHovered ? 5 : 0,
+            }}
+            transition={{ duration: 0.2 }}
+          />
+
           <Typography sx={{ color: 'var(--main-color)', fontSize: '16px' }}>
             {selectedOption?.label}
           </Typography>
-          <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <KeyboardArrowDownIcon sx={{ color: 'var(--main-color)' }} />
-          </motion.div>
         </Box>
 
         <AnimatePresence>

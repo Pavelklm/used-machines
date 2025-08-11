@@ -15,6 +15,7 @@ const BASE_OPERATORS = {
   // Kyivstar
   '067': { name: 'Kyivstar', color: '#185F8D', fallbackEmoji: '⭐' },
   '068': { name: 'Kyivstar', color: '#185F8D', fallbackEmoji: '⭐' },
+  '077': { name: 'Kyivstar', color: '#185F8D', fallbackEmoji: '⭐' },
   '096': { name: 'Kyivstar', color: '#185F8D', fallbackEmoji: '⭐' },
   '097': { name: 'Kyivstar', color: '#185F8D', fallbackEmoji: '⭐' },
   '098': { name: 'Kyivstar', color: '#185F8D', fallbackEmoji: '⭐' },
@@ -38,6 +39,7 @@ const BASE_OPERATORS = {
 export const OPERATORS: Record<string, IOperatorInfo> = {
   // Kyivstar
   '067': { ...BASE_OPERATORS['067'], icon: Kyivstar },
+  '077': { ...BASE_OPERATORS['077'], icon: Kyivstar },
   '068': { ...BASE_OPERATORS['068'], icon: Kyivstar },
   '096': { ...BASE_OPERATORS['096'], icon: Kyivstar },
   '097': { ...BASE_OPERATORS['097'], icon: Kyivstar },

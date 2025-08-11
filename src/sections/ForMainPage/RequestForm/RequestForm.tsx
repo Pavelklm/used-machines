@@ -1,22 +1,24 @@
 import Form from '@/components/forms/Form/Form'
 import { LineBackground } from '@/components/module/LineBackground/LineBackground'
 import { resetScrollToForm } from '@/context/slices/scrollSlice'
-import { RootState } from '@/context/store'
+import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import './style.css'
 
 export const RequestForm = () => {
   const formRef = useRef<HTMLDivElement>(null)
-  const scrollToForm = useSelector(
-    (state: RootState) => state.scroll.scrollToForm
+  const scrollToForm = useAppSelector(
+    (state) => state.scroll.scrollToForm
   )
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (scrollToForm && formRef.current) {
       formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      dispatch(resetScrollToForm())
+      
+      setTimeout(() => {
+        dispatch(resetScrollToForm())
+      }, 100) // Небольшая задержка для плавности
     }
   }, [scrollToForm, dispatch])
 
