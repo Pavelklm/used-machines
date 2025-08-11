@@ -14,6 +14,7 @@ interface Item {
   name: string
   isPlaceholder?: boolean
   product_name?: string
+  brand_name?: string
 }
 
 interface CardsProps {
@@ -22,23 +23,30 @@ interface CardsProps {
   animationKey?: string | number
 }
 
-export default function Cards({ items, itemsPerPage, animationKey }: CardsProps) {
+export default function Cards({
+  items,
+  itemsPerPage,
+  animationKey,
+}: CardsProps) {
   const [isAnimating, setIsAnimating] = useState(false)
 
-  // Переносим логику placeholder'ов сюда из usePagination
   const fullPageItems: (Item & { isPlaceholder?: boolean })[] = [
     ...items,
     ...Array.from({
       length: Math.max(0, itemsPerPage - items.length),
-    }).map((_, index) => ({
-      id: `placeholder-${index}`,
-      price: '',
-      currency: '',
-      url: '',
-      name: '',
-      product_name: '',
-      isPlaceholder: true,
-    } as Item & { isPlaceholder: boolean }))
+    }).map(
+      (_, index) =>
+        ({
+          id: `placeholder-${index}`,
+          brand_name: '',
+          price: '',
+          currency: '',
+          url: '',
+          name: '',
+          product_name: '',
+          isPlaceholder: true,
+        }) as Item & { isPlaceholder: boolean }
+    ),
   ]
 
   useEffect(() => {
@@ -186,6 +194,17 @@ export default function Cards({ items, itemsPerPage, animationKey }: CardsProps)
                         gap: 1,
                       }}
                     >
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          fontSize: '16px',
+                          fontWeight: '400',
+                          lineHeight: '19px',
+                          color: 'var(--main-color)',
+                        }}
+                      >
+                        {item.brand_name}
+                      </Typography>
                       <Typography
                         variant='body2'
                         sx={{

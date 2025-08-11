@@ -1,13 +1,15 @@
 import { loadProducts } from '@/api/loadProducts'
-import { setActiveScroll, setFilteredItems, clearFilteredItems } from '@/context/slices/filteredItemsSlice'
+import {
+  setActiveScroll,
+  setFilteredItems,
+} from '@/context/slices/filteredItemsSlice'
 import { resetScrollToCatalog } from '@/context/slices/scrollSlice'
 import { RootState } from '@/context/store'
-import { useScrollEndDetection } from '@/scripts/hooks/useScrollEndDetection'
-import { useProducts } from '@/scripts/hooks/useProducts'
 import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { usePagination } from '@/scripts/hooks/usePagination'
-import React, { useMemo, useState, useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useProducts } from '@/scripts/hooks/useProducts'
+import { useScrollEndDetection } from '@/scripts/hooks/useScrollEndDetection'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Cards from './Helpers/Cards'
 import Filters from './Helpers/Filters'
 import Pagination from './Helpers/Pagination'
@@ -20,26 +22,35 @@ export const Catalog = () => {
   const [animationKey, setAnimationKey] = useState(0)
 
   const dispatch = useAppDispatch()
-  const filteredItems = useAppSelector(state => state.filteredItems.filteredItems)
-  
-  // Логика из CatalogWrapper
-  const { products, loading } = useSelector((state: RootState) => state.products)
-  const scrollToCatalog = useSelector((state: RootState) => state.scroll.scrollToCatalog)
-  
-  const { startTracking, stopTracking } = useScrollEndDetection(() => {
-    dispatch(setActiveScroll(true))
-  }, {
-    threshold: 0.5,
-    stableFrames: 8,
-  })
-  
+  const filteredItems = useAppSelector(
+    (state) => state.filteredItems.filteredItems
+  )
+
+  const { products, loading } = useAppSelector(
+    (state: RootState) => state.products
+  )
+
+  const scrollToCatalog = useAppSelector(
+    (state: RootState) => state.scroll.scrollToCatalog
+  )
+
+  const { startTracking, stopTracking } = useScrollEndDetection(
+    () => {
+      dispatch(setActiveScroll(true))
+    },
+    {
+      threshold: 0.5,
+      stableFrames: 8,
+    }
+  )
+
   // useEffect для загрузки продуктов
   useEffect(() => {
     if (products.length === 0 && !loading) {
       dispatch(loadProducts() as any)
     }
   }, [])
-  
+
   // useEffect для скролла к каталогу
   useEffect(() => {
     if (scrollToCatalog && catalogRef.current) {
@@ -48,16 +59,17 @@ export const Catalog = () => {
       dispatch(resetScrollToCatalog())
     }
   }, [scrollToCatalog, dispatch])
-  
+
   // useEffect для cleanup
   useEffect(() => {
     return () => {
       stopTracking()
     }
   }, [])
-  
-  const { productsArray, filterOptionsByGroup, getFilteredProducts } = useProducts()
-  
+
+  const { productsArray, filterOptionsByGroup, getFilteredProducts } =
+    useProducts()
+
   const itemsToSort = useMemo(() => {
     if (filteredItems.length > 0) {
       return filteredItems
@@ -111,7 +123,11 @@ export const Catalog = () => {
           </div>
           <div className='catalog__items'>
             <div className='catalog__items__list'>
-              <Cards items={currentItems || []} itemsPerPage={6} animationKey={animationKey} />
+              <Cards
+                items={currentItems || []}
+                itemsPerPage={6}
+                animationKey={animationKey}
+              />
             </div>
             <div className='catalog__pagination'>
               <Pagination

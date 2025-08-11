@@ -1,5 +1,5 @@
-import { BrandInfo } from '@/types/products'
-import { useMemo, useCallback } from 'react'
+import { BrandInfo, Product } from '@/types/products'
+import { useCallback, useMemo } from 'react'
 import { useAppSelector } from './hooks'
 
 // Helper для построения asset URL
@@ -13,12 +13,10 @@ export const useProducts = () => {
   const directusUrl = import.meta.env.VITE_API_BASE_URL
 
   const allBrands = useMemo(() => {
-    // Убираем localStorage логику - антипаттерн в useMemo!
-    // Кеширование должно быть на уровне Redux или отдельного сервиса
     const seen = new Set<string>()
     const uniqueBrands: BrandInfo[] = []
 
-    products.forEach((product: any) => {
+    products.forEach((product: Product) => {
       const brand = product.brands_names
       if (!brand?.brand_name) return
 
@@ -35,20 +33,23 @@ export const useProducts = () => {
   }, [products, directusUrl])
 
   const productsArray = useMemo(() => {
-    // Оптимизируем: вместо Map.has в forEach используем reduce
-    const uniqueProducts = products.reduce((acc, product) => {
-      if (!acc[product.product_name]) {
-        acc[product.product_name] = {
-          id: product.id,
-          product_name: product.product_name,
-          price: product.price,
-          currency: product.currency_name?.currency_name,
-          url: buildAssetUrl(directusUrl, product.photo_url),
+    const uniqueProducts = products.reduce(
+      (acc, product) => {
+        if (!acc[product.product_name]) {
+          acc[product.product_name] = {
+            id: product.id,
+            product_name: product.product_name,
+            price: product.price,
+            currency: product.currency_name?.currency_name,
+            url: buildAssetUrl(directusUrl, product.photo_url),
+            brand_name: product.brands_names?.brand_name,
+          }
         }
-      }
-      return acc
-    }, {} as Record<string, any>)
-    
+        return acc
+      },
+      {} as Record<string, any>
+    )
+
     return Object.values(uniqueProducts)
   }, [products, directusUrl])
 
@@ -65,7 +66,6 @@ export const useProducts = () => {
           .filter((item) => item.categories_names?.categorie_name === category)
           .map((item) => item.equipments_names?.equipment_name)
 
-        // Инлайним uniqueStrings - убираем избыточную функцию
         acc[category] = Array.from(
           new Set(equipmentsForCategory.filter(Boolean) as string[])
         )
@@ -86,33 +86,45 @@ export const useProducts = () => {
     }
   }, [products, categories]) as Record<string, string[]>
 
-  // Мемоизируем функцию для оптимизации
-  const getFilteredProducts = useCallback((name: string) => {
-    return products
-      .filter(
-        (product) =>
-          product.equipments_names?.equipment_name === name ||
-          product.brands_names?.brand_name === name
-      )
-      .map((product) => ({
-        id: product.id,
-        currency: product.currency_name?.currency_name,
-        price: product.price,
-        product_name: product.product_name,
-        url: buildAssetUrl(directusUrl, product.photo_url),
-        equipment_name: product.equipments_names?.equipment_name,
-        brand: product.brands_names?.brand_name,
-        category: product.categories_names?.categorie_name,
-      }))
-  }, [products, directusUrl])
+  // В useProducts.ts, исправь getFilteredProducts:
+
+  const getFilteredProducts = useCallback(
+    (name: string) => {
+      return products
+        .filter(
+          (product) =>
+            product.equipments_names?.equipment_name === name ||
+            product.brands_names?.brand_name === name
+        )
+        .map((product) => ({
+          id: product.id,
+          currency: product.currency_name?.currency_name,
+          price: product.price,
+          product_name: product.product_name,
+          url: buildAssetUrl(directusUrl, product.photo_url),
+          equipment_name: product.equipments_names?.equipment_name,
+          // 🔥 ИСПРАВЛЯЕМ: было "brand", стало "brand_name"
+          brand_name: product.brands_names?.brand_name,
+          // 🆕 ДОБАВЛЯЕМ: изображение бренда тоже
+          brand_image: product.brands_names?.brand__image
+            ? buildAssetUrl(directusUrl, product.brands_names.brand__image)
+            : null,
+          category: product.categories_names?.categorie_name,
+        }))
+    },
+    [products, directusUrl]
+  )
 
   // Мемоизируем и эту функцию
-  const getCategoryFromEquipment = useCallback((equipment: string) => {
-    const category = Object.keys(filterOptionsByGroup).find((key) =>
-      filterOptionsByGroup[key].includes(equipment)
-    )
-    return category
-  }, [filterOptionsByGroup])
+  const getCategoryFromEquipment = useCallback(
+    (equipment: string) => {
+      const category = Object.keys(filterOptionsByGroup).find((key) =>
+        filterOptionsByGroup[key].includes(equipment)
+      )
+      return category
+    },
+    [filterOptionsByGroup]
+  )
 
   return {
     productsArray,

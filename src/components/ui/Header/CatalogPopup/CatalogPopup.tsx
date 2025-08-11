@@ -49,7 +49,11 @@ export const CatalogPopup = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const { filterOptionsByGroup, getCategoryFromEquipment, getFilteredProducts } = useProducts()
+  const {
+    filterOptionsByGroup,
+    getCategoryFromEquipment,
+    getFilteredProducts,
+  } = useProducts()
 
   type Keys = keyof typeof filterOptionsByGroup
 

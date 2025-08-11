@@ -19,6 +19,5 @@ export function usePagination<T>(items: T[], itemsPerPage: number) {
     setPage(newPage)
   }
 
-  // Чистая логика пагинации - только данные!
   return { page, pageCount, changePage, currentItems }
 }

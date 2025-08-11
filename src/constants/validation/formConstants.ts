@@ -60,9 +60,9 @@ export const ERROR_MESSAGES = {
 
 // Плейсхолдеры для полей формы
 export const FORM_PLACEHOLDERS = {
-  name: "Ваше ім'я",
+  name: "ім'я",
   phone: '+38 (067) 123-45-67',
-  email: 'Email (latin@example.com)',
+  email: 'Email',
   comment: "Коментар (необов'язково)",
 } as const
 
@@ -76,14 +76,14 @@ export const FORM_LABELS = {
 
 // Сообщения успеха
 export const SUCCESS_MESSAGES = {
-  formSubmitted: 'Дякуємо за заявку! Невдовзі ми з вами зв\'яжемося',
+  formSubmitted: "Дякуємо за заявку! Невдовзі ми з вами зв'яжемося",
   fieldValid: 'Поле заповнено правильно',
   allFieldsValid: 'Всі поля заповнені правильно',
 } as const
 
 // Сообщения подсказок
 export const HINT_MESSAGES = {
-  nameHint: 'Введіть ваше повне ім\'я',
+  nameHint: "Введіть ваше повне ім'я",
   phoneHint: 'Введіть український номер телефону',
   emailHint: 'Введіть діючу email адресу',
   commentHint: 'Додайте коментар за бажанням',
