@@ -1,11 +1,10 @@
 import {
   clearFilteredItems,
-  setCategory,
   setActiveEquipment,
   setActiveScroll,
+  setCategory,
   type FilteredItem,
 } from '@/context/slices/filteredItemsSlice'
-import { RootState } from '@/context/store'
 import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
@@ -18,15 +17,15 @@ import {
   Typography,
 } from '@mui/material'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
-import { useCallback, useState, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 // Константы
 const ALL_PRODUCTS = 'Уся продукція' as const
 
 // Типизация для состояния фильтров
 interface FilterState {
-  activeCategory: string | null  // какая категория раскрыта
-  selectedItem: string           // что выбрано (подсвечено)
+  activeCategory: string | null // какая категория раскрыта
+  selectedItem: string // что выбрано (подсвечено)
 }
 
 interface FiltersProps {
@@ -88,9 +87,9 @@ export default function Filters({
     activeCategory: null,
     selectedItem: ALL_PRODUCTS,
   })
-  
+
   const dispatch = useAppDispatch()
-  
+
   // Мемоизируем обратный индекс item -> category для оптимизации
   const itemToCategoryMap = useMemo(() => {
     const map: Record<string, string> = {}
@@ -101,12 +100,20 @@ export default function Filters({
     })
     return map
   }, [catalogDataByCategory])
-  
+
   // Оригинальные селекторы для восстановления состояния фильтров
   const category = useAppSelector((state) => state.filteredItems.category)
-  const equipment = useAppSelector((state) => state.filteredItems.activeEquipment)
-  const activeScroll = useAppSelector((state) => state.filteredItems.activeScroll)
-  
+  const equipment = useAppSelector(
+    (state) => state.filteredItems.activeEquipment
+  )
+  const filteredItems = useAppSelector(
+    (state) => state.filteredItems.filteredItems
+  )
+
+  const activeScroll = useAppSelector(
+    (state) => state.filteredItems.activeScroll
+  )
+
   // Упрощенная логика восстановления
   useEffect(() => {
     if (activeScroll && category && equipment) {
@@ -115,12 +122,13 @@ export default function Filters({
         selectedItem: equipment,
       })
       dispatch(setActiveScroll(false))
-      
-      // Применяем фильтр ПОСЛЕ скролла - это даст правильную последовательность!
+
       const filtered = getFilteredProducts(equipment)
-      setFilteredItems(filtered)
+      if (JSON.stringify(filtered) !== JSON.stringify(filteredItems)) {
+        setFilteredItems(filtered)
+      }
     }
-  }, [activeScroll, category, equipment, dispatch, getFilteredProducts, setFilteredItems])
+  }, [activeScroll, dispatch, getFilteredProducts, setFilteredItems])
 
   const handleToggle = useCallback((key: string) => {
     setFilterState((prev) => ({
@@ -131,14 +139,11 @@ export default function Filters({
 
   const handleClick = useCallback(
     (item: string) => {
-      // Используем оптимизированный поиск категории
       const categoryForItem = itemToCategoryMap[item]
-      
-      setFilterState({
-        activeCategory: categoryForItem || null,
-        selectedItem: item,
-      })
-      
+
+      dispatch(setCategory(categoryForItem || ''))
+      dispatch(setActiveEquipment(item))
+
       const filtered = getFilteredProducts(item)
       setFilteredItems(filtered)
     },
@@ -258,7 +263,10 @@ export default function Filters({
                                 filterState.selectedItem === item
                                   ? 'var(--main-color)'
                                   : 'transparent',
-                              color: filterState.selectedItem === item ? '#fff' : 'inherit',
+                              color:
+                                filterState.selectedItem === item
+                                  ? '#fff'
+                                  : 'inherit',
                               '&:hover': {
                                 backgroundColor: 'var(--blue-bright-color)',
                                 color: '#fff',

@@ -48,10 +48,7 @@ export const CatalogPopup = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const {
-    filterOptionsByGroup,
-    getCategoryFromEquipment,
-  } = useProducts()
+  const { filterOptionsByGroup, getCategoryFromEquipment } = useProducts()
 
   type Keys = keyof typeof filterOptionsByGroup
 
@@ -94,7 +91,6 @@ export const CatalogPopup = () => {
       navigate('/', {
         state: {
           shouldScrollToCatalog: true,
-          filteredBy: name,
         },
       })
     }

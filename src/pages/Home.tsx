@@ -1,3 +1,4 @@
+import SimpleAnimatedSection from '@/components/ui/AnimatedSection/SimpleAnimatedSection'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { About } from '@/sections/ForMainPage/About/About'
@@ -7,7 +8,6 @@ import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturer
 import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import SimpleAnimatedSection from '@/components/ui/AnimatedSection/SimpleAnimatedSection'
 
 const Home = () => {
   const location = useLocation()
@@ -16,7 +16,6 @@ const Home = () => {
   useEffect(() => {
     const state = location.state as {
       shouldScrollToCatalog?: boolean
-      filteredBy?: string
     } | null
 
     if (state?.shouldScrollToCatalog) {
@@ -34,28 +33,23 @@ const Home = () => {
 
   return (
     <div>
-      {/* Info секция - плавное появление при скролле */}
-      <SimpleAnimatedSection direction="fade" delay={0}>
+      <SimpleAnimatedSection direction='fade' delay={0}>
         <Info />
       </SimpleAnimatedSection>
 
-      {/* Каталог выезжает снизу */}
-      <SimpleAnimatedSection direction="up" delay={0.1}>
+      <SimpleAnimatedSection direction='fade' delay={0.1}>
         <Catalog />
       </SimpleAnimatedSection>
 
-      {/* О нас появляется слева */}
-      <SimpleAnimatedSection direction="left" delay={0.2}>
+      <SimpleAnimatedSection direction='fade' delay={0.1}>
         <About />
       </SimpleAnimatedSection>
 
-      {/* Форма запроса выезжает справа */}
-      <SimpleAnimatedSection direction="right" delay={0.1}>
+      <SimpleAnimatedSection direction='fade' delay={0.1}>
         <RequestForm />
       </SimpleAnimatedSection>
 
-      {/* Производители выезжают снизу */}
-      <SimpleAnimatedSection direction="up" delay={0.2}>
+      <SimpleAnimatedSection direction='fade' delay={0.1}>
         <Manufacturers />
       </SimpleAnimatedSection>
     </div>

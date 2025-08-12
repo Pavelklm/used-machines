@@ -17,9 +17,7 @@ export const useScrollEndDetection = (
       cancelAnimationFrame(rafRef.current)
     }
 
-    // Проверка на существование window (SSR)
     if (typeof window === 'undefined') {
-      onScrollEnd()
       return
     }
 

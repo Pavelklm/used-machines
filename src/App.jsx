@@ -1,7 +1,7 @@
 // App.jsx
+import '@/styles/animations.css'
 import '@/styles/global.css'
 import '@/styles/variables.css'
-import '@/styles/animations.css'
 import { lazy, Suspense } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
@@ -103,8 +103,6 @@ function App() {
         </Layout>
       </Suspense>
       
-      {/* Toaster должен быть ЗДЕСЬ - вне Layout но внутри Router */}
-      {/* Так он будет доступен на всех страницах но не будет дублироваться */}
       <Toaster {...TOAST_CONFIG} />
     </Router>
   )

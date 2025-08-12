@@ -1,17 +1,17 @@
 import { loadProducts } from '@/api/loadProducts'
 import {
+  clearFilteredItems,
   setActiveScroll,
   setFilteredItems,
-  clearFilteredItems,
   type FilteredItem,
 } from '@/context/slices/filteredItemsSlice'
 import { resetScrollToCatalog } from '@/context/slices/scrollSlice'
-import { RootState } from '@/context/store'
+import { store } from '@/context/store'
 import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { usePagination } from '@/scripts/hooks/usePagination'
 import { useProducts } from '@/scripts/hooks/useProducts'
 import { useScrollEndDetection } from '@/scripts/hooks/useScrollEndDetection'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Cards from './Helpers/Cards'
 import Filters from './Helpers/Filters'
 import Pagination from './Helpers/Pagination'
@@ -28,50 +28,49 @@ export const Catalog = () => {
     (state) => state.filteredItems.filteredItems
   )
 
-  const { products, loading } = useAppSelector(
-    (state) => state.products
-  )
+  const { products, loading } = useAppSelector((state) => state.products)
 
   const scrollToCatalog = useAppSelector(
     (state) => state.scroll.scrollToCatalog
   )
 
-  const { startTracking, stopTracking } = useScrollEndDetection(
-    () => {
+  const handleScrollEnd = useCallback(() => {
+    const state = store.getState()
+    const currentCategory = state.filteredItems.category
+    const currentEquipment = state.filteredItems.activeEquipment
+
+    if (currentCategory && currentEquipment) {
       dispatch(setActiveScroll(true))
-    },
+    }
+  }, [dispatch])
+
+  const { startTracking, stopTracking } = useScrollEndDetection(
+    handleScrollEnd,
     {
       threshold: 2,
       stableFrames: 15,
     }
   )
 
-  // useEffect для загрузки продуктов
   useEffect(() => {
     if (products.length === 0 && !loading) {
       dispatch(loadProducts() as any)
     }
-  }, [])
+  }, [dispatch, products.length, loading])
 
-  // useEffect для скролла к каталогу
   useEffect(() => {
     if (scrollToCatalog && catalogRef.current) {
       catalogRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      
-      setTimeout(() => {
-        startTracking()
-      }, 150)
-      
+      startTracking()
       dispatch(resetScrollToCatalog())
     }
-  }, [scrollToCatalog, dispatch, startTracking])
+  }, [scrollToCatalog, startTracking, dispatch])
 
-  // useEffect для cleanup
   useEffect(() => {
     return () => {
       stopTracking()
     }
-  }, [])
+  }, [stopTracking])
 
   const { productsArray, filterOptionsByGroup, getFilteredProducts } =
     useProducts()
@@ -100,15 +99,18 @@ export const Catalog = () => {
     6
   )
 
-  const handleFilterChange = (items: FilteredItem[]) => {
-    dispatch(setFilteredItems(items))
-    setAnimationKey((prev) => prev + 1)
-  }
+  const handleFilterChange = useCallback(
+    (items: FilteredItem[]) => {
+      dispatch(setFilteredItems(items))
+      setAnimationKey((prev) => prev + 1)
+    },
+    [dispatch]
+  )
 
-  const handleShowAllProducts = () => {
+  const handleShowAllProducts = useCallback(() => {
     dispatch(clearFilteredItems())
     setAnimationKey((prev) => prev + 1)
-  }
+  }, [dispatch])
 
   return (
     <div ref={catalogRef} className='catalog'>

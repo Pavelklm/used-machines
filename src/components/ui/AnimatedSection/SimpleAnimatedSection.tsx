@@ -12,10 +12,8 @@ const SimpleAnimatedSection = ({
   children,
   direction = 'up',
   delay = 0,
-  className = ''
+  className = '',
 }: SimpleAnimatedSectionProps) => {
-  
-  // Простые варианты анимации без useInView
   const variants = {
     hidden: {
       opacity: 0,
@@ -28,18 +26,17 @@ const SimpleAnimatedSection = ({
       y: 0,
       x: 0,
       scale: 1,
-    }
+    },
   }
 
   return (
     <motion.div
       className={`animate-section ${className}`}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ 
-        once: true, // Анимация срабатывает только один раз
-        amount: 0.2, // Когда видно 20% элемента
-        margin: "0px 0px -50px 0px" // Начинаем анимацию чуть раньше
+      initial='hidden'
+      whileInView='visible'
+      viewport={{
+        once: true,
+        amount: 0.05,
       }}
       variants={variants}
       transition={{

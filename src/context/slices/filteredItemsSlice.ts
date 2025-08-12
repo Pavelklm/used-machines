@@ -33,7 +33,6 @@ export const filteredItemsSlice = createSlice({
   name: 'filteredItems',
   initialState,
   reducers: {
-    // Типизируем actions
     setFilteredItems: (state, action: PayloadAction<FilteredItem[]>) => {
       state.filteredItems = action.payload
     },

@@ -1,11 +1,10 @@
-import { setOverlay } from '@/context/slices/overlaySlice'
-import { useAppDispatch } from '@/scripts/hooks/hooks'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import ZoomInIcon from '@mui/icons-material/ZoomIn'
 import { Box, Card, CardMedia, IconButton, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 export const ImageGallery = ({
   images,
@@ -25,12 +24,19 @@ export const ImageGallery = ({
   const [isModalOpen, setIsModalOpen] = useState(false)
   const maxVisibleThumbnails = 3
   const hasMultipleImages = images.length > 1
-  const dispatch = useAppDispatch()
+
 
   useEffect(() => {
     if (!isModalOpen) return
 
-    dispatch(setOverlay(true))
+    // Блокируем скролл более агрессивно
+    const originalOverflow = document.body.style.overflow
+    const originalPosition = document.body.style.position
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.width = '100%'
+    document.body.style.top = '0'
+
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowLeft':
@@ -66,7 +72,11 @@ export const ImageGallery = ({
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
-      dispatch(setOverlay(false))
+      // Восстанавливаем скролл
+      document.body.style.overflow = originalOverflow || 'auto'
+      document.body.style.position = originalPosition || 'static'
+      document.body.style.width = ''
+      document.body.style.top = ''
     }
   }, [isModalOpen, currentImageIndex, images.length, setCurrentImageIndex])
 
@@ -292,7 +302,7 @@ export const ImageGallery = ({
       </Box>
 
       {/* Модалка */}
-      {isModalOpen && (
+      {isModalOpen && createPortal(
         <Box
           sx={{
             position: 'fixed',
@@ -300,12 +310,11 @@ export const ImageGallery = ({
             left: 0,
             right: 0,
             bottom: 0,
+            width: '100vw',
+            height: '100vh',
             backdropFilter: 'blur(8px)',
             background: 'rgba(43, 76, 126, 0.4)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9999,
+            zIndex: 99999,
             animation: 'fadeIn 0.3s ease',
             '@keyframes fadeIn': {
               '0%': { opacity: 0 },
@@ -314,28 +323,7 @@ export const ImageGallery = ({
           }}
           onClick={() => setIsModalOpen(false)}
         >
-          <Box
-            sx={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}
-          >
-            <Box
-              sx={{
-                maxWidth: 'auto',
-                maxHeight: '100vh',
-                '@keyframes zoomIn': {
-                  '0%': { transform: 'scale(0.5)', opacity: 0 },
-                  '100%': { transform: 'scale(1)', opacity: 1 },
-                },
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
+          <Box onClick={(e) => e.stopPropagation()}>
               <Typography
                 variant='h6'
                 sx={{
@@ -491,9 +479,9 @@ export const ImageGallery = ({
                   </IconButton>
                 </Box>
               )}
-            </Box>
           </Box>
-        </Box>
+        </Box>,
+        document.body
       )}
     </Box>
   )

@@ -31,7 +31,6 @@ export const Manufacturers = () => {
       navigate('/', {
         state: {
           shouldScrollToCatalog: true,
-          filteredBy: brandName,
         },
       })
     }
