@@ -25,7 +25,6 @@ export const ImageGallery = ({
   const maxVisibleThumbnails = 3
   const hasMultipleImages = images.length > 1
 
-
   useEffect(() => {
     if (!isModalOpen) return
 
@@ -42,16 +41,12 @@ export const ImageGallery = ({
         case 'ArrowLeft':
         case 'ArrowUp':
           e.preventDefault()
-          if (currentImageIndex > 0) {
-            setCurrentImageIndex(currentImageIndex - 1)
-          }
+          setCurrentImageIndex(currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1)
           break
         case 'ArrowRight':
         case 'ArrowDown':
           e.preventDefault()
-          if (currentImageIndex < images.length - 1) {
-            setCurrentImageIndex(currentImageIndex + 1)
-          }
+          setCurrentImageIndex(currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1)
           break
         case 'Escape':
           e.preventDefault()
@@ -82,35 +77,41 @@ export const ImageGallery = ({
 
   const getThumbnailRange = () => {
     if (images.length <= maxVisibleThumbnails) {
-      return { start: 0, end: images.length }
+      return { start: 0, end: images.length, indices: Array.from({ length: images.length }, (_, i) => i) }
     }
 
     const halfVisible = Math.floor(maxVisibleThumbnails / 2)
-    let start = currentImageIndex - halfVisible
-    let end = currentImageIndex + halfVisible + 1
-
-    if (start < 0) {
-      end = end - start
-      start = 0
+    const indices = []
+    
+    for (let i = -halfVisible; i <= halfVisible; i++) {
+      let index = currentImageIndex + i
+      // Циклическая логика
+      if (index < 0) {
+        index = images.length + index
+      } else if (index >= images.length) {
+        index = index - images.length
+      }
+      indices.push(index)
     }
-    if (end > images.length) {
-      start = start - (end - images.length)
-      end = images.length
-    }
-
-    return { start: Math.max(0, start), end: Math.min(images.length, end) }
+    
+    return { start: 0, end: indices.length, indices }
   }
 
-  const { start: thumbnailStartIndex, end: thumbnailEndIndex } =
-    getThumbnailRange()
-  const visibleThumbnails = images.slice(thumbnailStartIndex, thumbnailEndIndex)
+  const { indices: visibleIndices } = getThumbnailRange()
+  const visibleThumbnails = visibleIndices.map(index => ({ image: images[index], index }))
 
   const navigationButtonStyles = {
     width: '40px',
     height: '40px',
     border: '1px solid var(--blue-light-color)',
     borderRadius: '10px',
-    '&:hover': { backgroundColor: 'var(--blue-light-color)' },
+    backgroundColor: '#fff',
+    '&:hover': {
+      backgroundColor: 'var(--blue-bright-color)',
+      '& .MuiSvgIcon-root': {
+        color: '#fff',
+      },
+    },
     '&:disabled': { opacity: 0.3 },
   }
 
@@ -128,9 +129,8 @@ export const ImageGallery = ({
         >
           <IconButton
             onClick={() =>
-              setCurrentImageIndex(Math.max(0, currentImageIndex - 1))
+              setCurrentImageIndex(currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1)
             }
-            disabled={currentImageIndex === 0}
             sx={{ ...navigationButtonStyles, mb: 1 }}
           >
             <KeyboardArrowUpIcon sx={{ color: 'var(--main-color)' }} />
@@ -145,8 +145,8 @@ export const ImageGallery = ({
               justifyContent: 'center',
             }}
           >
-            {visibleThumbnails.map((image: string, index: number) => {
-              const actualIndex = thumbnailStartIndex + index
+            {visibleThumbnails.map((thumbnail, index: number) => {
+              const actualIndex = thumbnail.index
               const isActive = currentImageIndex === actualIndex
 
               return (
@@ -169,17 +169,19 @@ export const ImageGallery = ({
                         : 'none',
                       position: 'relative',
                       boxShadow: isActive ? 'none' : 'none',
-                      '&::before': !isActive ? {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: '#04022966',
-                        zIndex: 1,
-                        borderRadius: '10px',
-                      } : {},
+                      '&::before': !isActive
+                        ? {
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: '#04022966',
+                            zIndex: 1,
+                            borderRadius: '10px',
+                          }
+                        : {},
                       borderRadius: '10px',
                       overflow: 'hidden',
                       transition: 'all 0.2s ease',
@@ -192,7 +194,7 @@ export const ImageGallery = ({
                   >
                     <CardMedia
                       component='img'
-                      image={`${directusUrl}assets/${image}`}
+                      image={`${directusUrl}assets/${thumbnail.image}`}
                       alt={`${productName} - зображення ${actualIndex + 1}`}
                       sx={{
                         width: '100%',
@@ -209,11 +211,8 @@ export const ImageGallery = ({
 
           <IconButton
             onClick={() =>
-              setCurrentImageIndex(
-                Math.min(images.length - 1, currentImageIndex + 1)
-              )
+              setCurrentImageIndex(currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1)
             }
-            disabled={currentImageIndex === images.length - 1}
             sx={{ ...navigationButtonStyles }}
           >
             <KeyboardArrowDownIcon sx={{ color: 'var(--main-color)' }} />
@@ -302,28 +301,51 @@ export const ImageGallery = ({
       </Box>
 
       {/* Модалка */}
-      {isModalOpen && createPortal(
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            width: '100vw',
-            height: '100vh',
-            backdropFilter: 'blur(8px)',
-            background: 'rgba(43, 76, 126, 0.4)',
-            zIndex: 99999,
-            animation: 'fadeIn 0.3s ease',
-            '@keyframes fadeIn': {
-              '0%': { opacity: 0 },
-              '100%': { opacity: 1 },
-            },
-          }}
-          onClick={() => setIsModalOpen(false)}
-        >
-          <Box onClick={(e) => e.stopPropagation()}>
+      {isModalOpen &&
+        createPortal(
+          <Box
+            sx={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: '100vw',
+              height: '100vh',
+              backdropFilter: 'blur(8px)',
+              background: 'rgba(43, 76, 126, 0.4)',
+              zIndex: 99999,
+              animation: 'fadeIn 0.3s ease',
+              '@keyframes fadeIn': {
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              },
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '40px',
+            }}
+            onClick={() => setIsModalOpen(false)}
+          >
+            <Box 
+              onClick={(e) => e.stopPropagation()}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 'clamp(12px, 2vh, 20px)',
+                maxWidth: 'min(95vw, 1200px)',
+                maxHeight: '95vh',
+                minWidth: 'clamp(320px, 80vw, 400px)',
+                // Адаптивные отступы
+                padding: {
+                  xs: '10px',
+                  sm: '15px', 
+                  md: '20px'
+                },
+              }}
+            >
+              {/* Название товара */}
               <Typography
                 variant='h6'
                 sx={{
@@ -333,56 +355,78 @@ export const ImageGallery = ({
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: '5px',
-                  width: '660px',
-                  position: 'absolute',
-                  left: '50%',
-                  transform: 'translate(-50%)',
-                  marginTop: '46px',
-                  fontSize: '26px',
+                  fontSize: 'clamp(18px, 2.5vw, 26px)',
                   fontWeight: '400',
+                  padding: '8px 40px',
+                  textAlign: 'center',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '100%',
                 }}
               >
                 {productName}
               </Typography>
 
-              <CardMedia
-                component='img'
-                image={`${directusUrl}assets/${images[currentImageIndex] || images[0]}`}
-                alt={`${productName} - увеличено`}
+              {/* Основная картинка */}
+              <Box
                 sx={{
-                  position: 'absolute',
-                  maxWidth: 'auto',
-                  width: 'auto',
-                  maxHeight: '70vh',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  objectFit: 'contain',
-                  borderRadius: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  // Умная высота: минимум 300px, максимум 70vh, но не больше 800px
+                  height: 'clamp(300px, 70vh, 800px)',
+                  // На маленьких экранах немного больше места
+                  '@media (max-width: 768px)': {
+                    height: 'clamp(250px, 60vh, 500px)',
+                  },
                 }}
-              />
+              >
+                <CardMedia
+                  component='img'
+                  image={`${directusUrl}assets/${images[currentImageIndex] || images[0]}`}
+                  alt={`${productName} - увеличено`}
+                  sx={{
+                    // Умная ширина: минимум 300px, максимум контейнера, но не больше 900px
+                    width: 'clamp(300px, 100%, 900px)',
+                    // Высота подстраивается под ширину, но не больше контейнера
+                    height: '100%',
+                    objectFit: 'contain',
+                    borderRadius: '20px',
+                    // На очень маленьких экранах уменьшаем минимальную ширину
+                    '@media (max-width: 480px)': {
+                      width: 'clamp(250px, 95vw, 400px)',
+                    },
+                    // На больших экранах ограничиваем максимальный размер
+                    '@media (min-width: 1920px)': {
+                      maxWidth: '1000px',
+                      maxHeight: '700px',
+                    },
+                  }}
+                />
+              </Box>
 
+              {/* Навигация с миниатюрами */}
               {hasMultipleImages && (
                 <Box
                   sx={{
                     display: 'flex',
-                    position: 'absolute',
-                    left: '50%',
-                    bottom: '0',
-                    transform: 'translate(-50%, -20%)',
                     flexDirection: 'row',
                     alignItems: 'center',
                     gap: '10px',
+                    width: '100%',
+                    justifyContent: 'center',
                   }}
                 >
                   <IconButton
                     onClick={() =>
-                      setCurrentImageIndex(Math.max(0, currentImageIndex - 1))
+                      setCurrentImageIndex(currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1)
                     }
-                    disabled={currentImageIndex === 0}
                     sx={{
                       ...navigationButtonStyles,
                       transform: 'rotate(270deg)',
+                      flexShrink: 0,
                     }}
                   >
                     <KeyboardArrowUpIcon sx={{ color: 'var(--main-color)' }} />
@@ -392,14 +436,15 @@ export const ImageGallery = ({
                     sx={{
                       display: 'flex',
                       flexDirection: 'row',
-                      height: '100%',
-                      gap: '14px',
+                      gap: 'clamp(8px, 1.5vw, 14px)',
                       justifyContent: 'center',
+                      alignItems: 'center',
                     }}
                   >
-                    {visibleThumbnails.map((image: string, index: number) => {
-                      const actualIndex = thumbnailStartIndex + index
+                    {visibleThumbnails.map((thumbnail, index: number) => {
+                      const actualIndex = thumbnail.index
                       const isActive = currentImageIndex === actualIndex
+                      const thumbnailSize = 'clamp(50px, 8vw, 83px)'
 
                       return (
                         <motion.div
@@ -413,27 +458,27 @@ export const ImageGallery = ({
                           <Card
                             onClick={() => setCurrentImageIndex(actualIndex)}
                             sx={{
-                              width: '83px',
-                              height: '83px',
+                              width: thumbnailSize,
+                              height: thumbnailSize,
                               cursor: 'pointer',
                               border: isActive
                                 ? '2px solid var(--blue-bright-color)'
                                 : 'none',
                               position: 'relative',
-                              boxShadow: isActive
-                                ? 'none'
-                                : 'none',
-                              '&::before': !isActive ? {
-                                content: '""',
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                backgroundColor: '#04022966',
-                                zIndex: 1,
-                                borderRadius: '10px',
-                              } : {},
+                              boxShadow: isActive ? 'none' : 'none',
+                              '&::before': !isActive
+                                ? {
+                                    content: '""',
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    backgroundColor: '#04022966',
+                                    zIndex: 1,
+                                    borderRadius: '10px',
+                                  }
+                                : {},
                               borderRadius: '10px',
                               overflow: 'hidden',
                               transition: 'all 0.2s ease',
@@ -446,7 +491,7 @@ export const ImageGallery = ({
                           >
                             <CardMedia
                               component='img'
-                              image={`${directusUrl}assets/${image}`}
+                              image={`${directusUrl}assets/${thumbnail.image}`}
                               alt={`${productName} - зображення ${actualIndex + 1}`}
                               sx={{
                                 width: '100%',
@@ -463,14 +508,12 @@ export const ImageGallery = ({
 
                   <IconButton
                     onClick={() =>
-                      setCurrentImageIndex(
-                        Math.min(images.length - 1, currentImageIndex + 1)
-                      )
+                      setCurrentImageIndex(currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1)
                     }
-                    disabled={currentImageIndex === images.length - 1}
                     sx={{
                       ...navigationButtonStyles,
                       transform: 'rotate(270deg)',
+                      flexShrink: 0,
                     }}
                   >
                     <KeyboardArrowDownIcon
@@ -479,10 +522,10 @@ export const ImageGallery = ({
                   </IconButton>
                 </Box>
               )}
-          </Box>
-        </Box>,
-        document.body
-      )}
+            </Box>
+          </Box>,
+          document.body
+        )}
     </Box>
   )
 }

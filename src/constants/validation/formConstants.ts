@@ -60,8 +60,8 @@ export const ERROR_MESSAGES = {
 
 // Плейсхолдеры для полей формы
 export const FORM_PLACEHOLDERS = {
-  name: "ім'я",
-  phone: '+38 (067) 123-45-67',
+  name: "Ім'я",
+  phone: '+38 (067) 000-00-00',
   email: 'Email',
   comment: "Коментар (необов'язково)",
 } as const

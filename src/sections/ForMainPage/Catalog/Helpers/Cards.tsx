@@ -148,7 +148,7 @@ export default function Cards({
                   <Typography
                     variant='body2'
                     sx={{
-                      color: 'text.secondary',
+                      color: 'var(--blue-light-color)',
                       textAlign: 'center',
                       fontSize: '18px',
                       fontWeight: '400',
