@@ -1,16 +1,7 @@
-/* animations.css - CSS анимации для скролл-эффектов */
-
-/* Базовые стили только для анимированных секций */
 .animate-section {
   will-change: transform, opacity;
 }
 
-/* Плавный скролл */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Улучшенный лоадер с анимацией */
 .dots-spinner {
   display: flex;
   gap: 8px;
@@ -25,12 +16,20 @@ html {
   animation: dots-bounce 1.4s ease-in-out infinite both;
 }
 
-.dots-spinner > div:nth-child(1) { animation-delay: -0.32s; }
-.dots-spinner > div:nth-child(2) { animation-delay: -0.16s; }
-.dots-spinner > div:nth-child(3) { animation-delay: 0s; }
+.dots-spinner > div:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.dots-spinner > div:nth-child(2) {
+  animation-delay: -0.16s;
+}
+.dots-spinner > div:nth-child(3) {
+  animation-delay: 0s;
+}
 
 @keyframes dots-bounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0.8);
     opacity: 0.6;
   }
@@ -50,15 +49,12 @@ html {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* Оптимизация для мобильных устройств */
 @media (max-width: 768px) {
   .animate-section {
-    /* Более быстрые анимации на мобильных */
     transition-duration: 0.4s !important;
   }
 }
 
-/* Уважение к пользователям с отключенными анимациями */
 @media (prefers-reduced-motion: reduce) {
   .animate-section,
   *,

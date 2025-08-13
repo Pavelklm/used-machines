@@ -1,5 +1,5 @@
 import { setSearchOverlay } from '@/context/slices/overlaySlice'
-import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
+import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { useProducts } from '@/scripts/hooks/useProducts'
 import { Autocomplete, Box, TextField } from '@mui/material'
 import { useCallback, useMemo, useState } from 'react'
@@ -16,8 +16,8 @@ interface HighlightPart {
 }
 
 export default function Search() {
-  const { productsArray } = useProducts()
-  const loading = useAppSelector((state) => state.products.loading)
+  const { productsArray, isLoading } = useProducts()
+
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [inputValue, setInputValue] = useState('')
@@ -124,7 +124,7 @@ export default function Search() {
         open={open}
         options={hasInput ? options : []}
         getOptionLabel={(option) => option.label}
-        loading={loading && hasInput}
+        loading={isLoading && hasInput}
         noOptionsText={hasInput ? 'Нічого не знайдено' : ''}
         onOpen={handleOpen}
         onClose={handleClose}

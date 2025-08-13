@@ -1,15 +1,14 @@
 import { BrandInfo, Product } from '@/types/products'
 import { useCallback, useMemo } from 'react'
-import { useAppSelector } from './hooks'
-
-// Helper для построения asset URL
+import { useProductsQuery } from './useProductsQuery'
 const buildAssetUrl = (baseUrl: string, assetPath: string) => {
   if (!assetPath) return ''
   return `${baseUrl}assets/${assetPath}`
 }
 
 export const useProducts = () => {
-  const products = useAppSelector((state) => state.products.products)
+  const { data: products = [], isLoading, error } = useProductsQuery()
+
   const directusUrl = import.meta.env.VITE_API_BASE_URL
 
   const allBrands = useMemo(() => {
@@ -43,7 +42,7 @@ export const useProducts = () => {
             currency: product.currency_name?.currency_name,
             url: buildAssetUrl(directusUrl, product.photo_url),
             brand_name: product.brands_names?.brand_name,
-            brand_image: product.brands_names?.brand__image 
+            brand_image: product.brands_names?.brand__image
               ? buildAssetUrl(directusUrl, product.brands_names.brand__image)
               : null,
           }
@@ -131,5 +130,7 @@ export const useProducts = () => {
     getFilteredProducts,
     allBrands,
     getCategoryFromEquipment,
+    isLoading,
+    error,
   }
 }

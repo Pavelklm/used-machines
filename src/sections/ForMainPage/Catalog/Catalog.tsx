@@ -1,4 +1,3 @@
-import { loadProducts } from '@/api/loadProducts'
 import {
   clearFilteredItems,
   setActiveScroll,
@@ -28,8 +27,6 @@ export const Catalog = () => {
     (state) => state.filteredItems.filteredItems
   )
 
-  const { products, loading } = useAppSelector((state) => state.products)
-
   const scrollToCatalog = useAppSelector(
     (state) => state.scroll.scrollToCatalog
   )
@@ -51,12 +48,6 @@ export const Catalog = () => {
       stableFrames: 15,
     }
   )
-
-  useEffect(() => {
-    if (products.length === 0 && !loading) {
-      dispatch(loadProducts() as any)
-    }
-  }, [dispatch, products.length, loading])
 
   useEffect(() => {
     if (scrollToCatalog && catalogRef.current) {
