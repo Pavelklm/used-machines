@@ -118,13 +118,14 @@ export default function Cards({
                     width: 289,
                     height: '383px',
                     borderRadius: '10px',
-                    border: '1px dashed var(--blue-light-color)',
+                    border: '1px solid var(--blue-light-color)',
                     opacity: 0.6,
                     pointerEvents: 'none',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     position: 'relative',
+                    boxShadow: 'none',
                   }}
                 >
                   <img

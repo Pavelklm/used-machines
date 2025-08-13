@@ -1,17 +1,16 @@
 // App.jsx
+import ScrollToTop from '@/scripts/utils/ScrollToTop.tsx'
 import '@/styles/animations.css'
 import '@/styles/global.css'
 import '@/styles/variables.css'
 import { lazy, Suspense, useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import ScrollToTop from '@/components/ScrollToTop'
 
 const Layout = lazy(() => import('@/components/layouts/Layout'))
 const Home = lazy(() => import('./pages/Home'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
 
-// Конфигурация тостера - выносим отдельно для читаемости
 const TOAST_CONFIG = {
   position: 'top-right',
   reverseOrder: false,
@@ -95,7 +94,6 @@ const LayoutLoader = () => (
 )
 
 function App() {
-  // Отключаем browser scroll restoration
   useEffect(() => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual'
