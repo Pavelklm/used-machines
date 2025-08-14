@@ -1,0 +1,17 @@
+/* Фикс отступов для MUI Autocomplete listbox */
+.MuiAutocomplete-listbox {
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+
+/* Для автогенерируемых классов MUI v7 */
+[class*="MuiAutocomplete-listbox"] {
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+
+/* Альтернативный селектор по роли */
+ul[role="listbox"][class*="MuiAutocomplete"] {
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}

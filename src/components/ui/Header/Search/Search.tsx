@@ -138,6 +138,7 @@ export default function Search() {
             sx: {
               marginTop: '31px',
               borderRadius: '20px',
+              padding: '10px 10px 10px 10px',
               boxShadow: '0 4px 20px var(--blue-light-color)',
               zIndex: 1003,
               '& .MuiAutocomplete-option': {
@@ -147,6 +148,11 @@ export default function Search() {
                   color: 'white',
                 },
               },
+            },
+          },
+          listbox: {
+            sx: {
+              paddingRight: '10px',
             },
           },
           popupIndicator: {
