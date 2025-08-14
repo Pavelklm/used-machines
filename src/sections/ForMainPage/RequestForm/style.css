@@ -12,7 +12,3 @@
   /* Scroll offset для учета fixed header */
   scroll-margin-top: var(--scroll-total-offset);
 }
-
-.full-width-line-form {
-  bottom: -2px;
-}

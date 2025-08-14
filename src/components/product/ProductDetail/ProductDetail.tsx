@@ -1,3 +1,4 @@
+import { LineBackground } from '@/components/module/LineBackground/LineBackground'
 import MainButton from '@/components/module/MainButton/MainButton'
 import { FormattedText } from '@/components/ui/FormattedText/FormattedText'
 import { Product } from '@/types/products'
@@ -81,10 +82,10 @@ const ProductInfo = ({ product }: { product: Product }) => {
         <Typography
           variant='body1'
           sx={{
-            color: '#6c757d',
-            fontSize: '1rem',
-            lineHeight: 1.6,
-            fontWeight: 400,
+            color: 'var(--main-color)',
+            fontSize: '16px',
+            fontWeight: '400',
+            lineHeight: '19px',
             mb: 3,
             fontStyle: 'italic',
             textAlign: 'flex-start',
@@ -119,7 +120,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
                         lineHeight: '32px',
                         fontVariantNumeric: 'tabular-nums',
                         opacity: 0,
-                        animation: `fadeInUp 0.5s ease-out ${index * 0.05}s forwards`,
+                        animation: `fadeInUp 0.5s ease-out ${index * 0.1}s forwards`,
                         whiteSpace: 'pre', // Сохраняем пробелы
                         '@keyframes fadeInUp': {
                           '0%': { opacity: 0, transform: 'translateY(10px)' },
@@ -133,11 +134,11 @@ const ProductInfo = ({ product }: { product: Product }) => {
                 </Box>
                 <Typography
                   sx={{
-                    color: '#000',
+                    color: 'var(--main-color)',
                     fontSize: '26px',
                     fontWeight: '400',
                     opacity: 0,
-                    animation: `fadeIn 0.5s ease-out ${digits.length * 0.05 + 0.2}s forwards`,
+                    animation: `fadeIn 0.2s ease-out ${digits.length * 0.1 + 0.3}s forwards`,
                     '@keyframes fadeIn': {
                       '0%': { opacity: 0 },
                       '100%': { opacity: 1 },
@@ -169,21 +170,26 @@ const TabButton = ({
   <Box
     onClick={onClick}
     sx={{
-      padding: '16px 32px',
-      borderRadius: '20px',
+      padding: '20px 40px 35px 40px',
+      width: '100%',
+      height: '68px',
+      display: 'flex',
+      justifyContent: 'center',
+      borderRadius: '15px 15px 0 0',
       cursor: 'pointer',
-      transition: 'all 0.3s ease',
-      background: isActive
-        ? 'var(--main-color)'
-        : 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
-      color: isActive ? '#ffffff' : '#6c757d',
-      fontWeight: 600,
-      fontSize: '1.1rem',
-      border: isActive ? 'none' : '1px solid rgba(255, 255, 255, 0.2)',
+      background: isActive ? '#ffffff' : 'transparent',
+      transform: 'translateZ(0)',
+      backfaceVisibility: 'hidden',
+      transition: 'background-color 0.15s ease-out',
+      color: isActive ? 'var(--main-color)' : '#ffffff',
+      fontSize: '18px',
+      fontWeight: '400',
+      lineHeight: '21px',
+      border: 'none',
+      alignItems: 'flex-start',
+      zIndex: isActive ? 2 : 1,
       '&:hover': {
-        background: isActive ? 'var(--main-color)' : 'var(--blue-bright-color)',
-        color: '#ffffff',
-        transform: 'translateY(-2px)',
+        background: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.1)',
       },
     }}
   >
@@ -316,13 +322,20 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
         </Box>
       </Box>
 
-      <Box sx={{ mt: '150px' }}>
+      <Box sx={{ mt: '150px', position: 'relative' }}>
+        <LineBackground className='full-width-line-product-detail' />
         <Box
           sx={{
             display: 'flex',
-            gap: 2,
             mb: '40px',
-            justifyContent: 'center',
+            width: '480px',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-end',
+            height: '75px',
+            position: 'relative',
+            gap: '10px',
+            zIndex: 1,
+            overflow: 'visible',
           }}
         >
           <TabButton
@@ -339,7 +352,7 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
           </TabButton>
         </Box>
 
-        <Box sx={{ height: '100%' }}>
+        <Box sx={{ height: '100%', marginTop: '20px' }}>
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, x: 20 }}
