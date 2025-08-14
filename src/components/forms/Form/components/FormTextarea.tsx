@@ -21,6 +21,7 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   return (
     <div className='request-form-input-wrapper'>
       <textarea
+        style={{ resize: 'none' }}
         name={name}
         placeholder={FORM_PLACEHOLDERS[name as keyof typeof FORM_PLACEHOLDERS]}
         value={value}

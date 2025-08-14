@@ -7,18 +7,14 @@ import './style.css'
 
 export const RequestForm = () => {
   const formRef = useRef<HTMLDivElement>(null)
-  const scrollToForm = useAppSelector(
-    (state) => state.scroll.scrollToForm
-  )
+  const scrollToForm = useAppSelector((state) => state.scroll.scrollToForm)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (scrollToForm && formRef.current) {
       formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      
-      setTimeout(() => {
-        dispatch(resetScrollToForm())
-      }, 100) // Небольшая задержка для плавности
+
+      dispatch(resetScrollToForm())
     }
   }, [scrollToForm, dispatch])
 

@@ -80,7 +80,7 @@ const Form: React.FC = () => {
               className='request-form-button default_button btn-reset'
               aria-busy={isSubmitting}
             >
-              {isSubmitting ? 'Відправка...' : 'Отримати консультацію'}
+              {isSubmitting ? 'Відправляємо...' : 'Отримати консультацію'}
             </button>
 
             <p

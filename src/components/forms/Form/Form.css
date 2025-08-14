@@ -126,33 +126,6 @@
   opacity: 0.7;
 }
 
-/* Политика конфиденциальности */
-.request-form-privacy-policy {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 18px;
-  color: var(--blue-color);
-  text-align: center;
-  margin-top: 8px;
-}
-
-/* Анимация загрузки */
-@keyframes pulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.request-form-button:disabled {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
 .request-form-input-with-operator {
   padding-right: 120px !important;
 }
@@ -356,4 +329,69 @@
   height: 25px;
   width: auto;
   flex-shrink: 0;
+}
+
+/* Микроанимации для кнопки */
+.request-form-button {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Эффект ripple при клике */
+.request-form-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.6s,
+    height 0.6s;
+}
+
+.request-form-button:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Вибрация и эффекты при отправке */
+.request-form-button:disabled {
+  background: linear-gradient(135deg, var(--blue-bright-color), var(--main-color), var(--blue-bright1-color)) !important;
+  cursor: not-allowed;
+  opacity: 0.9;
+  animation: liquid-morph 4s ease-in-out infinite;
+}
+
+/* Liquid morphing анимация */
+@keyframes liquid-morph {
+  0%, 100% { 
+    border-radius: 8px;
+    transform: scale(1);
+  }
+  25% { 
+    border-radius: 20px 8px 20px 8px;
+    transform: scale(1.05);
+  }
+  50% { 
+    border-radius: 8px 20px 8px 20px;
+    transform: scale(0.95);
+  }
+  75% { 
+    border-radius: 30px 8px 30px 8px;
+    transform: scale(1.02);
+  }
+}
+
+/* Политика конфиденциальности */
+.request-form-privacy-policy {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 18px;
+  color: var(--blue-color);
+  text-align: center;
+  margin-top: 8px;
 }
