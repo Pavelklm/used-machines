@@ -42,21 +42,21 @@ const formatPrice = (price: number) => {
 const formatPriceWithGroups = (price: number) => {
   const numStr = Math.floor(price || 0).toString()
   const groups = []
-  
+
   for (let i = numStr.length; i > 0; i -= 3) {
     const start = Math.max(0, i - 3)
     groups.unshift(numStr.slice(start, i))
   }
-  
+
   return groups
 }
 
 const ProductInfo = ({ product }: { product: Product }) => {
   const price = formatPrice(product.price)
   const digits = price.split('')
-  
+
   // Считаем только цифры для синхронизации валюты
-  const digitCount = digits.filter(char => char !== ' ').length
+  const digitCount = digits.filter((char) => char !== ' ').length
 
   return (
     <motion.div
@@ -127,9 +127,11 @@ const ProductInfo = ({ product }: { product: Product }) => {
                 <Box sx={{ display: 'flex', whiteSpace: 'pre' }}>
                   {digits.map((digit, index) => {
                     // Считаем только цифры для задержки
-                    const digitIndex = digits.slice(0, index + 1).filter(char => char !== ' ').length - 1
+                    const digitIndex =
+                      digits.slice(0, index + 1).filter((char) => char !== ' ')
+                        .length - 1
                     const isDigit = digit !== ' '
-                    
+
                     return (
                       <Typography
                         key={`price-${index}`}
@@ -140,16 +142,24 @@ const ProductInfo = ({ product }: { product: Product }) => {
                           lineHeight: '32px',
                           fontVariantNumeric: 'tabular-nums',
                           whiteSpace: 'pre',
-                          ...(isDigit ? {
-                            opacity: 0,
-                            animation: `fadeInUp 0.5s ease-out ${digitIndex * 0.08}s forwards`,
-                            '@keyframes fadeInUp': {
-                              '0%': { opacity: 0, transform: 'translateY(10px)' },
-                              '100%': { opacity: 1, transform: 'translateY(0)' },
-                            },
-                          } : {
-                            opacity: 0.7, // Пробелы статичны но немного прозрачны
-                          })
+                          ...(isDigit
+                            ? {
+                                opacity: 0,
+                                animation: `fadeInUp 0.5s ease-out ${digitIndex * 0.08}s forwards`,
+                                '@keyframes fadeInUp': {
+                                  '0%': {
+                                    opacity: 0,
+                                    transform: 'translateY(10px)',
+                                  },
+                                  '100%': {
+                                    opacity: 1,
+                                    transform: 'translateY(0)',
+                                  },
+                                },
+                              }
+                            : {
+                                opacity: 0.7, // Пробелы статичны но немного прозрачны
+                              }),
                         }}
                       >
                         {digit}
