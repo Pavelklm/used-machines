@@ -128,7 +128,15 @@ export default function Filters({
         setFilteredItems(filtered)
       }
     }
-  }, [activeScroll, dispatch, getFilteredProducts, setFilteredItems])
+  }, [
+    activeScroll,
+    category,
+    equipment,
+    dispatch,
+    getFilteredProducts,
+    setFilteredItems,
+    filteredItems,
+  ])
 
   const handleToggle = useCallback((key: string) => {
     setFilterState((prev) => ({
@@ -143,6 +151,11 @@ export default function Filters({
 
       dispatch(setCategory(categoryForItem || ''))
       dispatch(setActiveEquipment(item))
+
+      setFilterState((prev) => ({
+        ...prev,
+        selectedItem: item,
+      }))
 
       const filtered = getFilteredProducts(item)
       setFilteredItems(filtered)
