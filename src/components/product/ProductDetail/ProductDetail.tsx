@@ -39,9 +39,24 @@ const formatPrice = (price: number) => {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 }
 
+const formatPriceWithGroups = (price: number) => {
+  const numStr = Math.floor(price || 0).toString()
+  const groups = []
+  
+  for (let i = numStr.length; i > 0; i -= 3) {
+    const start = Math.max(0, i - 3)
+    groups.unshift(numStr.slice(start, i))
+  }
+  
+  return groups
+}
+
 const ProductInfo = ({ product }: { product: Product }) => {
   const price = formatPrice(product.price)
   const digits = price.split('')
+  
+  // Считаем только цифры для синхронизации валюты
+  const digitCount = digits.filter(char => char !== ' ').length
 
   return (
     <motion.div
@@ -110,27 +125,37 @@ const ProductInfo = ({ product }: { product: Product }) => {
                 }}
               >
                 <Box sx={{ display: 'flex', whiteSpace: 'pre' }}>
-                  {digits.map((digit, index) => (
-                    <Typography
-                      key={`price-${index}`}
-                      sx={{
-                        color: 'var(--main-color)',
-                        fontSize: '26px',
-                        fontWeight: '400',
-                        lineHeight: '32px',
-                        fontVariantNumeric: 'tabular-nums',
-                        opacity: 0,
-                        animation: `fadeInUp 0.5s ease-out ${index * 0.1}s forwards`,
-                        whiteSpace: 'pre', // Сохраняем пробелы
-                        '@keyframes fadeInUp': {
-                          '0%': { opacity: 0, transform: 'translateY(10px)' },
-                          '100%': { opacity: 1, transform: 'translateY(0)' },
-                        },
-                      }}
-                    >
-                      {digit}
-                    </Typography>
-                  ))}
+                  {digits.map((digit, index) => {
+                    // Считаем только цифры для задержки
+                    const digitIndex = digits.slice(0, index + 1).filter(char => char !== ' ').length - 1
+                    const isDigit = digit !== ' '
+                    
+                    return (
+                      <Typography
+                        key={`price-${index}`}
+                        sx={{
+                          color: 'var(--main-color)',
+                          fontSize: '26px',
+                          fontWeight: '400',
+                          lineHeight: '32px',
+                          fontVariantNumeric: 'tabular-nums',
+                          whiteSpace: 'pre',
+                          ...(isDigit ? {
+                            opacity: 0,
+                            animation: `fadeInUp 0.5s ease-out ${digitIndex * 0.08}s forwards`,
+                            '@keyframes fadeInUp': {
+                              '0%': { opacity: 0, transform: 'translateY(10px)' },
+                              '100%': { opacity: 1, transform: 'translateY(0)' },
+                            },
+                          } : {
+                            opacity: 0.7, // Пробелы статичны но немного прозрачны
+                          })
+                        }}
+                      >
+                        {digit}
+                      </Typography>
+                    )
+                  })}
                 </Box>
                 <Typography
                   sx={{
@@ -138,10 +163,11 @@ const ProductInfo = ({ product }: { product: Product }) => {
                     fontSize: '26px',
                     fontWeight: '400',
                     opacity: 0,
-                    animation: `fadeIn 0.2s ease-out ${digits.length * 0.1 + 0.3}s forwards`,
-                    '@keyframes fadeIn': {
-                      '0%': { opacity: 0 },
-                      '100%': { opacity: 1 },
+                    // Валюта появляется чуть после последней цифры
+                    animation: `fadeInUp 0.5s ease-out ${(digitCount - 1) * 0.08 + 0.1}s forwards`,
+                    '@keyframes fadeInUp': {
+                      '0%': { opacity: 0, transform: 'translateY(10px)' },
+                      '100%': { opacity: 1, transform: 'translateY(0)' },
                     },
                   }}
                 >

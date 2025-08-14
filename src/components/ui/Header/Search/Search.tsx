@@ -192,7 +192,7 @@ export default function Search() {
               '& .MuiOutlinedInput-root': {
                 backgroundColor: '#fff',
                 '& fieldset': {
-                  borderColor: 'rgba(0, 0, 0, 0.23)',
+                  border: '1px solid var(--blue-light-color)',
                   transition: 'border-color 0.3s ease',
                 },
                 '&:hover fieldset': {

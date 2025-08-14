@@ -182,6 +182,9 @@ export const CatalogPopup = () => {
                                 backgroundColor:
                                   'var(--blue-bright-color) !important',
                                 color: '#fff',
+                                '& .MuiSvgIcon-root': {
+                                  color: '#fff',
+                                },
                               },
                             }}
                           >
