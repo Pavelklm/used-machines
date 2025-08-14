@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../SVG/Logo'
 import './style.css'
 
@@ -21,6 +21,14 @@ export const Footer = () => {
             © Horns & Hooves, 2025 Усі права захищено
           </p>
           <p className='footer__policy'>Політика конфіденційності</p>
+          <Link
+            to='https://www.behance.net/klmstudio'
+            target='_blank'
+            className='link-reset Logo_KlM'
+          >
+            <img src='/icons/Logo_KLM.svg' alt='KLM' />
+            Створення сайту
+          </Link>
         </div>
       </div>
     </footer>

@@ -13,3 +13,9 @@
   width: 140px;
   height: 48px;
 }
+.Logo_KlM {
+  display: flex;
+  align-items: center;
+  color: var(--blue-color);
+  gap: 10px;
+}
