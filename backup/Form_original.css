@@ -12,85 +12,6 @@
   border-radius: 20px;
 }
 
-/* Новый контейнер для inline ошибок */
-.request-form-input-wrapper-inline {
-  width: 290px;
-  position: relative;
-}
-
-/* Inline ошибка справа - абсолютно позиционирована */
-.inline-error-tooltip {
-  position: absolute;
-  right: -32px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  cursor: help;
-  transition: all 0.3s ease;
-  z-index: 10;
-  pointer-events: auto;
-}
-
-.error-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  transition: transform 0.2s ease;
-  animation: errorPulse 0.6s ease-out;
-}
-
-.inline-error-tooltip:hover .error-icon {
-  transform: scale(1.1);
-}
-
-/* Текст ошибки - появляется при hover */
-.error-text {
-  position: absolute;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #ef4444;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-  z-index: 1000;
-  pointer-events: none;
-}
-
-/* Показываем tooltip при hover */
-.inline-error-tooltip.expanded .error-text,
-.inline-error-tooltip:hover .error-text {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-50%) translateX(-12px);
-}
-
-/* Анимация появления ошибки */
-@keyframes errorPulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Старый класс для совместимости */
 .request-form-input-wrapper {
   width: 290px;
   position: relative;
@@ -148,19 +69,11 @@
 /* Состояние ошибки */
 .request-form-input-error {
   border-color: #ef4444;
-  animation: inputShake 0.5s ease-in-out;
 }
 
 .request-form-input-error:focus {
   border-color: #ef4444;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-}
-
-/* Анимация "тряски" для поля с ошибкой */
-@keyframes inputShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
 }
 
 /* Текстовая область */
@@ -172,7 +85,14 @@
   height: auto !important;
 }
 
-/* Старые стили ошибок снизу (удалено, используем inline) */
+/* Сообщения об ошибках */
+.request-form-error-message {
+  color: #ef4444;
+  font-size: 14px;
+  margin: 4px 0 0 0;
+  text-align: left;
+  animation: fadeIn 0.3s ease;
+}
 
 /* Кнопка отправки */
 .request-form-button {
@@ -286,16 +206,9 @@
     padding: 30px 40px;
   }
 
-  .request-form-input-wrapper,
-  .request-form-input-wrapper-inline {
+  .request-form-input-wrapper {
     width: 100%;
     max-width: 340px;
-  }
-  
-  .error-text {
-    max-width: 200px;
-    word-wrap: break-word;
-    white-space: normal;
   }
 
   .request-form-title {
@@ -314,29 +227,8 @@
     padding: 20px;
   }
 
-  .request-form-input-wrapper,
-  .request-form-input-wrapper-inline {
+  .request-form-input-wrapper {
     width: 100%;
-  }
-  
-  .error-text {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    max-width: calc(100vw - 40px);
-    z-index: 9999;
-  }
-  
-  /* На мобилке показываем ошибку по клику/тапу */
-  .inline-error-tooltip:active .error-text {
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  .inline-error-tooltip {
-    right: -28px;
   }
 
   .request-form-input-with-operator {

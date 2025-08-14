@@ -1,5 +1,5 @@
 import { IOperatorInfo } from '@/constants/phoneOperators'
-import React, { useState } from 'react'
+import React from 'react'
 import { FORM_PLACEHOLDERS, IFormData } from '../types/Form.types'
 
 interface FormInputProps {
@@ -36,40 +36,6 @@ const OperatorBadge: React.FC<{ operator: IOperatorInfo }> = ({ operator }) => (
   </div>
 )
 
-// Новый компонент для inline ошибки
-const InlineErrorTooltip: React.FC<{ error: string; isVisible: boolean }> = ({ 
-  error, 
-  isVisible 
-}) => {
-  const [isHovered, setIsHovered] = useState(false)
-
-  if (!isVisible) return null
-
-  return (
-    <div 
-      className={`inline-error-tooltip ${isHovered ? 'expanded' : ''}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      role="alert"
-      aria-live="polite"
-    >
-      {/* Иконка ошибки */}
-      <div className="error-icon">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="8" fill="#ef4444"/>
-          <path d="M8 4v4" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          <circle cx="8" cy="11" r="1" fill="white"/>
-        </svg>
-      </div>
-      
-      {/* Текст ошибки (показывается при hover) */}
-      <div className="error-text">
-        {error}
-      </div>
-    </div>
-  )
-}
-
 export const FormInput: React.FC<FormInputProps> = ({
   name,
   type,
@@ -84,7 +50,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   const isPhoneField = name === 'phone'
 
   return (
-    <div className='request-form-input-wrapper-inline'>
+    <div className='request-form-input-wrapper'>
       <div style={{ position: 'relative' }}>
         <input
           name={name}
@@ -103,13 +69,13 @@ export const FormInput: React.FC<FormInputProps> = ({
         {isPhoneField && currentOperator && (
           <OperatorBadge operator={currentOperator} />
         )}
-
-        {/* Inline ошибка справа - абсолютно позиционирована */}
-        <InlineErrorTooltip 
-          error={error || ''} 
-          isVisible={hasError}
-        />
       </div>
+
+      {hasError && (
+        <p id={errorId} className='request-form-error-message' role='alert'>
+          {error}
+        </p>
+      )}
     </div>
   )
 }
