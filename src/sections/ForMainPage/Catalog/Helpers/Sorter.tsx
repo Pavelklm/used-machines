@@ -102,7 +102,7 @@ export default function CustomSorter({ sortType, onSortChange }: SorterProps) {
                         backgroundColor:
                           sortType === option.value
                             ? 'var(--main-color)'
-                            : 'var(--blue-light-color)',
+                            : 'var(--blue-bright-color)',
                         '& .MuiTypography-root': {
                           color: 'white',
                         },

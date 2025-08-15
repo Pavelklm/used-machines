@@ -136,7 +136,7 @@ export default function Search() {
         slotProps={{
           paper: {
             sx: {
-              marginTop: '31px',
+              marginTop: '33px',
               borderRadius: '20px',
               padding: '10px 10px 10px 10px',
               boxShadow: '0 4px 20px var(--blue-light-color)',

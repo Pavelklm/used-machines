@@ -36,36 +36,38 @@ const OperatorBadge: React.FC<{ operator: IOperatorInfo }> = ({ operator }) => (
   </div>
 )
 
-// Новый компонент для inline ошибки
-const InlineErrorTooltip: React.FC<{ error: string; isVisible: boolean }> = ({ 
-  error, 
-  isVisible 
+const InlineErrorTooltip: React.FC<{ error: string; isVisible: boolean }> = ({
+  error,
+  isVisible,
 }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   if (!isVisible) return null
 
   return (
-    <div 
+    <div
       className={`inline-error-tooltip ${isHovered ? 'expanded' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      role="alert"
-      aria-live="polite"
+      role='alert'
+      aria-live='polite'
     >
       {/* Иконка ошибки */}
-      <div className="error-icon">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="8" fill="#ef4444"/>
-          <path d="M8 4v4" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          <circle cx="8" cy="11" r="1" fill="white"/>
+      <div className='error-icon'>
+        <svg width='16' height='16' viewBox='0 0 16 16' fill='none'>
+          <circle cx='8' cy='8' r='8' fill='#ef4444' />
+          <path
+            d='M8 4v4'
+            stroke='white'
+            strokeWidth='2'
+            strokeLinecap='round'
+          />
+          <circle cx='8' cy='11' r='1' fill='white' />
         </svg>
       </div>
-      
+
       {/* Текст ошибки (показывается при hover) */}
-      <div className="error-text">
-        {error}
-      </div>
+      <div className='error-text'>{error}</div>
     </div>
   )
 }
@@ -104,11 +106,8 @@ export const FormInput: React.FC<FormInputProps> = ({
           <OperatorBadge operator={currentOperator} />
         )}
 
-        {/* Inline ошибка справа - абсолютно позиционирована */}
-        <InlineErrorTooltip 
-          error={error || ''} 
-          isVisible={hasError}
-        />
+        {/* Inline ошибка */}
+        <InlineErrorTooltip error={error || ''} isVisible={hasError} />
       </div>
     </div>
   )

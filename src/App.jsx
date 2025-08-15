@@ -10,6 +10,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 const Layout = lazy(() => import('@/components/layouts/Layout'))
 const Home = lazy(() => import('./pages/Home'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
+const PolicyPage = lazy(() => import('./pages/PolicyPage'))
 
 const TOAST_CONFIG = {
   position: 'top-right',
@@ -109,6 +110,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/product/:id' element={<ProductPage />} />
+              <Route path='/policy' element={<PolicyPage />} />
             </Routes>
           </Suspense>
         </Layout>

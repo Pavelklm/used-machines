@@ -90,7 +90,6 @@
   }
 }
 
-/* Старый класс для совместимости */
 .request-form-input-wrapper {
   width: 290px;
   position: relative;
@@ -130,15 +129,17 @@
   line-height: 19px;
   transition: all 0.3s ease;
   background-color: white;
-  color: #000;
-  box-sizing: border-box;
+  color: var(--main-color);
   background-color: #f5f6ff;
 }
 
 .request-form-input:focus {
   outline: none;
-  border-color: var(--main-color);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--blue-bright-color);
+}
+
+.request-form-input:hover {
+  border-color: var(--blue-bright-color);
 }
 
 .request-form-input::placeholder {
@@ -383,11 +384,6 @@
   .request-form-subtitle {
     font-size: 14px;
     line-height: 18px;
-  }
-
-  .request-form-input {
-    font-size: 15px;
-    height: 48px;
   }
 
   .request-form-button {
