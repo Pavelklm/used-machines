@@ -228,7 +228,7 @@ export default function Filters({
                   animate={expanded ? 'open' : 'closed'}
                   style={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <ExpandMoreIcon />
+                  <ExpandMoreIcon sx={{ color: 'var(--main-color)' }} />
                 </motion.div>
               }
               aria-controls={`${key}-content`}

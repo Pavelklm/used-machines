@@ -102,7 +102,6 @@ const ProductInfo = ({ product }: { product: Product }) => {
             fontWeight: '400',
             lineHeight: '19px',
             mb: 3,
-            fontStyle: 'italic',
             textAlign: 'flex-start',
           }}
         >

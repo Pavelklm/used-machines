@@ -44,7 +44,7 @@ export default function CustomSorter({ sortType, onSortChange }: SorterProps) {
             cursor: 'pointer',
             backgroundColor: 'white',
             borderColor: isHovered
-              ? 'var(--main-color)'
+              ? 'var(--blue-bright-color)'
               : 'var(--blue-light-color)',
             transition: 'border-color 0.2s ease',
           }}
@@ -54,7 +54,6 @@ export default function CustomSorter({ sortType, onSortChange }: SorterProps) {
             alt='sort'
             animate={{
               scale: isHovered ? 1.1 : 1,
-              rotate: isHovered ? 5 : 0,
             }}
             transition={{ duration: 0.2 }}
           />
