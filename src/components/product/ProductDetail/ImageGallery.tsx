@@ -399,7 +399,9 @@ const ModalContent = ({
     const windowHeight = window.innerHeight
     const scaleX = windowWidth / MODAL_SIZES.BASE_WIDTH
     const scaleY = windowHeight / MODAL_SIZES.BASE_HEIGHT
-    const scale = Math.min(scaleX, scaleY)
+
+    // Используем среднее значение для более сбалансированного масштабирования
+    const scale = (scaleX + scaleY) / 2
 
     return {
       textFontSize: Math.round(MODAL_SIZES.TEXT_FONT_SIZE * scale),
