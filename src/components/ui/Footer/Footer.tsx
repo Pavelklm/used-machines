@@ -27,7 +27,7 @@ export const Footer = () => {
             className='link-reset Logo_KlM'
           >
             <img src='/icons/Logo_KLM.svg' alt='KLM' />
-            Створення сайту
+            <p className='footer__KLM-text'>Створення сайту</p>
           </Link>
         </div>
       </div>
