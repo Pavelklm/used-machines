@@ -56,21 +56,26 @@ export default function Search() {
     []
   )
 
+  // Правильна типізація для freeSolo
   const handleChange = useCallback(
-    (_: any, value: SearchOption | null) => {
-      if (value?.id) {
+    (_: any, value: string | SearchOption | null) => {
+      // Якщо це об'єкт (вибраний варіант зі списку)
+      if (value && typeof value === 'object' && 'id' in value) {
         setIsNavigating(true)
-
         setOpen(false)
         dispatch(setSearchOverlay(false))
-
         setInputValue('')
-
         navigate(`/product/${value.id}`)
-
         setTimeout(() => {
           setIsNavigating(false)
         }, 100)
+      }
+      // Якщо це рядок або null - не робимо навігацію
+      // null буде коли користувач натискає хрестик
+      if (value === null) {
+        setInputValue('')
+        setOpen(false)
+        dispatch(setSearchOverlay(false))
       }
     },
     [navigate, dispatch]
@@ -123,13 +128,17 @@ export default function Search() {
         clearOnEscape={true}
         open={open}
         options={hasInput ? options : []}
-        getOptionLabel={(option) => option.label}
+        getOptionLabel={(option) => {
+          // Захист від випадку коли option - рядок
+          return typeof option === 'string' ? option : option.label
+        }}
         loading={isLoading && hasInput}
         noOptionsText={hasInput ? 'Нічого не знайдено' : ''}
         onOpen={handleOpen}
         onClose={handleClose}
         onChange={handleChange}
         inputValue={inputValue}
+        freeSolo={true}
         onInputChange={handleInputChange}
         loadingText='Завантаження...'
         sx={{ width: 300 }}
@@ -171,7 +180,9 @@ export default function Search() {
         }}
         renderOption={(props, option) => {
           const { key, ...rest } = props
-          const highlightedParts = highlightText(option.label, inputValue)
+          // Тут option завжди буде SearchOption, бо ми передаємо тільки такі в options
+          const label = typeof option === 'string' ? option : option.label
+          const highlightedParts = highlightText(label, inputValue)
 
           return (
             <li key={key} {...rest}>
