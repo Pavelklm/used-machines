@@ -1,5 +1,6 @@
 'use client'
 
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import { useNavigate } from 'react-router-dom'
 import Gmail from '../SVG/Gmail'
 import Logo from '../SVG/Logo'
@@ -9,6 +10,7 @@ import './style.css'
 
 export const Header = () => {
   const navigate = useNavigate()
+  const { isMobile, isTablet, width } = useScreenSize()
 
   const handleLogoClick = () => {
     navigate('/')

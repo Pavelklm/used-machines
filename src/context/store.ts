@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import filteredItemsSlice from './slices/filteredItemsSlice'
 import overlaySlice from './slices/overlaySlice'
 import scrollSlice from './slices/scrollSlice'
+import screenSizeSlice from './slices/screenSizeSlice'
 
 export const store = configureStore({
   reducer: {
     filteredItems: filteredItemsSlice,
     scroll: scrollSlice,
     overlay: overlaySlice,
+    screenSize: screenSizeSlice,
   },
 })
 
