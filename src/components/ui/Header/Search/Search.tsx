@@ -33,6 +33,20 @@ export default function Search() {
     [productsArray]
   )
 
+  const filteredOptions = useMemo(() => {
+    if (!inputValue) return []
+
+    const filtered = options.filter((option) =>
+      option.label.toLowerCase().includes(inputValue.toLowerCase())
+    )
+
+    if (filtered.length === 0) {
+      return [{ id: 'no-results', label: 'Нічого не знайдено' }]
+    }
+
+    return filtered
+  }, [options, inputValue])
+
   const hasInput = inputValue.length > 0
 
   const highlightText = useCallback(
@@ -56,11 +70,13 @@ export default function Search() {
     []
   )
 
-  // Правильна типізація для freeSolo
   const handleChange = useCallback(
     (_: any, value: string | SearchOption | null) => {
-      // Якщо це об'єкт (вибраний варіант зі списку)
       if (value && typeof value === 'object' && 'id' in value) {
+        if (value.id === 'no-results') {
+          return
+        }
+
         setIsNavigating(true)
         setOpen(false)
         dispatch(setSearchOverlay(false))
@@ -70,8 +86,6 @@ export default function Search() {
           setIsNavigating(false)
         }, 100)
       }
-      // Якщо це рядок або null - не робимо навігацію
-      // null буде коли користувач натискає хрестик
       if (value === null) {
         setInputValue('')
         setOpen(false)
@@ -115,6 +129,7 @@ export default function Search() {
   const handleClose = useCallback(() => {
     setOpen(false)
     dispatch(setSearchOverlay(false))
+    setInputValue('')
   }, [dispatch])
 
   return (
@@ -126,14 +141,14 @@ export default function Search() {
       <Autocomplete
         disablePortal={true}
         clearOnEscape={true}
+        filterOptions={(x) => x}
         open={open}
-        options={hasInput ? options : []}
+        options={filteredOptions}
         getOptionLabel={(option) => {
-          // Захист від випадку коли option - рядок
           return typeof option === 'string' ? option : option.label
         }}
         loading={isLoading && hasInput}
-        noOptionsText={hasInput ? 'Нічого не знайдено' : ''}
+        noOptionsText={''}
         onOpen={handleOpen}
         onClose={handleClose}
         onChange={handleChange}
@@ -180,7 +195,25 @@ export default function Search() {
         }}
         renderOption={(props, option) => {
           const { key, ...rest } = props
-          // Тут option завжди буде SearchOption, бо ми передаємо тільки такі в options
+
+          if (option.id === 'no-results') {
+            return (
+              <li
+                key={key}
+                {...rest}
+                style={{
+                  ...rest.style,
+                  color: 'var(--blue-color)',
+                  cursor: 'default',
+                  textAlign: 'center',
+                  pointerEvents: 'none',
+                }}
+              >
+                {option.label}
+              </li>
+            )
+          }
+
           const label = typeof option === 'string' ? option : option.label
           const highlightedParts = highlightText(label, inputValue)
 
