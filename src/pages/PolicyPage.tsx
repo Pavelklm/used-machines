@@ -1,5 +1,5 @@
-import { Breadcrumbs } from '@/components/product/Breadcrumbs/Breadcrumbs'
-import SimpleAnimatedSection from '@/components/ui/AnimatedSection/SimpleAnimatedSection'
+import { Breadcrumbs } from '@/components/module/Breadcrumbs/Breadcrumbs'
+import SimpleAnimatedSection from '@/scripts/utils/AnimatedSection/SimpleAnimatedSection'
 import { Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 

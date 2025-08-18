@@ -166,7 +166,7 @@ export default function Search() {
               boxShadow: '0 4px 20px var(--blue-light-color)',
               zIndex: 1003,
               '& .MuiAutocomplete-option': {
-                borderRadius: '20px',
+                borderRadius: '10px',
                 '&:hover': {
                   backgroundColor: 'var(--blue-bright-color) !important',
                   color: 'white',

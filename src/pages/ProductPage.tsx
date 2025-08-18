@@ -1,7 +1,7 @@
-import { Breadcrumbs } from '@/components/product/Breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/components/module/Breadcrumbs/Breadcrumbs'
 import { ProductDetail } from '@/components/product/ProductDetail/ProductDetail'
-import SimpleAnimatedSection from '@/components/ui/AnimatedSection/SimpleAnimatedSection'
 import { useProductQuery } from '@/scripts/hooks/useProductsQuery'
+import SimpleAnimatedSection from '@/scripts/utils/AnimatedSection/SimpleAnimatedSection'
 import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturers'
 import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
 import { motion } from 'framer-motion'
@@ -12,7 +12,7 @@ const ProductPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { data: product, isLoading, error } = useProductQuery(id || '')
-  
+
   useEffect(() => {
     if (error) {
       navigate('/', { replace: true })

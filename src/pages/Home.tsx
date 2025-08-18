@@ -1,6 +1,6 @@
-import SimpleAnimatedSection from '@/components/ui/AnimatedSection/SimpleAnimatedSection'
 import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
+import SimpleAnimatedSection from '@/scripts/utils/AnimatedSection/SimpleAnimatedSection'
 import { About } from '@/sections/ForMainPage/About/About'
 import { Catalog } from '@/sections/ForMainPage/Catalog/Catalog'
 import { Info } from '@/sections/ForMainPage/Info/Info'
