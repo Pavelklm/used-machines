@@ -3,6 +3,9 @@ import { RootState } from '@/context/store'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+/**
+ * Хук для получения размера экрана из Redux
+ */
 export const useScreenSize = () => {
   const dispatch = useDispatch()
   const screenSize = useSelector((state: RootState) => state.screenSize)
