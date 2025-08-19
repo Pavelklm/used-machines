@@ -1,28 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const BREAKPOINTS = {
-  mobile: 320,
-  mobileLandscape: 480,
+  miniPhone: 320,
+  phone: 480,
   tablet: 768,
-  desktop: 1024,
+  laptop: 1024,
+  desktop: 1256,
 } as const
 
-type ScreenSize = 'mobile' | 'mobileLandscape' | 'tablet' | 'desktop'
+type ScreenSize = 'miniPhone' | 'phone' | 'tablet' | 'laptop' | 'desktop'
 
 interface ScreenSizeState {
   width: number
   screenSize: ScreenSize
-  isMobile: boolean
-  isMobileLandscape: boolean
+  isMiniPhone: boolean
+  isPhone: boolean
   isTablet: boolean
+  isLaptop: boolean
   isDesktop: boolean
 }
 
 const getScreenSize = (width: number): ScreenSize => {
-  if (width >= BREAKPOINTS.desktop) return 'desktop'
-  if (width >= BREAKPOINTS.tablet) return 'tablet'
-  if (width >= BREAKPOINTS.mobileLandscape) return 'mobileLandscape'
-  return 'mobile'
+  if (width > BREAKPOINTS.laptop) return 'desktop'
+  if (width > BREAKPOINTS.tablet) return 'laptop'
+  if (width > BREAKPOINTS.phone) return 'tablet'
+  if (width > BREAKPOINTS.miniPhone) return 'phone'
+  return 'miniPhone'
 }
 
 const createStateFromWidth = (width: number): ScreenSizeState => {
@@ -31,15 +34,16 @@ const createStateFromWidth = (width: number): ScreenSizeState => {
   return {
     width,
     screenSize,
-    isMobile: screenSize === 'mobile',
-    isMobileLandscape: screenSize === 'mobileLandscape',
-    isTablet: screenSize === 'tablet',
-    isDesktop: screenSize === 'desktop',
+    isMiniPhone: width <= BREAKPOINTS.miniPhone,
+    isPhone: width <= BREAKPOINTS.phone,
+    isTablet: width <= BREAKPOINTS.tablet,
+    isLaptop: width <= BREAKPOINTS.laptop,
+    isDesktop: width >= BREAKPOINTS.desktop,
   }
 }
 
 const initialState: ScreenSizeState = createStateFromWidth(
-  typeof window !== 'undefined' ? window.innerWidth : BREAKPOINTS.desktop
+  typeof window !== 'undefined' ? window.innerWidth : 1200
 )
 
 const screenSizeSlice = createSlice({

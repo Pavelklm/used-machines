@@ -1,73 +1,140 @@
-/* Переменные для управления скоростями анимации */
+/* Переменные для управления размерами и анимацией */
 :root {
+  --burger-size: 48px;
+  --burger-half-size: calc(
+    var(--burger-size) / 2
+  ); /* 34px при 68px, 17px при 34px */
+  --burger-inner-height: calc(
+    var(--burger-size) * 0.412
+  ); /* 28px при 68px, 14px при 34px */
+  --burger-inner-width: calc(
+    var(--burger-size) * 0.529
+  ); /* 36px при 68px, 18px при 34px */
+  --burger-line-height: calc(
+    var(--burger-size) * 0.059
+  ); /* 4px при 68px, 2px при 34px */
+  --burger-mid-top: calc(
+    var(--burger-size) * 0.176
+  ); /* 12px при 68px, 6px при 34px */
+  --burger-transform-origin-x: calc(
+    var(--burger-size) * 0.5
+  ); /* 34px при 68px, 17px при 34px */
+  --burger-transform-origin-y: calc(
+    var(--burger-size) * 0.029
+  ); /* 2px при 68px, 1px при 34px */
+  --burger-path-width: calc(
+    var(--burger-size) * 0.441
+  ); /* 30px при 68px, 15px при 34px */
+  --burger-stroke-dasharray: calc(
+    var(--burger-size) * 3.529
+  ); /* 240px при 68px, 120px при 34px */
+
+  /* Переменные для паддингов */
+  --burger-padding-vertical: calc(
+    var(--burger-size) * 0.294
+  ); /* 20px при 68px, 10px при 34px */
+  --burger-padding-horizontal: calc(
+    var(--burger-size) * 0.235
+  ); /* 16px при 68px, 8px при 34px */
+  --burger-margin-small: calc(
+    var(--burger-size) * 0.059
+  ); /* 4px при 68px, 2px при 34px */
+
+  /* Переменные для анимаций */
+  --burger-anim-offset-small: calc(
+    var(--burger-size) * -0.074
+  ); /* -5px при 68px, -2.5px при 34px */
+  --burger-anim-offset-medium: calc(
+    var(--burger-size) * -0.088
+  ); /* -6px при 68px, -3px при 34px */
+  --burger-anim-left-40: calc(
+    var(--burger-size) * 0.588
+  ); /* 40px при 68px, 20px при 34px */
+  --burger-anim-left-42: calc(
+    var(--burger-size) * 0.618
+  ); /* 42px при 68px, 21px при 34px */
+  --burger-anim-top-1: calc(
+    var(--burger-size) * 0.015
+  ); /* 1px при 68px, 0.5px при 34px */
+
   --burger-animation-duration: 0.4s;
   --burger-animation-easing: linear;
   --burger-animation-mode: normal;
 }
 
-.hamburger {
+.burger {
   -webkit-transform: scale(1);
   transform: scale(1);
-  margin: 40px auto;
-  position: relative;
+  position: fixed;
+  /* Точное позиционирование на уровне header контента */
+  top: var(--burger-top);
+  right: var(--burger-right);
   display: block;
-  width: 68px;
-  height: 68px;
+  width: var(--burger-size);
+  height: var(--burger-size);
   background: #fff;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  z-index: 10000; /* Выше overlay (2000) */
 }
 
 .burger-main {
   position: absolute;
-  padding: 20px 16px;
-  height: 68px;
-  width: 68px;
+  padding: var(--burger-padding-vertical) var(--burger-padding-horizontal);
+  height: var(--burger-size);
+  width: var(--burger-size);
 }
 
 .burger-inner {
   position: relative;
-  height: 28px;
-  width: 36px;
+  height: var(--burger-inner-height);
+  width: var(--burger-inner-width);
 }
 
 .burger-main span {
   position: absolute;
   display: block;
-  height: 4px;
-  width: 36px;
-  border-radius: 2px;
+  height: var(--burger-line-height);
+  width: var(--burger-inner-width);
+  border-radius: calc(var(--burger-line-height) / 2);
   background: #000;
 }
 
 .top {
   top: 0;
-  transform-origin: 34px 2px;
+  transform-origin: var(--burger-transform-origin-x)
+    var(--burger-transform-origin-y);
 }
 
 .bot {
   bottom: 0;
-  transform-origin: 34px 2px;
+  transform-origin: var(--burger-transform-origin-x)
+    var(--burger-transform-origin-y);
 }
 
 .mid {
-  top: 12px;
+  top: var(--burger-mid-top);
 }
 
 .svg-main {
   position: absolute;
   top: 0;
   left: 0;
-  width: 68px;
-  height: 68px;
+  width: var(--burger-size);
+  height: var(--burger-size);
+}
+
+.svg-main svg {
+  width: var(--burger-size);
+  height: var(--burger-size);
 }
 
 .circle {
-  width: 68px;
-  height: 68px;
+  width: var(--burger-size);
+  height: var(--burger-size);
 }
 
 .path {
@@ -76,49 +143,49 @@
   stroke-linejoin: round;
 }
 
-.hamburger.open .path {
+.burger.open .path {
   animation: dash-in var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
 }
 
-.hamburger.closed .path {
+.burger.closed .path {
   animation: dash-out var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
 }
 
-.hamburger.open .top {
+.burger.open .top {
   animation: close-top-out var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
 }
 
-.hamburger.open .bot {
+.burger.open .bot {
   animation: close-bot-out var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
 }
 
-.hamburger.closed .top {
+.burger.closed .top {
   animation: close-top-in var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
 }
 
-.hamburger.closed .bot {
+.burger.closed .bot {
   animation: close-bot-in var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
 }
 
-.hamburger.open .mid {
+.burger.open .mid {
   animation: burger-fill-out var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
 }
 
-.hamburger.closed .mid {
+.burger.closed .mid {
   animation: burger-fill-in var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
 }
@@ -127,8 +194,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 68px;
-  width: 68px;
+  height: var(--burger-size);
+  width: var(--burger-size);
   -webkit-mask: url(#mask);
   mask: url(#mask);
   -webkit-mask-box-image: url(http://dev.awsm.in/codepen/mask.svg);
@@ -138,14 +205,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 68px;
-  height: 68px;
+  width: var(--burger-size);
+  height: var(--burger-size);
 }
 
 .path-rotation {
-  height: 34px;
-  width: 34px;
-  margin: 34px 34px 0 0;
+  height: var(--burger-half-size);
+  width: var(--burger-half-size);
+  margin: var(--burger-half-size) var(--burger-half-size) 0 0;
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
   -webkit-transform-origin: 100% 0;
@@ -155,19 +222,19 @@
 .path-rotation:before {
   content: '';
   display: block;
-  width: 30px;
-  height: 34px;
-  margin: 0 4px 0 0;
+  width: var(--burger-path-width);
+  height: var(--burger-half-size);
+  margin: 0 var(--burger-margin-small) 0 0;
   background: #000;
 }
 
-.hamburger.open .animate-path {
+.burger.open .animate-path {
   animation: circle-in var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
 }
 
-.hamburger.closed .animate-path {
+.burger.closed .animate-path {
   animation: circle-out var(--burger-animation-duration)
     var(--burger-animation-easing) var(--burger-animation-mode);
   animation-fill-mode: forwards;
@@ -243,14 +310,14 @@
   }
 
   80% {
-    left: -5px;
+    left: var(--burger-anim-offset-small);
     top: 0;
     transform: rotate(-60deg);
   }
 
   100% {
-    left: -5px;
-    top: 1px;
+    left: var(--burger-anim-offset-small);
+    top: var(--burger-anim-top-1);
     transform: rotate(-45deg);
   }
 }
@@ -267,25 +334,25 @@
   }
 
   80% {
-    left: -5px;
+    left: var(--burger-anim-offset-small);
     transform: rotate(60deg);
   }
 
   100% {
-    left: -5px;
+    left: var(--burger-anim-offset-small);
     transform: rotate(45deg);
   }
 }
 
 @keyframes close-top-in {
   0% {
-    left: -5px;
+    left: var(--burger-anim-offset-small);
     bot: 0;
     transform: rotate(-45deg);
   }
 
   20% {
-    left: -5px;
+    left: var(--burger-anim-offset-small);
     bot: 0;
     transform: rotate(-60deg);
   }
@@ -298,19 +365,19 @@
 
   100% {
     left: 0;
-    bot: 1px;
+    bot: var(--burger-anim-top-1);
     transform: rotate(0deg);
   }
 }
 
 @keyframes close-bot-in {
   0% {
-    left: -5px;
+    left: var(--burger-anim-offset-small);
     transform: rotate(45deg);
   }
 
   20% {
-    left: -5px;
+    left: var(--burger-anim-offset-small);
     transform: rotate(60deg);
   }
 
@@ -328,44 +395,44 @@
 @keyframes burger-fill-in {
   0% {
     width: 0;
-    left: 36px;
+    left: var(--burger-inner-width);
   }
 
   40% {
     width: 0;
-    left: 40px;
+    left: var(--burger-anim-left-40);
   }
 
   80% {
-    width: 36px;
-    left: -6px;
+    width: var(--burger-inner-width);
+    left: var(--burger-anim-offset-medium);
   }
 
   100% {
-    width: 36px;
+    width: var(--burger-inner-width);
     left: 0px;
   }
 }
 
 @keyframes burger-fill-out {
   0% {
-    width: 36px;
+    width: var(--burger-inner-width);
     left: 0px;
   }
 
   20% {
-    width: 42px;
-    left: -6px;
+    width: var(--burger-anim-left-42);
+    left: var(--burger-anim-offset-medium);
   }
 
   40% {
     width: 0;
-    left: 40px;
+    left: var(--burger-anim-left-40);
   }
 
   100% {
     width: 0;
-    left: 36px;
+    left: var(--burger-inner-width);
   }
 }
 @keyframes circle-out {

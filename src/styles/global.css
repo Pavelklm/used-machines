@@ -113,6 +113,10 @@ main {
   transition: opacity 0.3s ease;
 }
 
+.overlay-burger {
+  z-index: 2000;
+}
+
 .overlay-active {
   pointer-events: auto;
   opacity: 1;

@@ -3,18 +3,42 @@
   /* Header размеры */
   --header-padding: 30px;
   --header-content-height: 48px;
-  --header-total-height: calc(var(--header-padding) * 2 + var(--header-content-height));
-  
+  --header-total-height: calc(
+    var(--header-padding) * 2 + var(--header-content-height)
+  );
+
   /* Offset для скролла */
   --scroll-comfort-offset: 20px;
-  --scroll-total-offset: calc(var(--header-total-height) + var(--scroll-comfort-offset));
+  --scroll-total-offset: calc(
+    var(--header-total-height) + var(--scroll-comfort-offset)
+  );
+
+  /* Переменные для точного позиционирования бургера */
+  --burger-top: var(--header-padding); /* На уровне контента header'а */
+  --burger-right: max(20px, calc((100vw - 1256px) / 2 + 20px)); /* Умное позиционирование на всех экранах */
+
+  /* Переменные анимаций для overlay и модальных окон */
+  --overlay-animation-duration: 0.3s;
+  --overlay-animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --overlay-opacity-from: 0;
+  --overlay-opacity-to: 1;
+  
+  /* Переменные анимаций для slide-панелей (burger content, меню и т.д.) */
+  --slide-animation-duration: 0.4s;
+  --slide-animation-easing: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --slide-transform-from: translateX(100%);
+  --slide-transform-to: translateX(0);
+  
+  /* Переменные для staggered анимаций элементов */
+  --stagger-delay-base: 0.1s;
+  --stagger-delay-increment: 0.05s;
+  --content-animation-duration: 0.3s;
+  --content-animation-easing: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Респонсивные значения для мобильных устройств */
 @media (max-width: 768px) {
   :root {
-    --header-padding: 20px;
-    --header-content-height: 40px;
-    --scroll-comfort-offset: 15px;
+    --header-padding: 15px;
+    /* burger-top автоматически обновится */
   }
 }

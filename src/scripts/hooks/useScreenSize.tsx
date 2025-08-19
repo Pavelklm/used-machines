@@ -11,13 +11,8 @@ export const useScreenSize = () => {
   const screenSize = useSelector((state: RootState) => state.screenSize)
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout
-
     const handleResize = () => {
-      clearTimeout(timeoutId)
-      timeoutId = setTimeout(() => {
-        dispatch(updateScreenSize(window.innerWidth))
-      }, 150)
+      dispatch(updateScreenSize(window.innerWidth))
     }
 
     dispatch(updateScreenSize(window.innerWidth))
@@ -26,7 +21,6 @@ export const useScreenSize = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      clearTimeout(timeoutId)
     }
   }, [dispatch])
 

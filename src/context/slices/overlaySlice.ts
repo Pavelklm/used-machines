@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 interface OverlayState {
   isOpen: boolean
-  source: 'catalog' | 'search' | null
+  source: 'catalog' | 'search' | 'burger' | null
 }
 
 const initialState: OverlayState = {
@@ -33,9 +33,17 @@ const overlay = createSlice({
       state.isOpen = action.payload
       state.source = action.payload ? 'search' : null
     },
+    setBurgerOverlay: (state, action) => {
+      state.isOpen = action.payload
+      state.source = action.payload ? 'burger' : null
+    },
   },
 })
 
-export const { setOverlay, setCatalogOverlay, setSearchOverlay } =
-  overlay.actions
+export const {
+  setOverlay,
+  setCatalogOverlay,
+  setSearchOverlay,
+  setBurgerOverlay,
+} = overlay.actions
 export default overlay.reducer
