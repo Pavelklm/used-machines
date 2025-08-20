@@ -110,7 +110,6 @@ main {
   width: 100%;
   z-index: 500;
   pointer-events: none;
-  transition: opacity 0.3s ease;
 }
 
 .overlay-burger {

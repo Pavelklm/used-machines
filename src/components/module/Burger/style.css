@@ -78,7 +78,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  z-index: 10000; /* Выше overlay (2000) */
+  z-index: 1000000;
 }
 
 .burger-main {

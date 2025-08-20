@@ -26,6 +26,16 @@ export const getAccordionStyles = (expanded: boolean): SxProps<Theme> => ({
   },
 })
 
+// Стили для главного аккордиона "Каталог" (без бордера)
+export const getCatalogMainAccordionStyles = (expanded: boolean): SxProps<Theme> => ({
+  border: 'none',
+  borderRadius: '16px',
+  boxShadow: 'none',
+  '&:before': {
+    display: 'none',
+  },
+})
+
 export const accordionSummaryStyles: SxProps<Theme> = {
   padding: '16px',
   borderRadius: '16px',

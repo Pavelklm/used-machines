@@ -1,4 +1,3 @@
-import CatalogPopup from '@/components/ui/Header/CatalogPopup/CatalogPopup'
 import Search from '@/components/ui/Header/Search/Search'
 import Gmail from '@/components/ui/SVG/Gmail'
 import { setBurgerOverlay } from '@/context/slices/overlaySlice'
@@ -6,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import BurgerCatalog from './components/BurgerCatalog'
 import './style.css'
 
 export const BurgerContent = () => {
@@ -15,9 +15,13 @@ export const BurgerContent = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const contentRef = useRef<HTMLDivElement>(null)
-  const { isTablet, isLaptop, isDesktop } = useScreenSize()
+  const { isTablet, isPhone } = useScreenSize()
 
   useEffect(() => {
+    if (isTablet) {
+      return
+    }
+
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element
 
@@ -34,7 +38,11 @@ export const BurgerContent = () => {
       document.addEventListener('mousedown', handleClickOutside)
       return () => document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [burgerOverlay, dispatch])
+  }, [burgerOverlay, dispatch, isTablet])
+
+  const closeBurger = useCallback(() => {
+    dispatch(setBurgerOverlay(false))
+  }, [dispatch])
 
   const handleProductSelect = useCallback(
     (productId: string) => {
@@ -57,8 +65,9 @@ export const BurgerContent = () => {
           paperHeight='100vh'
           overflow='visible'
           className='burger-search'
+          width='100%'
         />
-        {isTablet && <CatalogPopup />}
+        {isTablet && <BurgerCatalog onClose={closeBurger} />}
         <div className='header__email'>
           <a
             className='burger__email__link link-reset'
@@ -68,14 +77,26 @@ export const BurgerContent = () => {
             6xYlD@example.com
           </a>
         </div>
-        <div className='header__telephone'>
-          <a
-            className='header__telephone__link burger__telephone__link link-reset'
-            href='tel:+380501234567'
-          >
-            +38 (050) 123-45-67
-          </a>
-        </div>
+        {!isTablet && (
+          <div className='burger__telephone header__telephone '>
+            <a
+              className='burger__telephone__link link-reset'
+              href='tel:+380501234567'
+            >
+              +38 (050) 123-45-67
+            </a>
+          </div>
+        )}
+        {isPhone && (
+          <div className='burger__telephone header__telephone '>
+            <a
+              className='burger__telephone__link link-reset'
+              href='tel:+380501234567'
+            >
+              +38 (050) 123-45-67
+            </a>
+          </div>
+        )}
       </div>
     </div>
   )

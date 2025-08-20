@@ -1,12 +1,3 @@
-// components/ui/Header/CatalogPopup/CatalogPopup.tsx
-import {
-  setActiveEquipment,
-  setCategory,
-} from '@/context/slices/filteredItemsSlice'
-import { setCatalogOverlay } from '@/context/slices/overlaySlice'
-import { triggerScrollToCatalog } from '@/context/slices/scrollSlice'
-import { useAppDispatch } from '@/scripts/hooks/hooks'
-import { useProducts } from '@/scripts/hooks/useProducts'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
   Box,
@@ -18,110 +9,55 @@ import {
   Typography,
 } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-
-const listVariants = {
-  hidden: { opacity: 0, height: 0 },
-  visible: {
-    opacity: 1,
-    height: 'auto',
-    transition: {
-      when: 'beforeChildren',
-      staggerChildren: 0.05,
-    },
-  },
-  exit: {
-    opacity: 0,
-    height: 0,
-    transition: { when: 'afterChildren', duration: 0.1 },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, x: -10 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.1 } },
-  exit: { opacity: 0, x: -10, transition: { duration: 0.1 } },
-}
+import { useCatalogPopup } from './useCatalogPopup'
+import {
+  catalogPopupContainerStyles,
+  getCatalogButtonStyles,
+  catalogButtonTextStyles,
+  popupContainerStyles,
+  paperStyles,
+  mainContentStyles,
+  leftColumnStyles,
+  leftColumnListStyles,
+  getCategoryItemStyles,
+  categoryItemTextStyles,
+  getCategoryIconStyles,
+  rightColumnStyles,
+  equipmentListStyles,
+  equipmentItemStyles,
+} from './catalogPopupStyles'
+import {
+  listVariants,
+  itemVariants,
+  popupVariants,
+  popupTransition,
+  arrowRotateTransition,
+  categoryArrowTransition,
+} from './catalogPopupAnimations'
 
 export const CatalogPopup = () => {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { filterOptionsByGroup, getCategoryFromEquipment } = useProducts()
+  const {
+    menuOpen,
+    activeItem,
+    filterOptionsByGroup,
+    handleClickAway,
+    handleMainClick,
+    handleItemClick,
+    handleClick,
+  } = useCatalogPopup()
 
   type Keys = keyof typeof filterOptionsByGroup
 
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [activeItem, setActiveItem] = useState<Keys | null>(null)
-
-  const handleClickAway = () => {
-    setMenuOpen(false)
-    setActiveItem(null)
-    dispatch(setCatalogOverlay(false))
-  }
-
-  const handleMainClick = () => {
-    const newMenuOpen = !menuOpen
-    setMenuOpen(newMenuOpen)
-
-    if (!newMenuOpen) {
-      setActiveItem(null)
-    }
-
-    dispatch(setCatalogOverlay(newMenuOpen))
-  }
-
-  const handleItemClick = (key: Keys) => {
-    setActiveItem((prev) => (prev === key ? null : key))
-  }
-
-  const handleClick = (name: string) => {
-    const category = getCategoryFromEquipment(name)
-    dispatch(setCategory(category || ''))
-    dispatch(setActiveEquipment(name))
-
-    handleClickAway()
-
-    const isOnHomePage = location.pathname === '/'
-
-    if (isOnHomePage) {
-      dispatch(triggerScrollToCatalog())
-    } else {
-      navigate('/', {
-        state: {
-          shouldScrollToCatalog: true,
-        },
-      })
-    }
-  }
-
   return (
-    <Box
-      sx={{
-        display: 'inline-block',
-        borderRadius: '10px',
-        width: '195px',
-      }}
-    >
+    <Box sx={catalogPopupContainerStyles}>
       <ListItemButton
         onClick={handleMainClick}
-        sx={{
-          backgroundColor: menuOpen
-            ? 'var(--blue-bright1-color) !important'
-            : 'var(--main-color) !important',
-          borderRadius: '10px',
-          p: '13.5px 30px',
-          color: '#fff ',
-          '&:hover': {
-            backgroundColor: 'var(--blue-bright-color) !important',
-          },
-        }}
+        sx={getCatalogButtonStyles(menuOpen)}
       >
-        <Typography sx={{ flexGrow: 1 }}>Каталог</Typography>
+        <Typography sx={catalogButtonTextStyles}>Каталог</Typography>
         <motion.div
           animate={{ rotate: menuOpen ? 180 : 0 }}
-          transition={{ type: 'spring', stiffness: 300 }}
+          transition={arrowRotateTransition}
         >
           <KeyboardArrowDownIcon sx={{ display: 'flex' }} />
         </motion.div>
@@ -131,68 +67,30 @@ export const CatalogPopup = () => {
         {menuOpen && (
           <ClickAwayListener onClickAway={handleClickAway}>
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25 }}
-              style={{
-                position: 'absolute',
-                top: '75px',
-                left: 20,
-                width: 'fit-content',
-                marginTop: 5,
-                border: '1px solid var(--blue-light-color)',
-                borderRadius: '20px',
-                zIndex: 500,
-              }}
+              variants={popupVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={popupTransition}
+              style={popupContainerStyles}
             >
-              <Paper
-                sx={{
-                  p: '30px 30px 12px 30px',
-                  minWidth: 400,
-                  borderRadius: '20px',
-                }}
-              >
-                <Box
-                  sx={{ display: 'flex', flexDirection: 'row', zIndex: 500 }}
-                >
-                  <Box
-                    sx={{
-                      minWidth: 309,
-                      borderRight: '1px solid rgb(178, 200, 227)',
-                    }}
-                  >
-                    <List sx={{ mr: '20px' }}>
+              <Paper sx={paperStyles}>
+                <Box sx={mainContentStyles}>
+                  <Box sx={leftColumnStyles}>
+                    <List sx={leftColumnListStyles}>
                       {(Object.keys(filterOptionsByGroup) as Keys[]).map(
                         (key) => (
                           <ListItemButton
                             key={key}
                             onClick={() => handleItemClick(key)}
                             selected={activeItem === key}
-                            sx={{
-                              zIndex: 500,
-                              backgroundColor:
-                                activeItem === key
-                                  ? 'var(--main-color) !important'
-                                  : '#fff !important',
-                              color: activeItem === key ? '#fff' : '#000',
-                              borderRadius: '10px',
-                              p: '16px',
-                              '&:hover': {
-                                backgroundColor:
-                                  'var(--blue-bright-color) !important',
-                                color: '#fff',
-                                '& .MuiSvgIcon-root': {
-                                  color: '#fff',
-                                },
-                              },
-                            }}
+                            sx={getCategoryItemStyles(activeItem === key)}
                           >
                             <ListItemText
                               primary={key}
                               slotProps={{
                                 primary: {
-                                  sx: { width: '200px' },
+                                  sx: categoryItemTextStyles,
                                 },
                               }}
                             />
@@ -200,15 +98,10 @@ export const CatalogPopup = () => {
                               animate={{
                                 rotate: activeItem === key ? 90 : 270,
                               }}
-                              transition={{ type: 'spring', stiffness: 100 }}
+                              transition={categoryArrowTransition}
                             >
                               <KeyboardArrowDownIcon
-                                sx={{
-                                  color:
-                                    activeItem === key
-                                      ? '#fff'
-                                      : 'var(--black-color)',
-                                }}
+                                sx={getCategoryIconStyles(activeItem === key)}
                               />
                             </motion.div>
                           </ListItemButton>
@@ -218,16 +111,7 @@ export const CatalogPopup = () => {
                   </Box>
 
                   {/* Правая колонка */}
-                  <Box
-                    sx={{
-                      zIndex: 500,
-                      width: 289,
-                      ml: '20px',
-                      overflow: 'auto',
-                      overflowX: 'hidden',
-                      height: '400px',
-                    }}
-                  >
+                  <Box sx={rightColumnStyles}>
                     <AnimatePresence mode='sync'>
                       {activeItem && (
                         <motion.ul
@@ -236,28 +120,14 @@ export const CatalogPopup = () => {
                           initial='hidden'
                           animate='visible'
                           exit='exit'
-                          style={{
-                            listStyle: 'none',
-                            margin: 0,
-                            padding: 0,
-                          }}
+                          style={equipmentListStyles}
                         >
                           {filterOptionsByGroup[activeItem]?.map(
                             (item: string) => (
                               <motion.li key={item} variants={itemVariants}>
                                 <ListItemButton
                                   onClick={() => handleClick(item)}
-                                  sx={{
-                                    p: '12px 16px ',
-                                    borderRadius: '10px',
-                                    marginRight: '10px',
-                                    zIndex: 500,
-                                    '&:hover': {
-                                      backgroundColor:
-                                        'var(--blue-bright-color) !important',
-                                      color: '#fff',
-                                    },
-                                  }}
+                                  sx={equipmentItemStyles}
                                 >
                                   <ListItemText primary={item} />
                                 </ListItemButton>

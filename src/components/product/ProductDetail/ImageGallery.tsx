@@ -4,6 +4,7 @@ import { ImageModal } from './components/ImageGallery/ImageModal'
 import { MainImageDisplay } from './components/ImageGallery/MainImageDisplay'
 import { ThumbnailNavigation } from './components/ImageGallery/ThumbnailNavigation'
 import { GALLERY_SETTINGS } from './components/ImageGallery/constants'
+import { useImageNavigation } from './hooks/useImageNavigation'
 
 interface ImageGalleryProps {
   images: string[]
@@ -25,38 +26,12 @@ export const ImageGallery = ({
   const [isModalOpen, setIsModalOpen] = useState(false)
   const hasMultipleImages = images.length > 1
 
-  const getThumbnailRange = () => {
-    const { MAX_VISIBLE_THUMBNAILS } = GALLERY_SETTINGS
-
-    if (images.length <= MAX_VISIBLE_THUMBNAILS) {
-      return {
-        start: 0,
-        end: images.length,
-        indices: Array.from({ length: images.length }, (_, i) => i),
-      }
-    }
-
-    const halfVisible = Math.floor(MAX_VISIBLE_THUMBNAILS / 2)
-    const indices = []
-
-    for (let i = -halfVisible; i <= halfVisible; i++) {
-      let index = currentImageIndex + i
-      if (index < 0) {
-        index = images.length + index
-      } else if (index >= images.length) {
-        index = index - images.length
-      }
-      indices.push(index)
-    }
-
-    return { start: 0, end: indices.length, indices }
-  }
-
-  const { indices: visibleIndices } = getThumbnailRange()
-  const visibleThumbnails = visibleIndices.map((index) => ({
-    image: images[index],
-    index,
-  }))
+  const { visibleThumbnails } = useImageNavigation(
+    images,
+    currentImageIndex,
+    setCurrentImageIndex,
+    { maxVisibleThumbnails: GALLERY_SETTINGS.MAX_VISIBLE_THUMBNAILS }
+  )
 
   return (
     <Box sx={{ display: 'flex', gap: '20px' }}>

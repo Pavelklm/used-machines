@@ -39,7 +39,11 @@ export const Header = () => {
             </div>
           )}
           {!isLaptop && (
-            <Search onOverlayChange={handleSearchOverlay} marginTop={'33px'} />
+            <Search
+              onOverlayChange={handleSearchOverlay}
+              marginTop={'33px'}
+              width={'300px'}
+            />
           )}
           {!isLaptop && (
             <div className='header__email'>

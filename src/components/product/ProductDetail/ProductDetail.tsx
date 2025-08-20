@@ -1,5 +1,5 @@
 import { LineBackground } from '@/components/module/LineBackground/LineBackground'
-import { FormattedText } from '@/components/ui/FormattedText/FormattedText'
+import { FormattedText } from '@/scripts/utils/FormattedText/FormattedText'
 import { Product } from '@/types/products'
 import { Box } from '@mui/material'
 import { motion } from 'framer-motion'

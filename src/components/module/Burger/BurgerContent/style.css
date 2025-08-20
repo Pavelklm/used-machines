@@ -81,3 +81,22 @@
 .burger-search {
   z-index: 100000;
 }
+
+.burger__telephone__link {
+  display: flex;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 30px;
+  color: var(--main-color) !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media screen and (max-width: 768px) {
+  .burger-content {
+    width: 100%;
+    overflow-y: auto;
+  }
+  .burger-search {
+    width: 100%;
+  }
+}
