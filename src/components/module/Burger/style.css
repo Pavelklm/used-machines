@@ -100,7 +100,7 @@
   height: var(--burger-line-height);
   width: var(--burger-inner-width);
   border-radius: calc(var(--burger-line-height) / 2);
-  background: #000;
+  background: var(--main-color);
 }
 
 .top {
@@ -225,7 +225,7 @@
   width: var(--burger-path-width);
   height: var(--burger-half-size);
   margin: 0 var(--burger-margin-small) 0 0;
-  background: #000;
+  background: var(--main-color);
 }
 
 .burger.open .animate-path {
@@ -460,5 +460,12 @@
 
   100% {
     transform: rotate(0deg);
+  }
+}
+
+/* Скрываем burger на desktop размерах */
+@media (min-width: 1025px) {
+  .burger {
+    display: none !important;
   }
 }

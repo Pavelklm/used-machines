@@ -2,6 +2,8 @@
 
 import Burger from '@/components/module/Burger/Burger'
 import { BurgerContent } from '@/components/module/Burger/BurgerContent/BurgerContent'
+import { setSearchOverlay } from '@/context/slices/overlaySlice'
+import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import { useNavigate } from 'react-router-dom'
 import Gmail from '../SVG/Gmail'
@@ -12,8 +14,11 @@ import './style.css'
 
 export const Header = () => {
   const navigate = useNavigate()
-  const { isMiniPhone, isPhone, isTablet, isLaptop, isDesktop } =
-    useScreenSize()
+  const { isTablet, isLaptop, isDesktop } = useScreenSize()
+  const dispatch = useAppDispatch()
+  const handleSearchOverlay = (show: boolean) => {
+    dispatch(setSearchOverlay(show))
+  }
 
   const handleLogoClick = () => {
     navigate('/')
@@ -33,7 +38,9 @@ export const Header = () => {
               <CatalogPopup />
             </div>
           )}
-          {!isLaptop && <Search />}
+          {!isLaptop && (
+            <Search onOverlayChange={handleSearchOverlay} marginTop={'33px'} />
+          )}
           {!isLaptop && (
             <div className='header__email'>
               <a
@@ -57,7 +64,7 @@ export const Header = () => {
         </div>
       </header>
       <BurgerContent />
-      {isLaptop && <Burger />}
+      <Burger />
     </div>
   )
 }

@@ -5,30 +5,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 330px;
   height: 100vh;
+  padding: 88px 20px 0 20px;
   background-color: #fff;
   z-index: 10000;
-  /* Начальное состояние: спрятано справа */
   opacity: var(--overlay-opacity-from);
   transform: var(--slide-transform-from);
-  transition: 
+  transition:
     opacity var(--overlay-animation-duration) var(--overlay-animation-easing),
     transform var(--slide-animation-duration) var(--slide-animation-easing);
 }
 
 .burger-content-active {
-  /* Активное состояние: полностью видимо и на месте */
   opacity: var(--overlay-opacity-to);
   transform: var(--slide-transform-to);
 }
 
-/* Анимация появления элементов с задержкой */
 .burger-content-active .burger-content__container > * {
   opacity: var(--overlay-opacity-to);
   transform: translateY(0);
-  transition: 
+  transition:
     opacity var(--content-animation-duration) var(--content-animation-easing),
     transform var(--content-animation-duration) var(--content-animation-easing);
 }
@@ -36,33 +34,50 @@
 .burger-content__container {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  padding: 0 20px;
+  gap: 20px;
   width: 100%;
 }
 
-/* Начальное состояние элементов: смещены вниз и прозрачны */
 .burger-content__container > * {
   opacity: var(--overlay-opacity-from);
   transform: translateY(20px);
-  transition: 
+  transition:
     opacity var(--content-animation-duration) var(--content-animation-easing),
     transform var(--content-animation-duration) var(--content-animation-easing);
 }
 
-/* Staggered анимация: каждый элемент появляется с задержкой */
 .burger-content-active .burger-content__container > *:nth-child(1) {
-  transition-delay: calc(var(--stagger-delay-base) + var(--stagger-delay-increment) * 0);
+  transition-delay: calc(
+    var(--stagger-delay-base) + var(--stagger-delay-increment) * 0
+  );
 }
 
 .burger-content-active .burger-content__container > *:nth-child(2) {
-  transition-delay: calc(var(--stagger-delay-base) + var(--stagger-delay-increment) * 1);
+  transition-delay: calc(
+    var(--stagger-delay-base) + var(--stagger-delay-increment) * 1
+  );
 }
 
 .burger-content-active .burger-content__container > *:nth-child(3) {
-  transition-delay: calc(var(--stagger-delay-base) + var(--stagger-delay-increment) * 2);
+  transition-delay: calc(
+    var(--stagger-delay-base) + var(--stagger-delay-increment) * 2
+  );
 }
 
 .burger-content-active .burger-content__container > *:nth-child(4) {
-  transition-delay: calc(var(--stagger-delay-base) + var(--stagger-delay-increment) * 3);
+  transition-delay: calc(
+    var(--stagger-delay-base) + var(--stagger-delay-increment) * 3
+  );
+}
+
+.burger__email__link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--main-color);
+  justify-content: flex-start;
+}
+
+.burger-search {
+  z-index: 100000;
 }

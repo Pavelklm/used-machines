@@ -1,31 +1,76 @@
+import CatalogPopup from '@/components/ui/Header/CatalogPopup/CatalogPopup'
 import Search from '@/components/ui/Header/Search/Search'
 import Gmail from '@/components/ui/SVG/Gmail'
-import { useAppSelector } from '@/scripts/hooks/hooks'
+import { setBurgerOverlay } from '@/context/slices/overlaySlice'
+import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
+import { useCallback, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './style.css'
 
 export const BurgerContent = () => {
   const burgerOverlay = useAppSelector(
     (state) => state.overlay.source === 'burger'
   )
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const contentRef = useRef<HTMLDivElement>(null)
+  const { isTablet, isLaptop, isDesktop } = useScreenSize()
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element
+
+      if (target.closest('.burger')) {
+        return
+      }
+
+      if (contentRef.current && !contentRef.current.contains(target)) {
+        dispatch(setBurgerOverlay(false))
+      }
+    }
+
+    if (burgerOverlay) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [burgerOverlay, dispatch])
+
+  const handleProductSelect = useCallback(
+    (productId: string) => {
+      dispatch(setBurgerOverlay(false))
+      navigate(`/product/${productId}`)
+    },
+    [dispatch, navigate]
+  )
 
   return (
     <div
+      ref={contentRef}
       className={`burger-content ${burgerOverlay ? 'burger-content-active' : ''}`}
     >
       <div className='burger-content__container'>
-        <Search />
+        <Search
+          onOverlayChange={() => {}}
+          onSelectProduct={handleProductSelect}
+          marginTop='5px'
+          paperHeight='100vh'
+          overflow='visible'
+          className='burger-search'
+        />
+        {isTablet && <CatalogPopup />}
         <div className='header__email'>
           <a
-            className='header__email__link link-reset'
+            className='burger__email__link link-reset'
             href='mailto:6xYlD@example.com'
           >
             <Gmail className='header__email__icon' />
-            '6xYlD@example.com'
+            6xYlD@example.com
           </a>
         </div>
         <div className='header__telephone'>
           <a
-            className='header__telephone__link link-reset'
+            className='header__telephone__link burger__telephone__link link-reset'
             href='tel:+380501234567'
           >
             +38 (050) 123-45-67

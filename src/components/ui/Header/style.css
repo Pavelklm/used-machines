@@ -92,6 +92,13 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .header__email__icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 @media (max-width: 480px) {
   .header__container {
     align-items: flex-start;

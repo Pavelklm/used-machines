@@ -15,7 +15,24 @@ interface HighlightPart {
   highlight: boolean
 }
 
-export default function Search() {
+interface SearchProps {
+  onOverlayChange?: (show: boolean) => void
+  marginTop?: string
+  paperHeight?: string
+  overflow?: string
+  onSelectProduct?: (productId: string) => void
+  className?: string
+}
+
+export default function Search({
+  onOverlayChange,
+  overflow,
+  marginTop,
+  paperHeight,
+  onSelectProduct,
+  className,
+}: SearchProps = {}) {
+
   const { productsArray, isLoading } = useProducts()
 
   const dispatch = useAppDispatch()
@@ -79,9 +96,18 @@ export default function Search() {
 
         setIsNavigating(true)
         setOpen(false)
-        dispatch(setSearchOverlay(false))
+        if (onOverlayChange) {
+          onOverlayChange(false)
+        } else {
+          dispatch(setSearchOverlay(false))
+        }
         setInputValue('')
-        navigate(`/product/${value.id}`)
+
+        if (onSelectProduct) {
+          onSelectProduct(value.id)
+        } else {
+          navigate(`/product/${value.id}`)
+        }
         setTimeout(() => {
           setIsNavigating(false)
         }, 100)
@@ -89,10 +115,14 @@ export default function Search() {
       if (value === null) {
         setInputValue('')
         setOpen(false)
-        dispatch(setSearchOverlay(false))
+        if (onOverlayChange) {
+          onOverlayChange(false)
+        } else {
+          dispatch(setSearchOverlay(false))
+        }
       }
     },
-    [navigate, dispatch]
+    [navigate, onOverlayChange, onSelectProduct, dispatch]
   )
 
   const handleInputChange = useCallback(
@@ -105,13 +135,21 @@ export default function Search() {
 
       if (newInputValue.length > 0) {
         setOpen(true)
-        dispatch(setSearchOverlay(true))
+        if (onOverlayChange) {
+          onOverlayChange(true)
+        } else {
+          dispatch(setSearchOverlay(true))
+        }
       } else {
         setOpen(false)
-        dispatch(setSearchOverlay(false))
+        if (onOverlayChange) {
+          onOverlayChange(false)
+        } else {
+          dispatch(setSearchOverlay(false))
+        }
       }
     },
-    [dispatch, isNavigating]
+    [onOverlayChange, dispatch, isNavigating]
   )
 
   const handleOpen = useCallback(() => {
@@ -123,17 +161,26 @@ export default function Search() {
       return
     }
     setOpen(true)
-    dispatch(setSearchOverlay(true))
-  }, [dispatch, hasInput, isNavigating])
+    if (onOverlayChange) {
+      onOverlayChange(true)
+    } else {
+      dispatch(setSearchOverlay(true))
+    }
+  }, [onOverlayChange, dispatch, hasInput, isNavigating])
 
   const handleClose = useCallback(() => {
     setOpen(false)
-    dispatch(setSearchOverlay(false))
+    if (onOverlayChange) {
+      onOverlayChange(false)
+    } else {
+      dispatch(setSearchOverlay(false))
+    }
     setInputValue('')
-  }, [dispatch])
+  }, [onOverlayChange, dispatch])
 
   return (
     <Box
+      className={className}
       sx={{
         position: 'relative',
       }}
@@ -160,11 +207,11 @@ export default function Search() {
         slotProps={{
           paper: {
             sx: {
-              marginTop: '33px',
+              marginTop: marginTop,
               borderRadius: '20px',
               padding: '10px 10px 10px 10px',
+              height: paperHeight,
               boxShadow: '0 4px 20px var(--blue-light-color)',
-              zIndex: 1003,
               '& .MuiAutocomplete-option': {
                 borderRadius: '10px',
                 '&:hover': {
@@ -177,6 +224,8 @@ export default function Search() {
           listbox: {
             sx: {
               paddingRight: '10px',
+              height: paperHeight,
+              overflow: overflow,
             },
           },
           popupIndicator: {
