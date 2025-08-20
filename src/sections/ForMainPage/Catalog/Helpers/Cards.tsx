@@ -1,10 +1,9 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Box, Card, CardContent, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material'
 import Skeleton from '@mui/material/Skeleton'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DirectusOptimizedImage from '@/scripts/utils/OptimizedImage'
 
 interface Item {
   id: any
@@ -182,14 +181,19 @@ export default function Cards({
                       },
                     }}
                   >
-                    <DirectusOptimizedImage
-                      src={item.url || '/images/placeholder.jpg'}
+                    <CardMedia
+                      component='img'
+                      height='220'
+                      width='289'
+                      image={item.url || '/images/placeholder.jpg'}
                       alt={`${item.product_name || 'Продукт'} - професійне м'ясне обладнання`}
-                      width={289}
-                      height={220}
-                      priority={index < 3}
-                      className="rounded-lg"
-                      fit="cover"
+                      sx={{
+                        borderRadius: '10px',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                      }}
+                      loading='lazy'
+                      draggable='false'
                     />
                     <CardContent
                       sx={{
@@ -210,13 +214,15 @@ export default function Cards({
                           }}
                         >
                           {item.brand_image && (
-                            <DirectusOptimizedImage
+                            <Box
+                              component='img'
                               src={item.brand_image}
                               alt={item.brand_name}
-                              width={30}
-                              height={30}
-                              fit="contain"
-                              priority={true}
+                              sx={{
+                                width: '30px',
+                                height: '30px',
+                                objectFit: 'contain',
+                              }}
                             />
                           )}
                           <Typography

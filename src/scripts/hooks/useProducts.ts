@@ -1,9 +1,30 @@
 import { BrandInfo, Product } from '@/types/products'
 import { useCallback, useMemo } from 'react'
 import { useProductsQuery } from './useProductsQuery'
-const buildAssetUrl = (baseUrl: string, assetPath: string) => {
+const buildAssetUrl = (baseUrl: string, assetPath: string, options?: {
+  width?: number
+  height?: number
+  quality?: number
+  format?: 'webp' | 'avif'
+}) => {
   if (!assetPath) return ''
-  return `${baseUrl}assets/${assetPath}`
+  
+  const url = `${baseUrl}assets/${assetPath}`
+  
+  // Добавляем параметры оптимизации для Directus изображений
+  if (options && (options.width || options.height || options.quality || options.format)) {
+    const params = new URLSearchParams()
+    
+    if (options.width) params.set('width', options.width.toString())
+    if (options.height) params.set('height', options.height.toString())
+    if (options.quality) params.set('quality', options.quality.toString())
+    if (options.format) params.set('format', options.format)
+    params.set('fit', 'cover')
+    
+    return `${url}?${params.toString()}`
+  }
+  
+  return url
 }
 
 export const useProducts = () => {
@@ -23,7 +44,12 @@ export const useProducts = () => {
         seen.add(brand.brand_name)
         uniqueBrands.push({
           brand_name: brand.brand_name,
-          brand__image: buildAssetUrl(directusUrl, brand.brand__image),
+          brand__image: buildAssetUrl(directusUrl, brand.brand__image, {
+            width: 60,
+            height: 60,
+            quality: 85,
+            format: 'webp'
+          }),
         })
       }
     })
@@ -40,10 +66,20 @@ export const useProducts = () => {
             product_name: product.product_name,
             price: product.price,
             currency: product.currency_name?.currency_name,
-            url: buildAssetUrl(directusUrl, product.photo_url),
+            url: buildAssetUrl(directusUrl, product.photo_url, {
+              width: 289,
+              height: 220,
+              quality: 85,
+              format: 'webp'
+            }),
             brand_name: product.brands_names?.brand_name,
             brand_image: product.brands_names?.brand__image
-              ? buildAssetUrl(directusUrl, product.brands_names.brand__image)
+              ? buildAssetUrl(directusUrl, product.brands_names.brand__image, {
+                  width: 30,
+                  height: 30,
+                  quality: 85,
+                  format: 'webp'
+                })
               : null,
           }
         }
@@ -101,11 +137,21 @@ export const useProducts = () => {
           currency: product.currency_name?.currency_name,
           price: product.price,
           product_name: product.product_name,
-          url: buildAssetUrl(directusUrl, product.photo_url),
+          url: buildAssetUrl(directusUrl, product.photo_url, {
+            width: 289,
+            height: 220,
+            quality: 85,
+            format: 'webp'
+          }),
           equipment_name: product.equipments_names?.equipment_name,
           brand_name: product.brands_names?.brand_name,
           brand_image: product.brands_names?.brand__image
-            ? buildAssetUrl(directusUrl, product.brands_names.brand__image)
+            ? buildAssetUrl(directusUrl, product.brands_names.brand__image, {
+                width: 30,
+                height: 30,
+                quality: 85,
+                format: 'webp'
+              })
             : null,
           category: product.categories_names?.categorie_name,
         }))

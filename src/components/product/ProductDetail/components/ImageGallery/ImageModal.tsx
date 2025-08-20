@@ -164,7 +164,7 @@ export const ImageModal = ({
         >
           <CardMedia
             component='img'
-            image={`${directusUrl}assets/${images[currentImageIndex] || images[0]}`}
+            image={images[currentImageIndex] || images[0]}
             alt={`${productName} - увеличено`}
             sx={{
               width: 'auto',
@@ -270,7 +270,7 @@ export const ImageModal = ({
                     >
                       <CardMedia
                         component='img'
-                        image={`${directusUrl}assets/${thumbnail.image}`}
+                        image={thumbnail.image}
                         alt={`${productName} - зображення ${actualIndex + 1}`}
                         sx={{
                           width: '100%',
