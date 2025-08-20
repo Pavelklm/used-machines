@@ -1,6 +1,7 @@
 import ZoomInIcon from '@mui/icons-material/ZoomIn'
-import { Box, Card, CardMedia } from '@mui/material'
+import { Box, Card } from '@mui/material'
 import { motion } from 'framer-motion'
+import DirectusOptimizedImage from '@/scripts/utils/OptimizedImage'
 import { MAIN_IMAGE_STYLES } from './constants'
 
 interface MainImageDisplayProps {
@@ -34,23 +35,14 @@ export const MainImageDisplay = ({
         transition={{ duration: 0.3, ease: 'easeOut' }}
       >
         <Card sx={MAIN_IMAGE_STYLES} onClick={onZoomClick}>
-          <CardMedia
-            component='img'
-            image={`${directusUrl}assets/${image}`}
+          <DirectusOptimizedImage
+            src={`${directusUrl}assets/${image}`}
             alt={`${productName} від ${brandName} - професійне м'ясопереробне обладнання`}
-            loading='lazy'
-            className='main-image'
-            sx={{
-              maxWidth: '600px',
-              maxHeight: '500px',
-              minWidth: '500px',
-              minHeight: '400px',
-              width: 'auto',
-              height: 'auto',
-              objectFit: 'contain',
-              display: 'block',
-              transition: 'transform 0.3s ease',
-            }}
+            width={600}
+            height={500}
+            priority={true}
+            fit="contain"
+            className="main-image"
           />
 
           <Box

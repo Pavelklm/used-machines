@@ -3,6 +3,7 @@ import { LineBackground } from '@/components/module/LineBackground/LineBackgroun
 import { resetScrollToForm } from '@/context/slices/scrollSlice'
 import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { useEffect, useRef } from 'react'
+import DirectusOptimizedImage from '@/scripts/utils/OptimizedImage'
 import './style.css'
 
 export const RequestForm = () => {
@@ -24,12 +25,13 @@ export const RequestForm = () => {
       <div className='request-form-container container'>
         <div className='request-form-wrapper'>
           <div className='request-form-image-section'>
-            <img
+            <DirectusOptimizedImage
               src='/icons/cutter.png'
               alt='Обладнання для різання'
               className='request-form-image'
-              loading='lazy'
-              draggable='false'
+              width={400}
+              height={300}
+              fit='contain'
             />
           </div>
           <div className='form__content_right'>

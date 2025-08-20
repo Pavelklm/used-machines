@@ -1,5 +1,6 @@
-import { Card, CardMedia } from '@mui/material'
+import { Card } from '@mui/material'
 import { motion } from 'framer-motion'
+import DirectusOptimizedImage from '@/scripts/utils/OptimizedImage'
 
 interface ThumbnailItemProps {
   image: string
@@ -71,16 +72,13 @@ export const ThumbnailItem = ({
           },
         }}
       >
-        <CardMedia
-          component='img'
-          image={`${directusUrl}assets/${image}`}
+        <DirectusOptimizedImage
+          src={`${directusUrl}assets/${image}`}
           alt={`${productName} - зображення ${index + 1}`}
-          sx={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            backgroundColor: '#f5f5f5',
-          }}
+          width={size}
+          height={size}
+          fit="contain"
+          className="thumbnail-image"
         />
       </Card>
     </motion.div>

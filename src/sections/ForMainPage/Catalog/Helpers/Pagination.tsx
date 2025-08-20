@@ -1,4 +1,5 @@
-import { Pagination, Stack } from '@mui/material'
+import Pagination from '@mui/material/Pagination'
+import Stack from '@mui/material/Stack'
 import '../style.css'
 
 type Props = {

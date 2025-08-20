@@ -1,14 +1,12 @@
 import { type FilteredItem } from '@/context/slices/filteredItemsSlice'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Link,
-  List,
-  ListItem,
-  Typography,
-} from '@mui/material'
+import Accordion from '@mui/material/Accordion'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import Link from '@mui/material/Link'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import Typography from '@mui/material/Typography'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   headerVariants,

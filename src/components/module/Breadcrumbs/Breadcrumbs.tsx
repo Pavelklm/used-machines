@@ -1,4 +1,3 @@
-// components/product/Breadcrumbs/Breadcrumbs.tsx
 import {
   Box,
   Link,

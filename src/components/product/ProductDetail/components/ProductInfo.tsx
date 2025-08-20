@@ -1,6 +1,7 @@
 import MainButton from '@/components/module/MainButton/MainButton'
 import { Product } from '@/types/products'
-import { Box, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import { formatPrice } from '../utils/productUtils'
 

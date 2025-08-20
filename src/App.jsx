@@ -1,4 +1,3 @@
-// App.jsx
 import ScrollToTop from '@/scripts/utils/ScrollToTop.tsx'
 import '@/styles/animations.css'
 import '@/styles/global.css'
