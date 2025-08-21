@@ -9,7 +9,6 @@ interface ThumbnailNavigationProps {
   images: string[]
   currentImageIndex: number
   setCurrentImageIndex: (index: number) => void
-  directusUrl: string
   productName: string
   maxVisibleThumbnails?: number
 }
@@ -18,7 +17,6 @@ export const ThumbnailNavigation = ({
   images,
   currentImageIndex,
   setCurrentImageIndex,
-  directusUrl,
   productName,
   maxVisibleThumbnails = 3,
 }: ThumbnailNavigationProps) => {
@@ -65,7 +63,6 @@ export const ThumbnailNavigation = ({
             image={thumbnail.image}
             index={thumbnail.index}
             isActive={currentImageIndex === thumbnail.index}
-            directusUrl={directusUrl}
             productName={productName}
             onClick={setCurrentImageIndex}
             animationDelay={index * 0.05}

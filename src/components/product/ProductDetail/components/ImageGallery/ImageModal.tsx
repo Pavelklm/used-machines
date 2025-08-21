@@ -13,7 +13,6 @@ interface ImageModalProps {
   images: string[]
   currentImageIndex: number
   setCurrentImageIndex: (index: number) => void
-  directusUrl: string
   productName: string
   hasMultipleImages: boolean
   visibleThumbnails: Array<{ image: string; index: number }>
@@ -25,7 +24,6 @@ export const ImageModal = ({
   images,
   currentImageIndex,
   setCurrentImageIndex,
-  directusUrl,
   productName,
   hasMultipleImages,
   visibleThumbnails,

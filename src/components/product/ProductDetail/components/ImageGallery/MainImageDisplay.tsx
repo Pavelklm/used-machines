@@ -5,7 +5,6 @@ import { MAIN_IMAGE_STYLES } from './constants'
 
 interface MainImageDisplayProps {
   image: string
-  directusUrl: string
   productName: string
   brandName: string
   onZoomClick: () => void
@@ -13,7 +12,6 @@ interface MainImageDisplayProps {
 
 export const MainImageDisplay = ({
   image,
-  directusUrl,
   productName,
   brandName,
   onZoomClick,

@@ -38,7 +38,6 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
           images={images}
           currentImageIndex={currentImageIndex}
           setCurrentImageIndex={setCurrentImageIndex}
-          directusUrl={directusUrl}
           productName={product.product_name}
           brandName={product.brands_names.brand_name}
         />

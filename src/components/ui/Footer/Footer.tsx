@@ -21,7 +21,7 @@ export const Footer = () => {
             © Horns & Hooves, 2025 Усі права захищено
           </p>
           <Link to='/policy' className='footer__policy link-reset'>
-            Політика конфіденційності
+            <p className='footer__policy-text'>Політика конфіденційності</p>
           </Link>
           <Link
             to='https://www.behance.net/klmstudio'

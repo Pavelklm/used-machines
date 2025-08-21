@@ -15,7 +15,7 @@
 }
 .Logo_KlM {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   color: var(--blue-color);
   gap: 10px;
   white-space: nowrap;
@@ -23,4 +23,49 @@
 
 .footer__policy {
   color: var(--blue-color);
+}
+
+@media screen and (max-width: 1024px) {
+  .Logo_KlM {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0px;
+    max-width: 120px;
+  }
+  .footer__copyright {
+    max-width: 181px;
+    min-width: 180px;
+  }
+  .footer__policy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 124px;
+  }
+
+  .footer__policy-text {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer__content {
+    flex-direction: column;
+    height: 100%;
+  }
+  .Logo_KlM {
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+  .footer__policy {
+    flex-wrap: nowrap;
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .footer__copyright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
 }

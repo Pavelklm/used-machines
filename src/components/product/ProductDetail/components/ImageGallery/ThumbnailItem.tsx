@@ -5,7 +5,6 @@ interface ThumbnailItemProps {
   image: string
   index: number
   isActive: boolean
-  directusUrl: string
   productName: string
   onClick: (index: number) => void
   size?: number
@@ -19,7 +18,6 @@ export const ThumbnailItem = ({
   image,
   index,
   isActive,
-  directusUrl,
   productName,
   onClick,
   size = 83,

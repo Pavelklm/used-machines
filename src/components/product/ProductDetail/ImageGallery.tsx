@@ -10,7 +10,6 @@ interface ImageGalleryProps {
   images: string[]
   currentImageIndex: number
   setCurrentImageIndex: (index: number) => void
-  directusUrl: string
   productName: string
   brandName: string
 }
@@ -19,7 +18,6 @@ export const ImageGallery = ({
   images,
   currentImageIndex,
   setCurrentImageIndex,
-  directusUrl,
   productName,
   brandName,
 }: ImageGalleryProps) => {
@@ -40,7 +38,6 @@ export const ImageGallery = ({
           images={images}
           currentImageIndex={currentImageIndex}
           setCurrentImageIndex={setCurrentImageIndex}
-          directusUrl={directusUrl}
           productName={productName}
           maxVisibleThumbnails={GALLERY_SETTINGS.MAX_VISIBLE_THUMBNAILS}
         />
@@ -48,7 +45,6 @@ export const ImageGallery = ({
 
       <MainImageDisplay
         image={images[currentImageIndex] || images[0]}
-        directusUrl={directusUrl}
         productName={productName}
         brandName={brandName}
         onZoomClick={() => setIsModalOpen(true)}
@@ -60,7 +56,6 @@ export const ImageGallery = ({
         images={images}
         currentImageIndex={currentImageIndex}
         setCurrentImageIndex={setCurrentImageIndex}
-        directusUrl={directusUrl}
         productName={productName}
         hasMultipleImages={hasMultipleImages}
         visibleThumbnails={visibleThumbnails}
