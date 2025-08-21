@@ -1,20 +1,25 @@
 import { LineBackground } from '@/components/module/LineBackground/LineBackground'
 import MainButton from '@/components/module/MainButton/MainButton'
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import './style.css'
 
 export const Info = () => {
+  const { isTablet, isLaptop } = useScreenSize()
   return (
     <div className='info'>
       <div className='container info__container'>
         <div className='info__main'>
           <div className='info__main__left'>
             <h1 className='info__main__title'>
-              Перевірене вживане обладнання для <br /> м’ясної промисловості
+              Перевірене вживане обладнання для {isLaptop ? '' : <br />} м’ясної
+              промисловості
             </h1>
+
             <h2 className='info__main__subtitle'>
-              Надійне обладнання для вашого виробництва — <br /> з гарантією
-              та професійною підтримкою
+              Надійне обладнання для вашого виробництва — з гарантією та
+              професійною підтримкою
             </h2>
+
             <MainButton />
           </div>
           <div className='info__main__right'>
