@@ -1,4 +1,5 @@
 import { useConsultationForm } from '@/scripts/hooks/useConsultationForm'
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import React, { useMemo } from 'react'
 import { FormInput } from './components/FormInput'
 import { FormTextarea } from './components/FormTextarea'
@@ -14,6 +15,8 @@ const Form: React.FC = () => {
     handleChange,
     handleSubmit,
   } = useConsultationForm()
+
+  const { isTablet } = useScreenSize()
 
   const memoizedHandleSubmit = useMemo(() => handleSubmit, [handleSubmit])
 
@@ -88,8 +91,8 @@ const Form: React.FC = () => {
               className='request-form-privacy-policy'
               role='note'
             >
-              Натискаючи на кнопку, ви даєте згоду <br /> на обробку
-              персональних даних
+              Натискаючи на кнопку, ви даєте згоду {isTablet ? '' : <br />}
+              на обробку персональних даних
             </p>
           </form>
         </div>

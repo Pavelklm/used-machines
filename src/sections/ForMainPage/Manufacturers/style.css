@@ -3,7 +3,6 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  padding: 20px 0;
   mask: linear-gradient(
     90deg,
     transparent 0%,
@@ -128,6 +127,11 @@
   .manufacturers__slide__img {
     width: 100px;
     height: 50px;
+  }
+
+  .manufacturers__title {
+    font-size: 20px;
+    font-weight: 400;
   }
 }
 

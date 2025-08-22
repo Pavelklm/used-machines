@@ -9,6 +9,7 @@ import { store } from '@/context/store'
 import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { usePagination } from '@/scripts/hooks/usePagination'
 import { useProducts } from '@/scripts/hooks/useProducts'
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import { useScrollEndDetection } from '@/scripts/hooks/useScrollEndDetection'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Cards from './Helpers/Cards'
@@ -21,6 +22,8 @@ export const Catalog = () => {
   const catalogRef = useRef<HTMLDivElement>(null)
   const [sortType, setSortType] = useState('high')
   const [animationKey, setAnimationKey] = useState(0)
+
+  const { isDesktop } = useScreenSize()
 
   const dispatch = useAppDispatch()
   const filteredItems = useAppSelector(
@@ -113,14 +116,16 @@ export const Catalog = () => {
           </div>
         </div>
         <div className='catalog__content'>
-          <div className='catalog__filters'>
-            <Filters
-              catalogDataByCategory={filterOptionsByGroup}
-              getFilteredProducts={getFilteredProducts}
-              setFilteredItems={handleFilterChange}
-              onShowAllProducts={handleShowAllProducts}
-            />
-          </div>
+          {isDesktop ? (
+            <div className='catalog__filters'>
+              <Filters
+                catalogDataByCategory={filterOptionsByGroup}
+                getFilteredProducts={getFilteredProducts}
+                setFilteredItems={handleFilterChange}
+                onShowAllProducts={handleShowAllProducts}
+              />
+            </div>
+          ) : null}
           <div className='catalog__items'>
             <div className='catalog__items__list'>
               <Cards

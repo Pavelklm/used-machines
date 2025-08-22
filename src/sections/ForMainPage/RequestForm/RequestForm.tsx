@@ -2,6 +2,7 @@ import Form from '@/components/forms/Form/Form'
 import { LineBackground } from '@/components/module/LineBackground/LineBackground'
 import { resetScrollToForm } from '@/context/slices/scrollSlice'
 import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import { useEffect, useRef } from 'react'
 import './style.css'
 
@@ -18,6 +19,8 @@ export const RequestForm = () => {
     }
   }, [scrollToForm, dispatch])
 
+  const { isTablet } = useScreenSize()
+
   return (
     <div ref={formRef} className='main-form'>
       <LineBackground className={'full-width-line-form'} />
@@ -31,6 +34,9 @@ export const RequestForm = () => {
               loading='lazy'
               draggable='false'
             />
+            {isTablet && (
+              <LineBackground className={'full-width-line-form-tablet'} />
+            )}
           </div>
           <div className='form__content_right'>
             <Form />

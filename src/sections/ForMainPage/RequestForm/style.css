@@ -12,3 +12,113 @@
   /* Scroll offset для учета fixed header */
   scroll-margin-top: var(--scroll-total-offset);
 }
+
+@media (max-width: 1255px) {
+  .request-form-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    min-width: 464px;
+    min-height: 411px;
+  }
+  .request-form-wrapper {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1024px) {
+  .request-form-image {
+    min-width: 346px;
+    min-height: 307px;
+    margin-top: 60px;
+  }
+  .request-form-button {
+    width: 288px;
+  }
+}
+
+@media (max-width: 768px) {
+  .request-form-box {
+    padding: 50px 40px;
+  }
+
+  .request-form-container {
+    padding: 0;
+  }
+
+  .request-form-content {
+    text-align: center;
+  }
+
+  .full-width-line-form {
+    display: none;
+  }
+  .full-width-line-form-tablet {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -100px;
+
+    width: 100vw;
+    max-width: 100vw;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .request-form-wrapper {
+    flex-direction: column;
+  }
+  .request-form-image-section {
+    position: relative;
+  }
+  .request-form-image {
+    width: 480px;
+    height: 425px;
+    margin-top: 0;
+  }
+  .request-form-button {
+    width: 400px;
+  }
+  .request-form-privacy-policy {
+    width: 400px;
+  }
+  .request-form-input-wrapper,
+  .request-form-input-wrapper-inline {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .request-form-box {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .request-form-image {
+    width: 320px;
+    height: 285px;
+    min-width: 320px;
+    min-height: 285px;
+  }
+  .request-form-button {
+    width: 280px;
+  }
+  .request-form-input {
+    width: 280px;
+  }
+  .request-form-privacy-policy {
+    width: 280px;
+  }
+  .request-form-title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .request-form-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .full-width-line-form-tablet {
+    bottom: -130px;
+  }
+}
