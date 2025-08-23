@@ -37,9 +37,24 @@ export default function PaginationRounded({
               color: '#fff' + '!important',
             },
           },
-          '& .MuiPaginationItem-previousNext': {
-            marginRight: '50px',
-            marginLeft: '50px',
+          '& .MuiPaginationItem-previousNext[aria-label="Go to previous page"]':
+            {
+              marginRight: {
+                xl: '50px',
+                lg: '50px',
+                md: '60px',
+                sm: '60px',
+                xs: '30px',
+              },
+            },
+          '& .MuiPaginationItem-previousNext[aria-label="Go to next page"]': {
+            marginLeft: {
+              xl: '50px',
+              lg: '50px',
+              md: '60px',
+              sm: '60px',
+              xs: '30px',
+            },
           },
           '& .Mui-selected': {
             backgroundColor: 'var(--main-color) !important',

@@ -1,136 +1,243 @@
-import { BrandInfo, Product } from '@/types/products'
 import { useCallback, useMemo } from 'react'
 import { useProductsQuery } from './useProductsQuery'
-const buildAssetUrl = (baseUrl: string, assetPath: string, options?: {
+import { useScreenSize } from './useScreenSize'
+
+// ========================= CONSTANTS =========================
+
+const IMAGE_QUALITY = 100
+const IMAGE_FORMAT = 'webp' as const
+const BRAND_IMAGE_SIZE = { width: 60, height: 60 }
+const SMALL_BRAND_IMAGE_SIZE = { width: 30, height: 30 }
+
+const RESPONSIVE_DIMENSIONS = {
+  miniPhone: { width: 320, height: 220 },
+  phone: { width: 440, height: 280 },
+  tablet: { width: 354, height: 220 },
+  laptop: { width: 314, height: 240 },
+  desktop: { width: 289, height: 220 },
+} as const
+
+// ========================= TYPES =========================
+
+interface ImageOptions {
   width?: number
   height?: number
   quality?: number
   format?: 'webp' | 'avif'
-}) => {
-  if (!assetPath) return ''
-  
-  const url = `${baseUrl}assets/${assetPath}`
-  
-  // Добавляем параметры оптимизации для Directus изображений
-  if (options && (options.width || options.height || options.quality || options.format)) {
-    const params = new URLSearchParams()
-    
-    if (options.width) params.set('width', options.width.toString())
-    if (options.height) params.set('height', options.height.toString())
-    if (options.quality) params.set('quality', options.quality.toString())
-    if (options.format) params.set('format', options.format)
-    params.set('fit', 'cover')
-    
-    return `${url}?${params.toString()}`
-  }
-  
-  return url
 }
 
+interface ProcessedProduct {
+  id: string | number
+  product_name: string
+  price: number
+  currency: string | undefined
+  url: string
+  brand_name: string | undefined
+  brand_image: string | null
+}
+
+interface FilteredProduct extends ProcessedProduct {
+  equipment_name: string | undefined
+  category: string | undefined
+}
+
+// Типизация для filterOptionsByGroup с индексной сигнатурой
+interface FilterOptionsByGroup {
+  Виробники: string[]
+  [categoryName: string]: string[] // Индексная сигнатура
+}
+
+// ========================= UTILITIES =========================
+
+const buildAssetUrl = (
+  baseUrl: string,
+  assetPath: string | null | undefined,
+  options?: ImageOptions
+): string => {
+  if (!assetPath || !baseUrl) return ''
+
+  const url = `${baseUrl}assets/${assetPath}`
+  if (!options) return url
+
+  const {
+    width,
+    height,
+    quality = IMAGE_QUALITY,
+    format = IMAGE_FORMAT,
+  } = options
+  if (!width && !height && !quality && !format) return url
+
+  const searchParams = new URLSearchParams()
+
+  if (width) searchParams.set('width', width.toString())
+  if (height) searchParams.set('height', height.toString())
+  if (quality) searchParams.set('quality', quality.toString())
+  if (format) searchParams.set('format', format)
+  searchParams.set('fit', 'cover')
+
+  return `${url}?${searchParams.toString()}`
+}
+
+// Overloaded функция для правильной типизации
+function createUniqueArray<T, K extends string | number>(
+  items: T[],
+  keySelector: (item: T) => K | undefined
+): T[]
+
+function createUniqueArray<T, K extends string | number, R>(
+  items: T[],
+  keySelector: (item: T) => K | undefined,
+  mapper: (item: T) => R
+): R[]
+
+function createUniqueArray<T, K extends string | number, R>(
+  items: T[],
+  keySelector: (item: T) => K | undefined,
+  mapper?: (item: T) => R
+): (T | R)[] {
+  const seen = new Set<K>()
+  const result: (T | R)[] = []
+
+  for (const item of items) {
+    const key = keySelector(item)
+    if (!key || seen.has(key)) continue
+
+    seen.add(key)
+    result.push(mapper ? mapper(item) : item)
+  }
+
+  return result
+}
+
+// ========================= MAIN HOOK =========================
+
 export const useProducts = () => {
+  const screenSize = useScreenSize()
   const { data: products = [], isLoading, error } = useProductsQuery()
 
   const directusUrl = import.meta.env.VITE_API_BASE_URL
 
-  const allBrands = useMemo(() => {
-    const seen = new Set<string>()
-    const uniqueBrands: BrandInfo[] = []
+  // Чистая функция для безопасных URL
+  const safeUrl = useCallback(
+    (path?: string | null, options?: ImageOptions): string | null => {
+      return path ? buildAssetUrl(directusUrl, path, options) : null
+    },
+    [directusUrl]
+  )
 
-    products.forEach((product: Product) => {
-      const brand = product.brands_names
-      if (!brand?.brand_name) return
+  // ========================= RESPONSIVE DIMENSIONS =========================
 
-      if (!seen.has(brand.brand_name)) {
-        seen.add(brand.brand_name)
-        uniqueBrands.push({
-          brand_name: brand.brand_name,
-          brand__image: buildAssetUrl(directusUrl, brand.brand__image, {
-            width: 60,
-            height: 60,
-            quality: 85,
-            format: 'webp'
+  const imageDimensions = useMemo(() => {
+    const { isMiniPhone, isPhone, isTablet, isLaptop } = screenSize
+
+    if (isMiniPhone) return RESPONSIVE_DIMENSIONS.miniPhone
+    if (isPhone) return RESPONSIVE_DIMENSIONS.phone
+    if (isTablet) return RESPONSIVE_DIMENSIONS.tablet
+    if (isLaptop) return RESPONSIVE_DIMENSIONS.laptop
+    return RESPONSIVE_DIMENSIONS.desktop
+  }, [screenSize])
+
+  // ========================= BRANDS =========================
+
+  const allBrands = useMemo(
+    () =>
+      createUniqueArray(
+        products,
+        (product) => product.brands_names?.brand_name,
+        (product) => ({
+          brand_name: product.brands_names!.brand_name,
+          brand__image: buildAssetUrl(
+            directusUrl,
+            product.brands_names?.brand__image,
+            {
+              ...BRAND_IMAGE_SIZE,
+              quality: IMAGE_QUALITY,
+              format: IMAGE_FORMAT,
+            }
+          ),
+        })
+      ),
+    [products, directusUrl]
+  )
+
+  // ========================= PRODUCTS =========================
+
+  const productsArray = useMemo(
+    () =>
+      createUniqueArray(
+        products,
+        (product) => product.product_name,
+        (product) => ({
+          id: product.id,
+          product_name: product.product_name,
+          price: product.price,
+          currency: product.currency_name?.currency_name,
+          url: buildAssetUrl(directusUrl, product.photo_url, {
+            ...imageDimensions,
+            quality: IMAGE_QUALITY,
+            format: IMAGE_FORMAT,
+          }),
+          brand_name: product.brands_names?.brand_name,
+          brand_image: safeUrl(product.brands_names?.brand__image, {
+            ...SMALL_BRAND_IMAGE_SIZE,
+            quality: IMAGE_QUALITY,
+            format: IMAGE_FORMAT,
           }),
         })
-      }
-    })
+      ),
+    [products, directusUrl, imageDimensions, safeUrl]
+  )
 
-    return uniqueBrands
-  }, [products, directusUrl])
+  // ========================= CATEGORIES =========================
 
-  const productsArray = useMemo(() => {
-    const uniqueProducts = products.reduce(
-      (acc, product) => {
-        if (!acc[product.product_name]) {
-          acc[product.product_name] = {
-            id: product.id,
-            product_name: product.product_name,
-            price: product.price,
-            currency: product.currency_name?.currency_name,
-            url: buildAssetUrl(directusUrl, product.photo_url, {
-              width: 289,
-              height: 220,
-              quality: 85,
-              format: 'webp'
-            }),
-            brand_name: product.brands_names?.brand_name,
-            brand_image: product.brands_names?.brand__image
-              ? buildAssetUrl(directusUrl, product.brands_names.brand__image, {
-                  width: 30,
-                  height: 30,
-                  quality: 85,
-                  format: 'webp'
-                })
-              : null,
-          }
-        }
-        return acc
-      },
-      {} as Record<string, any>
-    )
+  const categories = useMemo(
+    () =>
+      createUniqueArray(
+        products,
+        (product) => product.categories_names?.categorie_name
+      ).map((product) => product.categories_names!.categorie_name),
+    [products]
+  )
 
-    return Object.values(uniqueProducts)
-  }, [products, directusUrl])
-
-  const categories = useMemo(() => {
-    return Array.from(
-      new Set(products.map((p) => p.categories_names?.categorie_name))
-    ).filter(Boolean) as string[]
-  }, [products])
+  // ========================= FILTER OPTIONS =========================
 
   const filterOptionsByGroup = useMemo(() => {
-    const categoryMap = categories.reduce(
-      (acc, category) => {
-        const equipmentsForCategory = products
-          .filter((item) => item.categories_names?.categorie_name === category)
-          .map((item) => item.equipments_names?.equipment_name)
+    const brands = createUniqueArray(
+      products,
+      (product) => product.brands_names?.brand_name
+    ).map((product) => product.brands_names!.brand_name)
 
-        acc[category] = Array.from(
-          new Set(equipmentsForCategory.filter(Boolean) as string[])
-        )
+    // Отдельно оборудование по категориям
+    const categoryToEquipments = categories.reduce(
+      (acc, category) => {
+        const equipments = createUniqueArray(
+          products.filter(
+            (product) => product.categories_names?.categorie_name === category
+          ),
+          (product) => product.equipments_names?.equipment_name
+        ).map((product) => product.equipments_names!.equipment_name)
+
+        acc[category] = equipments
         return acc
       },
       {} as Record<string, string[]>
     )
 
     return {
-      Виробники: Array.from(
-        new Set(
-          products
-            .map((item) => item.brands_names?.brand_name)
-            .filter(Boolean) as string[]
-        )
-      ),
-      ...categoryMap,
-    }
-  }, [products, categories]) as Record<string, string[]>
+      Виробники: brands,
+      ...categoryToEquipments,
+    } as FilterOptionsByGroup // Явное приведение к типу с индексной сигнатурой
+  }, [products, categories])
+
+  // ========================= FILTER FUNCTIONS =========================
 
   const getFilteredProducts = useCallback(
-    (name: string) => {
-      return products
+    (filterName: string): FilteredProduct[] =>
+      products
         .filter(
           (product) =>
-            product.equipments_names?.equipment_name === name ||
-            product.brands_names?.brand_name === name
+            product.equipments_names?.equipment_name === filterName ||
+            product.brands_names?.brand_name === filterName
         )
         .map((product) => ({
           id: product.id,
@@ -138,45 +245,66 @@ export const useProducts = () => {
           price: product.price,
           product_name: product.product_name,
           url: buildAssetUrl(directusUrl, product.photo_url, {
-            width: 289,
-            height: 220,
-            quality: 85,
-            format: 'webp'
+            ...imageDimensions,
+            quality: IMAGE_QUALITY,
+            format: IMAGE_FORMAT,
           }),
           equipment_name: product.equipments_names?.equipment_name,
           brand_name: product.brands_names?.brand_name,
-          brand_image: product.brands_names?.brand__image
-            ? buildAssetUrl(directusUrl, product.brands_names.brand__image, {
-                width: 30,
-                height: 30,
-                quality: 85,
-                format: 'webp'
-              })
-            : null,
+          brand_image: safeUrl(product.brands_names?.brand__image, {
+            ...SMALL_BRAND_IMAGE_SIZE,
+            quality: IMAGE_QUALITY,
+            format: IMAGE_FORMAT,
+          }),
           category: product.categories_names?.categorie_name,
-        }))
-    },
-    [products, directusUrl]
+        })),
+    [products, directusUrl, imageDimensions, safeUrl]
   )
 
-  // Мемоизируем и эту функцию
+  // ========================= NAVIGATION HELPERS =========================
+
+  // Универсальная функция: ищем группу/категорию для любого элемента
   const getCategoryFromEquipment = useCallback(
-    (equipment: string) => {
-      const category = Object.keys(filterOptionsByGroup).find((key) =>
-        filterOptionsByGroup[key].includes(equipment)
-      )
-      return category
-    },
+    (itemName: string): string | undefined =>
+      Object.keys(filterOptionsByGroup).find(groupKey =>
+        filterOptionsByGroup[groupKey]?.includes(itemName)
+      ),
     [filterOptionsByGroup]
   )
 
+  // Семантические помощники для ясности кода
+  const getGroupFromBrand = useCallback(
+    (brandName: string): 'Виробники' | undefined => {
+      const group = getCategoryFromEquipment(brandName)
+      return group === 'Виробники' ? 'Виробники' : undefined
+    },
+    [getCategoryFromEquipment]
+  )
+
+  const getCategoryFromEquipmentOnly = useCallback(
+    (equipmentName: string): string | undefined => {
+      const category = getCategoryFromEquipment(equipmentName)
+      return category !== 'Виробники' ? category : undefined
+    },
+    [getCategoryFromEquipment]
+  )
+
   return {
+    // Data
     productsArray,
-    filterOptionsByGroup,
-    getFilteredProducts,
     allBrands,
-    getCategoryFromEquipment,
+    filterOptionsByGroup,
+    
+    // Filter functions
+    getFilteredProducts,
+    
+    // Navigation helpers
+    getCategoryFromEquipment,      // Универсальная (бренды + equipment)
+    getGroupFromBrand,            // Только для брендов
+    getCategoryFromEquipmentOnly, // Только для equipment
+    
+    // State
     isLoading,
     error,
-  }
+  } as const
 }

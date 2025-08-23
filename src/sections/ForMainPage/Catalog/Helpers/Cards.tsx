@@ -114,8 +114,8 @@ export default function Cards({
               {item.isPlaceholder ? (
                 <Card
                   sx={{
-                    width: 289,
-                    height: '383px',
+                    width: { xs: 320, sm: 440, md: 354, lg: 314, xl: 289 },
+                    height: { xs: 373, sm: 433, md: 373, lg: 373, xl: 373 },
                     borderRadius: '10px',
                     border: '1px solid var(--blue-light-color)',
                     opacity: 0.6,
@@ -135,10 +135,10 @@ export default function Cards({
                   />
                   <Skeleton
                     variant='circular'
-                    width={289}
-                    height={220}
                     animation='wave'
                     sx={{
+                      width: { xs: 320, sm: 440, md: 354, lg: 314, xl: 289 },
+                      height: { xs: 220, sm: 280, md: 220, lg: 240, xl: 220 },
                       borderRadius: 2,
                       background: 'transparent',
                       draggable: 'false',
@@ -165,8 +165,8 @@ export default function Cards({
                 >
                   <Card
                     sx={{
-                      width: 289,
-                      height: 383,
+                      width: { xs: 320, sm: 440, md: 354, lg: 314, xl: 289 },
+                      height: { xs: 373, sm: 433, md: 373, lg: 373, xl: 373 },
                       cursor: 'pointer',
                       borderRadius: '10px',
                       boxShadow: '0 0 0 1px var(--blue-light-color)',
@@ -184,10 +184,12 @@ export default function Cards({
                     <CardMedia
                       component='img'
                       height='220'
-                      width='289'
+                      width='314'
                       image={item.url || '/images/placeholder.jpg'}
                       alt={`${item.product_name || 'Продукт'} - професійне м'ясне обладнання`}
                       sx={{
+                        width: { xs: 320, sm: 440, md: 354, lg: 314, xl: 289 },
+                        height: { xs: 220, sm: 280, md: 220, lg: 240, xl: 220 },
                         borderRadius: '10px',
                         objectFit: 'cover',
                         objectPosition: 'center',

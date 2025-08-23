@@ -60,3 +60,40 @@
   object-fit: cover;
   position: absolute;
 }
+
+@media screen and (max-width: 1255px) {
+  .catalog__content {
+    justify-content: center;
+  }
+  .empty_product_img {
+    width: 314px;
+    height: 240px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .catalog__items__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .empty_product_img {
+    width: 354px;
+    height: 220px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .catalog__items__list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .empty_product_img {
+    width: 440px;
+    height: 280px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .empty_product_img {
+    width: 320px;
+    height: 220px;
+  }
+}
