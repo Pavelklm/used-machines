@@ -13,7 +13,7 @@ const RESPONSIVE_DIMENSIONS = {
   miniPhone: { width: 320, height: 220 },
   phone: { width: 440, height: 280 },
   tablet: { width: 354, height: 220 },
-  laptop: { width: 314, height: 240 },
+  laptop: { width: 314, height: 220 },
   desktop: { width: 289, height: 220 },
 } as const
 
@@ -266,7 +266,7 @@ export const useProducts = () => {
   // Универсальная функция: ищем группу/категорию для любого элемента
   const getCategoryFromEquipment = useCallback(
     (itemName: string): string | undefined =>
-      Object.keys(filterOptionsByGroup).find(groupKey =>
+      Object.keys(filterOptionsByGroup).find((groupKey) =>
         filterOptionsByGroup[groupKey]?.includes(itemName)
       ),
     [filterOptionsByGroup]
@@ -294,15 +294,15 @@ export const useProducts = () => {
     productsArray,
     allBrands,
     filterOptionsByGroup,
-    
+
     // Filter functions
     getFilteredProducts,
-    
+
     // Navigation helpers
-    getCategoryFromEquipment,      // Универсальная (бренды + equipment)
-    getGroupFromBrand,            // Только для брендов
+    getCategoryFromEquipment, // Универсальная (бренды + equipment)
+    getGroupFromBrand, // Только для брендов
     getCategoryFromEquipmentOnly, // Только для equipment
-    
+
     // State
     isLoading,
     error,

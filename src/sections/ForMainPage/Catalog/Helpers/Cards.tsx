@@ -138,7 +138,7 @@ export default function Cards({
                     animation='wave'
                     sx={{
                       width: { xs: 320, sm: 440, md: 354, lg: 314, xl: 289 },
-                      height: { xs: 220, sm: 280, md: 220, lg: 240, xl: 220 },
+                      height: { xs: 220, sm: 280, md: 220, lg: 220, xl: 220 },
                       borderRadius: 2,
                       background: 'transparent',
                       draggable: 'false',
@@ -189,7 +189,7 @@ export default function Cards({
                       alt={`${item.product_name || 'Продукт'} - професійне м'ясне обладнання`}
                       sx={{
                         width: { xs: 320, sm: 440, md: 354, lg: 314, xl: 289 },
-                        height: { xs: 220, sm: 280, md: 220, lg: 240, xl: 220 },
+                        height: { xs: 220, sm: 280, md: 220, lg: 220, xl: 220 },
                         borderRadius: '10px',
                         objectFit: 'cover',
                         objectPosition: 'center',

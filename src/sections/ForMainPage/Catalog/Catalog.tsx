@@ -14,6 +14,7 @@ import { useScrollEndDetection } from '@/scripts/hooks/useScrollEndDetection'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Cards from './Helpers/Cards'
 import Filters from './Helpers/Filters/Filters'
+import { FiltersMobile } from './Helpers/Filters/FiltersMobile'
 import Pagination from './Helpers/Pagination'
 import CustomSorter from './Helpers/Sorter'
 import './style.css'
@@ -111,6 +112,14 @@ export const Catalog = () => {
       <div className='container catalog__container'>
         <div className='catalog__head'>
           <div className='catalog__title'>Каталог</div>
+          {!isDesktop && (
+            <FiltersMobile
+              catalogDataByCategory={filterOptionsByGroup}
+              getFilteredProducts={getFilteredProducts}
+              setFilteredItems={handleFilterChange}
+              onShowAllProducts={handleShowAllProducts}
+            />
+          )}
           <div className='catalog__sort'>
             <CustomSorter sortType={sortType} onSortChange={setSortType} />
           </div>
