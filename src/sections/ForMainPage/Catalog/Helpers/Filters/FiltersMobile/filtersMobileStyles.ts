@@ -3,7 +3,6 @@ import { SxProps, Theme } from '@mui/material'
 export const filtersMobileContainerStyles: SxProps<Theme> = {
   display: 'inline-block',
   borderRadius: '10px',
-  width: '195px',
 }
 
 export const getCatalogButtonStyles = (menuOpen: boolean): SxProps<Theme> => ({
@@ -12,7 +11,9 @@ export const getCatalogButtonStyles = (menuOpen: boolean): SxProps<Theme> => ({
     : 'var(--main-color) !important',
   borderRadius: '10px',
   p: '13.5px 30px',
+  maxHeight: '44px',
   color: '#fff',
+  gap: '16px',
   '&:hover': {
     backgroundColor: 'var(--blue-bright-color) !important',
   },
@@ -24,8 +25,7 @@ export const catalogButtonTextStyles: SxProps<Theme> = {
 
 export const popupContainerStyles = {
   position: 'absolute' as const,
-  top: '75px',
-  left: 20,
+  right: 20,
   width: 'fit-content',
   marginTop: 5,
   border: '1px solid var(--blue-light-color)',
@@ -55,7 +55,9 @@ export const leftColumnListStyles: SxProps<Theme> = {
 }
 
 // Стили для кнопки "Уся продукція"
-export const getShowAllProductsStyles = (isSelected: boolean): SxProps<Theme> => ({
+export const getShowAllProductsStyles = (
+  isSelected: boolean
+): SxProps<Theme> => ({
   padding: '16px',
   borderRadius: '10px',
   marginBottom: '10px',
@@ -100,7 +102,7 @@ export const rightColumnStyles: SxProps<Theme> = {
   ml: '20px',
   overflow: 'auto',
   overflowX: 'hidden',
-  height: '400px',
+  height: '490px',
 }
 
 export const equipmentListStyles = {

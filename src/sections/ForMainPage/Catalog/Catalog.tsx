@@ -111,18 +111,12 @@ export const Catalog = () => {
     <div ref={catalogRef} className='catalog'>
       <div className='container catalog__container'>
         <div className='catalog__head'>
-          <div className='catalog__title'>Каталог</div>
-          {!isDesktop && (
-            <FiltersMobile
-              catalogDataByCategory={filterOptionsByGroup}
-              getFilteredProducts={getFilteredProducts}
-              setFilteredItems={handleFilterChange}
-              onShowAllProducts={handleShowAllProducts}
-            />
+          {isDesktop && <div className='catalog__title'>Каталог</div>}
+          {isDesktop && (
+            <div className='catalog__sort'>
+              <CustomSorter sortType={sortType} onSortChange={setSortType} />
+            </div>
           )}
-          <div className='catalog__sort'>
-            <CustomSorter sortType={sortType} onSortChange={setSortType} />
-          </div>
         </div>
         <div className='catalog__content'>
           {isDesktop ? (
@@ -136,6 +130,25 @@ export const Catalog = () => {
             </div>
           ) : null}
           <div className='catalog__items'>
+            {!isDesktop && (
+              <div className='catalog__mobile-wrapper'>
+                <div className='catalog__title'>Каталог</div>
+                <div className='catalog__mobile-management'>
+                  <FiltersMobile
+                    catalogDataByCategory={filterOptionsByGroup}
+                    getFilteredProducts={getFilteredProducts}
+                    setFilteredItems={handleFilterChange}
+                    onShowAllProducts={handleShowAllProducts}
+                  />
+                  <div className='catalog__sort'>
+                    <CustomSorter
+                      sortType={sortType}
+                      onSortChange={setSortType}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             <div className='catalog__items__list'>
               <Cards
                 items={currentItems || []}

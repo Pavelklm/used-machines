@@ -1,3 +1,4 @@
+import { type FilteredItem } from '@/context/slices/filteredItemsSlice'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
   Box,
@@ -9,33 +10,32 @@ import {
   Typography,
 } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useFiltersMobile } from './useFiltersMobile'
 import {
-  filtersMobileContainerStyles,
-  getCatalogButtonStyles,
-  catalogButtonTextStyles,
-  popupContainerStyles,
-  paperStyles,
-  mainContentStyles,
-  leftColumnStyles,
-  leftColumnListStyles,
-  getCategoryItemStyles,
-  categoryItemTextStyles,
-  getCategoryIconStyles,
-  rightColumnStyles,
-  equipmentListStyles,
-  equipmentItemStyles,
-  getShowAllProductsStyles,
-} from './filtersMobileStyles'
-import {
-  listVariants,
-  itemVariants,
-  popupVariants,
-  popupTransition,
   arrowRotateTransition,
   categoryArrowTransition,
+  itemVariants,
+  listVariants,
+  popupTransition,
+  popupVariants,
 } from './filtersMobileAnimations'
-import { type FilteredItem } from '@/context/slices/filteredItemsSlice'
+import {
+  catalogButtonTextStyles,
+  categoryItemTextStyles,
+  equipmentItemStyles,
+  equipmentListStyles,
+  filtersMobileContainerStyles,
+  getCatalogButtonStyles,
+  getCategoryIconStyles,
+  getCategoryItemStyles,
+  getShowAllProductsStyles,
+  leftColumnListStyles,
+  leftColumnStyles,
+  mainContentStyles,
+  paperStyles,
+  popupContainerStyles,
+  rightColumnStyles,
+} from './filtersMobileStyles'
+import { useFiltersMobile } from './useFiltersMobile'
 
 interface FiltersMobileProps {
   catalogDataByCategory: Record<string, string[]>
@@ -75,7 +75,7 @@ export const FiltersMobile = ({
         onClick={handleMainClick}
         sx={getCatalogButtonStyles(menuOpen)}
       >
-        <Typography sx={catalogButtonTextStyles}>Каталог</Typography>
+        <Typography sx={catalogButtonTextStyles}>Фільтра</Typography>
         <motion.div
           animate={{ rotate: menuOpen ? 180 : 0 }}
           transition={arrowRotateTransition}
@@ -90,9 +90,9 @@ export const FiltersMobile = ({
           <ClickAwayListener onClickAway={handleClickAway}>
             <motion.div
               variants={popupVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
+              initial='initial'
+              animate='animate'
+              exit='exit'
               transition={popupTransition}
               style={popupContainerStyles}
             >
@@ -103,39 +103,48 @@ export const FiltersMobile = ({
                     {/* Кнопка "Уся продукція" */}
                     <Typography
                       onClick={handleShowAllProducts}
-                      sx={getShowAllProductsStyles(filterState.selectedItem === ALL_PRODUCTS)}
+                      sx={getShowAllProductsStyles(
+                        filterState.selectedItem === ALL_PRODUCTS
+                      )}
                     >
                       {ALL_PRODUCTS}
                     </Typography>
 
                     <List sx={leftColumnListStyles}>
-                      {(Object.keys(catalogDataByCategory) as Keys[]).map((key) => (
-                        <ListItemButton
-                          key={key}
-                          onClick={() => handleItemClick(key)}
-                          selected={filterState.activeCategory === key}
-                          sx={getCategoryItemStyles(filterState.activeCategory === key)}
-                        >
-                          <ListItemText
-                            primary={key}
-                            slotProps={{
-                              primary: {
-                                sx: categoryItemTextStyles,
-                              },
-                            }}
-                          />
-                          <motion.div
-                            animate={{
-                              rotate: filterState.activeCategory === key ? 90 : 270,
-                            }}
-                            transition={categoryArrowTransition}
+                      {(Object.keys(catalogDataByCategory) as Keys[]).map(
+                        (key) => (
+                          <ListItemButton
+                            key={key}
+                            onClick={() => handleItemClick(key)}
+                            selected={filterState.activeCategory === key}
+                            sx={getCategoryItemStyles(
+                              filterState.activeCategory === key
+                            )}
                           >
-                            <KeyboardArrowDownIcon
-                              sx={getCategoryIconStyles(filterState.activeCategory === key)}
+                            <ListItemText
+                              primary={key}
+                              slotProps={{
+                                primary: {
+                                  sx: categoryItemTextStyles,
+                                },
+                              }}
                             />
-                          </motion.div>
-                        </ListItemButton>
-                      ))}
+                            <motion.div
+                              animate={{
+                                rotate:
+                                  filterState.activeCategory === key ? 90 : 270,
+                              }}
+                              transition={categoryArrowTransition}
+                            >
+                              <KeyboardArrowDownIcon
+                                sx={getCategoryIconStyles(
+                                  filterState.activeCategory === key
+                                )}
+                              />
+                            </motion.div>
+                          </ListItemButton>
+                        )
+                      )}
                     </List>
                   </Box>
 
@@ -151,19 +160,19 @@ export const FiltersMobile = ({
                           exit='exit'
                           style={equipmentListStyles}
                         >
-                          {catalogDataByCategory[filterState.activeCategory]?.map(
-                            (item: string) => (
-                              <motion.li key={item} variants={itemVariants}>
-                                <ListItemButton
-                                  onClick={() => handleClick(item)}
-                                  selected={filterState.selectedItem === item}
-                                  sx={equipmentItemStyles}
-                                >
-                                  <ListItemText primary={item} />
-                                </ListItemButton>
-                              </motion.li>
-                            )
-                          )}
+                          {catalogDataByCategory[
+                            filterState.activeCategory
+                          ]?.map((item: string) => (
+                            <motion.li key={item} variants={itemVariants}>
+                              <ListItemButton
+                                onClick={() => handleClick(item)}
+                                selected={filterState.selectedItem === item}
+                                sx={equipmentItemStyles}
+                              >
+                                <ListItemText primary={item} />
+                              </ListItemButton>
+                            </motion.li>
+                          ))}
                         </motion.ul>
                       )}
                     </AnimatePresence>
