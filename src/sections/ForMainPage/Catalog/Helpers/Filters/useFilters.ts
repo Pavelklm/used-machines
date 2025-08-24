@@ -20,6 +20,9 @@ interface UseFiltersProps {
   getFilteredProducts: (name: string) => FilteredItem[]
   setFilteredItems: (items: FilteredItem[]) => void
   onShowAllProducts?: () => void
+  initialActiveCategory?: string | null
+  initialSelectedItem?: string
+  externalAllProducts?: string
 }
 
 export function useFilters({
@@ -27,10 +30,16 @@ export function useFilters({
   getFilteredProducts,
   setFilteredItems,
   onShowAllProducts,
+  initialActiveCategory,
+  initialSelectedItem,
+  externalAllProducts,
 }: UseFiltersProps) {
+  // Используем внешнюю константу если передана, иначе свою
+  const CURRENT_ALL_PRODUCTS = externalAllProducts || ALL_PRODUCTS
+
   const [filterState, setFilterState] = useState<FilterState>({
-    activeCategory: null,
-    selectedItem: ALL_PRODUCTS,
+    activeCategory: initialActiveCategory || null,
+    selectedItem: initialSelectedItem || CURRENT_ALL_PRODUCTS,
   })
 
   const dispatch = useAppDispatch()
@@ -107,16 +116,16 @@ export function useFilters({
     dispatch(setActiveEquipment(''))
     setFilterState({
       activeCategory: null,
-      selectedItem: ALL_PRODUCTS,
+      selectedItem: CURRENT_ALL_PRODUCTS,
     })
     if (onShowAllProducts) {
       onShowAllProducts()
     }
-  }, [dispatch, onShowAllProducts])
+  }, [dispatch, onShowAllProducts, CURRENT_ALL_PRODUCTS])
 
   return {
     filterState,
-    ALL_PRODUCTS,
+    ALL_PRODUCTS: CURRENT_ALL_PRODUCTS,
     handleToggle,
     handleClick,
     handleShowAllProducts,

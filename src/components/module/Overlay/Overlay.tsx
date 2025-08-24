@@ -1,6 +1,7 @@
 'use client'
 
-import { useAppSelector } from '@/scripts/hooks/hooks'
+import { setOverlay } from '@/context/slices/overlaySlice'
+import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const OVERLAY_ANIMATION = {
@@ -13,8 +14,16 @@ const OVERLAY_ANIMATION = {
 }
 
 export const Overlay = () => {
+  const dispatch = useAppDispatch()
   const overlay = useAppSelector((state) => state.overlay)
   const overlaySource = useAppSelector((state) => state.overlay.source)
+
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    // Закрываем overlay только если кликнули именно на overlay, а не на его содержимое
+    if (e.target === e.currentTarget) {
+      dispatch(setOverlay(false))
+    }
+  }
 
   return (
     <AnimatePresence>
@@ -28,6 +37,7 @@ export const Overlay = () => {
             duration: OVERLAY_ANIMATION.duration,
             ease: OVERLAY_ANIMATION.ease,
           }}
+          onClick={handleOverlayClick}
         />
       )}
     </AnimatePresence>

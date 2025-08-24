@@ -23,22 +23,22 @@ export const catalogButtonTextStyles: SxProps<Theme> = {
   flexGrow: 1,
 }
 
-export const popupContainerStyles = {
+export const getPopupContainerStyles = (width: number) => ({
   position: 'absolute' as const,
-  right: 20,
-  width: 'fit-content',
+  right: width < 768 ? 0 : 20,
+  width: width < 768 ? '100%' : 'fit-content',
   marginTop: 5,
   border: '1px solid var(--blue-light-color)',
   borderRadius: '20px',
-  zIndex: 500,
-}
+  zIndex: 25,
+})
 
-export const paperStyles: SxProps<Theme> = {
-  p: '30px 30px 12px 30px',
-  minWidth: 400,
+export const getPaperStylesWidth = (width: number): SxProps<Theme> => ({
+  p: width < 768 ? '20px' : '30px 30px 12px 30px',
+  minWidth: width < 768 ? 'auto' : 400,
   borderRadius: '20px',
   border: '1px solid var(--blue-light-color)',
-}
+})
 
 export const mainContentStyles: SxProps<Theme> = {
   display: 'flex',

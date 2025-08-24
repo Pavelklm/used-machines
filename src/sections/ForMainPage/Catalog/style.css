@@ -5,7 +5,7 @@
 
 .catalog__sort {
   position: relative;
-  z-index: 100;
+  z-index: 24;
 }
 
 .catalog__title {

@@ -29,6 +29,6 @@ export const TAB_NAVIGATION_STYLES = {
   height: '75px',
   position: 'relative',
   gap: '10px',
-  zIndex: 1,
+  zIndex: 5,
   overflow: 'visible',
 } as const

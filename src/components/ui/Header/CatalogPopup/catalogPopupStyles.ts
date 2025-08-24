@@ -30,7 +30,7 @@ export const popupContainerStyles = {
   marginTop: 5,
   border: '1px solid var(--blue-light-color)',
   borderRadius: '20px',
-  zIndex: 500,
+  zIndex: 20,
 }
 
 export const paperStyles: SxProps<Theme> = {
@@ -42,7 +42,7 @@ export const paperStyles: SxProps<Theme> = {
 export const mainContentStyles: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'row',
-  zIndex: 500,
+  zIndex: 21,
 }
 
 export const leftColumnStyles: SxProps<Theme> = {
@@ -55,7 +55,7 @@ export const leftColumnListStyles: SxProps<Theme> = {
 }
 
 export const getCategoryItemStyles = (isActive: boolean): SxProps<Theme> => ({
-  zIndex: 500,
+  zIndex: 22,
   backgroundColor: isActive
     ? 'var(--main-color) !important'
     : '#fff !important',
@@ -80,7 +80,7 @@ export const getCategoryIconStyles = (isActive: boolean): SxProps<Theme> => ({
 })
 
 export const rightColumnStyles: SxProps<Theme> = {
-  zIndex: 500,
+  zIndex: 21,
   width: 289,
   ml: '20px',
   overflow: 'auto',
@@ -98,7 +98,7 @@ export const equipmentItemStyles: SxProps<Theme> = {
   p: '12px 16px',
   borderRadius: '10px',
   marginRight: '10px',
-  zIndex: 500,
+  zIndex: 22,
   '&:hover': {
     backgroundColor: 'var(--blue-bright-color) !important',
     color: '#fff',

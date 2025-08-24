@@ -111,7 +111,7 @@ export function useFiltersMobile({
     [itemToCategoryMap, getFilteredProducts, setFilteredItems, dispatch]
   )
 
-  // Обработка клика вне области (из CatalogPopup)
+  // Обработка клика вне области
   const handleClickAway = useCallback(() => {
     setMenuOpen(false)
     setFilterState((prev) => ({ ...prev, activeCategory: null }))
@@ -125,7 +125,7 @@ export function useFiltersMobile({
     if (!newMenuOpen) {
       setFilterState((prev) => ({ ...prev, activeCategory: null }))
     }
-  }, [menuOpen, dispatch])
+  }, [menuOpen])
 
   // Обработка показа всех продуктов
   const handleShowAllProducts = useCallback(() => {

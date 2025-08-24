@@ -78,7 +78,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  z-index: 1000000;
+  z-index: 46;
 }
 
 .burger-main {

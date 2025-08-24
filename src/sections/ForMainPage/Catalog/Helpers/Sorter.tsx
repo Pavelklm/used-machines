@@ -76,7 +76,7 @@ export default function CustomSorter({ sortType, onSortChange }: SorterProps) {
                 top: '100%',
                 left: 0,
                 right: 0,
-                zIndex: 9999,
+                zIndex: 24,
                 marginTop: '4px',
               }}
             >

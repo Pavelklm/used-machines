@@ -1,7 +1,7 @@
 import { setSearchOverlay } from '@/context/slices/overlaySlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { useProducts } from '@/scripts/hooks/useProducts'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export interface SearchOption {
@@ -59,21 +59,29 @@ export function useSearch({
         }
 
         setIsNavigating(true)
+        
+        // Сначала закрываем плашку и очищаем поле
         setOpen(false)
+        setInputValue('')
+        
+        // Затем закрываем overlay
         if (onOverlayChange) {
           onOverlayChange(false)
         } else {
           dispatch(setSearchOverlay(false))
         }
-        setInputValue('')
 
+        // И только потом переходим
         if (onSelectProduct) {
           onSelectProduct(value.id)
         } else {
           navigate(`/product/${value.id}`)
         }
-        setIsNavigating(false)
+        
+        // Обнуляем флаг навигации
+        setTimeout(() => setIsNavigating(false), 100)
       }
+      
       if (value === null) {
         setInputValue('')
         setOpen(false)
@@ -139,6 +147,18 @@ export function useSearch({
     }
     setInputValue('')
   }, [onOverlayChange, dispatch])
+
+  // Дополнительный обработчик Escape
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && open) {
+        handleClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [open, handleClose])
 
   return {
     inputValue,

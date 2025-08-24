@@ -1,7 +1,7 @@
 .header {
   padding: var(--header-padding) 0;
   background-color: #fff;
-  z-index: 1000;
+  z-index: 40;
   position: fixed;
   width: 100%;
 }
@@ -101,7 +101,7 @@
 
 @media (max-width: 768px) {
   .header {
-    z-index: 1000000;
+    z-index: 40;
   }
 }
 

@@ -108,12 +108,12 @@ main {
   top: 0;
   opacity: 0;
   width: 100%;
-  z-index: 500;
+  z-index: 30;
   pointer-events: none;
 }
 
 .overlay-burger {
-  z-index: 2000;
+  z-index: 44;
 }
 
 .overlay-active {

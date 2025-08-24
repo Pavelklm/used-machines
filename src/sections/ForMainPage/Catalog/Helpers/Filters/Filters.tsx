@@ -31,6 +31,10 @@ interface FiltersProps {
   getFilteredProducts: (name: string) => FilteredItem[]
   setFilteredItems: (items: FilteredItem[]) => void
   onShowAllProducts?: () => void
+  // Дополнительные пропы для синхронизации состояния
+  initialActiveCategory?: string | null
+  initialSelectedItem?: string
+  externalAllProducts?: string
 }
 
 export default function Filters({
@@ -38,6 +42,9 @@ export default function Filters({
   getFilteredProducts,
   setFilteredItems,
   onShowAllProducts,
+  initialActiveCategory,
+  initialSelectedItem,
+  externalAllProducts,
 }: FiltersProps) {
   const {
     filterState,
@@ -50,6 +57,9 @@ export default function Filters({
     getFilteredProducts,
     setFilteredItems,
     onShowAllProducts,
+    initialActiveCategory,
+    initialSelectedItem,
+    externalAllProducts,
   })
 
   return (
