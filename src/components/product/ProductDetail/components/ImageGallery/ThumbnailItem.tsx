@@ -38,8 +38,20 @@ export const ThumbnailItem = ({
       <Card
         onClick={() => onClick(index)}
         sx={{
-          width: `${size}px`,
-          height: `${size}px`,
+          width: {
+            xs: '60px',
+            sm: '60px',
+            md: '60px',
+            lg: `${size}px`,
+            xl: `${size}px`,
+          },
+          height: {
+            xs: '60px',
+            sm: '60px',
+            md: '60px',
+            lg: `${size}px`,
+            xl: `${size}px`,
+          },
           cursor: 'pointer',
           border: isActive
             ? `${borderWidth}px solid var(--blue-bright-color)`

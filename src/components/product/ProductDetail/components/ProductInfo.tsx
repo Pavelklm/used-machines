@@ -24,7 +24,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
     >
       <Box
         sx={{
-          height: '500px',
+          height: { xl: '500px', lg: '500px', md: '0', sm: '0', xs: '0' },
           width: '100%',
           borderRadius: '20px',
           display: 'flex',

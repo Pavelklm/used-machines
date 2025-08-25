@@ -32,7 +32,16 @@ export const ImageGallery = ({
   )
 
   return (
-    <Box sx={{ display: 'flex', gap: '20px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '20px',
+        width: { xl: 'auto', lg: 'auto', md: '100%', sm: '440px', xs: '320px' },
+        justifyContent: 'space-around',
+        flexDirection: { xs: 'column-reverse', md: 'row' },
+        alignItems: 'center',
+      }}
+    >
       {hasMultipleImages && (
         <ThumbnailNavigation
           images={images}

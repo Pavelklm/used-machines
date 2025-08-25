@@ -34,8 +34,20 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
         className='product-detail'
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          alignItems: 'flex-start',
+          flexDirection: {
+            md: 'column',
+            xl: 'row',
+            lg: 'row',
+            sm: 'column',
+            xs: 'column',
+          },
+          alignItems: {
+            xl: 'flex-start',
+            lg: 'flex-start',
+            md: 'flex-start',
+            sm: 'center',
+            xs: 'center',
+          },
           gap: '20px',
         }}
       >

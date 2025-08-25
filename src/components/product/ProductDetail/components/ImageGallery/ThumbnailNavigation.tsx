@@ -31,18 +31,43 @@ export const ThumbnailNavigation = ({
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        width: '80px',
+        width: { xl: 'auto', lg: 'auto', md: 'auto', sm: '100%', xs: '100%' },
+        height: {
+          xl: '400px',
+          lg: '400px',
+          md: '400px',
+          sm: '100%',
+          xs: '100%',
+        },
         justifyContent: 'space-between',
+        flexDirection: {
+          md: 'column',
+          sm: 'row',
+          xs: 'row',
+          lg: 'column',
+          xl: 'column',
+        },
       }}
     >
-      <Box sx={{ mb: 1 }}>
+      <Box
+        sx={{
+          mb: { md: 1, sm: '0', xs: '0', lg: 1, xl: 1 },
+          mr: { md: 0, sm: '10px', xs: '10px', lg: 0, xl: 0 },
+        }}
+      >
         <NavigationButton onClick={handlePrevious}>
           <KeyboardArrowUpIcon
             sx={{
               color: 'var(--main-color)',
               fontSize: '24px',
+              transform: {
+                md: 'rotate(0deg)',
+                sm: 'rotate(270deg)',
+                xs: 'rotate(270deg)',
+                lg: 'rotate(0deg)',
+                xl: 'rotate(0deg)',
+              },
             }}
           />
         </NavigationButton>
@@ -51,10 +76,16 @@ export const ThumbnailNavigation = ({
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
           height: '100%',
-          gap: '14px',
+          gap: { md: '14px', sm: '14px', xs: '5px', lg: '14px', xl: '14px' },
           justifyContent: 'center',
+          flexDirection: {
+            md: 'column',
+            sm: 'row',
+            xs: 'row',
+            lg: 'column',
+            xl: 'column',
+          },
         }}
       >
         {visibleThumbnails.map((thumbnail, index) => (
@@ -70,12 +101,24 @@ export const ThumbnailNavigation = ({
         ))}
       </Box>
 
-      <Box sx={{ mt: 1 }}>
+      <Box
+        sx={{
+          mt: { md: 1, sm: '0', xs: '0', lg: 1, xl: 1 },
+          ml: { md: 0, sm: '10px', xs: '10px', lg: 0, xl: 0 },
+        }}
+      >
         <NavigationButton onClick={handleNext}>
           <KeyboardArrowDownIcon
             sx={{
               color: 'var(--main-color)',
               fontSize: '24px',
+              transform: {
+                md: 'rotate(0deg)',
+                sm: 'rotate(270deg)',
+                xs: 'rotate(270deg)',
+                lg: 'rotate(0deg)',
+                xl: 'rotate(0deg)',
+              },
             }}
           />
         </NavigationButton>
