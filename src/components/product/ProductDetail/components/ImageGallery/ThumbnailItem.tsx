@@ -76,7 +76,7 @@ export const ThumbnailItem = ({
           sx={{
             width: '100%',
             height: '100%',
-            objectFit: 'contain',
+            objectFit: 'cover',
             backgroundColor: '#f5f5f5',
           }}
         />

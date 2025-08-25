@@ -7,7 +7,12 @@ import { useState } from 'react'
 import { Characteristics } from './components/Characteristics'
 import { ProductInfo } from './components/ProductInfo'
 import { TabButton } from './components/TabButton'
-import { TAB_CONTENT_STYLES, TAB_NAVIGATION_STYLES, TAB_PANEL_STYLES, TAB_PANEL_STYLES_SPACE_BETWEEN } from './constants/styles'
+import {
+  TAB_CONTENT_STYLES,
+  TAB_NAVIGATION_STYLES,
+  TAB_PANEL_STYLES,
+  TAB_PANEL_STYLES_SPACE_BETWEEN,
+} from './constants/styles'
 import { ImageGallery } from './ImageGallery'
 import { getProductImages } from './utils/productUtils'
 
@@ -31,7 +36,7 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: 'flex-start',
-          gap: 3,
+          gap: '20px',
         }}
       >
         <ImageGallery
@@ -49,7 +54,7 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
 
       <Box sx={{ mt: '150px', position: 'relative' }}>
         <LineBackground className='full-width-line-product-detail' />
-        
+
         <Box sx={TAB_NAVIGATION_STYLES}>
           <TabButton
             isActive={activeTab === 'specs'}

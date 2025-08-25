@@ -19,8 +19,20 @@ export const MainImageDisplay = ({
   return (
     <Box
       sx={{
-        width: '600px',
-        height: '500px',
+        width: {
+          xl: '600px',
+          lg: '546px',
+          md: '648px',
+          sm: '440px',
+          xs: '320px',
+        },
+        height: {
+          xl: '500px',
+          lg: '500px',
+          md: '400px',
+          sm: '300px',
+          xs: '220px',
+        },
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
@@ -39,13 +51,14 @@ export const MainImageDisplay = ({
             loading='lazy'
             className='main-image'
             sx={{
-              maxWidth: '600px',
-              maxHeight: '500px',
-              minWidth: '500px',
-              minHeight: '400px',
-              width: 'auto',
-              height: 'auto',
-              objectFit: 'contain',
+              maxWidth: {
+                xl: '600px',
+                lg: '546px',
+                md: '648px',
+                sm: '440px',
+                xs: '320px',
+              },
+              objectFit: 'cover',
               display: 'block',
               transition: 'transform 0.3s ease',
             }}

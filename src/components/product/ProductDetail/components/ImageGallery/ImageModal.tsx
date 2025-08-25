@@ -168,7 +168,7 @@ export const ImageModal = ({
               width: 'auto',
               height: '100%',
               maxWidth: '100%',
-              objectFit: 'contain',
+              objectFit: 'cover',
               borderRadius: `${adaptiveSizes.imageBorderRadius}px`,
             }}
           />
@@ -273,7 +273,7 @@ export const ImageModal = ({
                         sx={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'contain',
+                          objectFit: 'cover',
                           backgroundColor: '#f5f5f5',
                         }}
                       />

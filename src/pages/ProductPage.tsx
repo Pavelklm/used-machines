@@ -64,37 +64,39 @@ const ProductPage = () => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-      style={{
-        padding: '0',
-        maxWidth: '1200px',
-        margin: '0 auto',
-        marginTop: '158px',
-      }}
-    >
-      <SimpleAnimatedSection direction='fade' delay={0.1}>
-        <Breadcrumbs productName={product.product_name} />
-      </SimpleAnimatedSection>
+    <div className='container'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+        style={{
+          padding: '0',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          marginTop: '158px',
+        }}
+      >
+        <SimpleAnimatedSection direction='fade' delay={0.1}>
+          <Breadcrumbs productName={product.product_name} />
+        </SimpleAnimatedSection>
 
-      <SimpleAnimatedSection direction='up' delay={0.1}>
-        <ProductDetail
-          product={product}
-          directusUrl={import.meta.env.VITE_API_BASE_URL}
-        />
-      </SimpleAnimatedSection>
+        <SimpleAnimatedSection direction='up' delay={0.1}>
+          <ProductDetail
+            product={product}
+            directusUrl={import.meta.env.VITE_API_BASE_URL}
+          />
+        </SimpleAnimatedSection>
 
-      <SimpleAnimatedSection direction='fade' delay={0.1}>
-        <RequestForm />
-      </SimpleAnimatedSection>
+        <SimpleAnimatedSection direction='fade' delay={0.1}>
+          <RequestForm />
+        </SimpleAnimatedSection>
 
-      <SimpleAnimatedSection direction='fade' delay={0.1}>
-        <Manufacturers />
-      </SimpleAnimatedSection>
-    </motion.div>
+        <SimpleAnimatedSection direction='fade' delay={0.1}>
+          <Manufacturers />
+        </SimpleAnimatedSection>
+      </motion.div>
+    </div>
   )
 }
 

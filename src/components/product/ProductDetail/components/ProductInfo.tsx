@@ -27,7 +27,6 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
           height: '500px',
           width: '100%',
           borderRadius: '20px',
-          padding: '32px',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -44,7 +43,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            mb: 2,
+            mb: '30px',
             textAlign: 'flex-start',
           }}
         >

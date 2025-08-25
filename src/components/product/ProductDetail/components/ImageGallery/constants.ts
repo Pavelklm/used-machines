@@ -39,8 +39,20 @@ export const NAVIGATION_BUTTON_STYLES = {
 } as const
 
 export const MAIN_IMAGE_STYLES = {
-  width: '600px',
-  height: '500px',
+  width: {
+    xl: '600px',
+    lg: '546px',
+    md: '648px',
+    sm: '440px',
+    xs: '320px',
+  },
+  height: {
+    xl: '500px',
+    lg: '500px',
+    md: '400px',
+    sm: '300px',
+    xs: '220px',
+  },
   borderRadius: '10px',
   boxShadow: '0 0 0 1px var(--blue-light-color)',
   overflow: 'hidden',
@@ -51,7 +63,13 @@ export const MAIN_IMAGE_STYLES = {
   cursor: "url('/icons/Cursor_ZoomIn.svg'), zoom-in",
   position: 'relative',
   '&:hover .main-image': {
-    transform: 'scale(1.1)',
+    transform: {
+      xl: 'scale(1.1)',
+      lg: 'none',
+      md: 'none',
+      sm: 'none',
+      xs: 'none',
+    },
   },
   '&:hover .zoom-icon': {
     opacity: 1,

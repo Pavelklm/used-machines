@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface DirectusOptimizedImageProps {
   src: string
@@ -9,19 +9,19 @@ interface DirectusOptimizedImageProps {
   priority?: boolean
   quality?: number
   placeholder?: 'blur' | 'empty'
-  fit?: 'cover' | 'contain' | 'inside' | 'outside'
+  fit?: 'cover' | 'contain'
 }
 
 export const DirectusOptimizedImage = ({
   src,
   alt,
   width,
-  height, 
+  height,
   className = '',
   priority = false,
   quality = 85,
   placeholder = 'blur',
-  fit = 'cover'
+  fit = 'cover',
 }: DirectusOptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isInView, setIsInView] = useState(priority)
@@ -39,9 +39,9 @@ export const DirectusOptimizedImage = ({
           observer.disconnect()
         }
       },
-      { 
+      {
         rootMargin: '50px',
-        threshold: 0.1 
+        threshold: 0.1,
       }
     )
 
@@ -54,16 +54,21 @@ export const DirectusOptimizedImage = ({
 
   // Проверяем является ли это Directus URL
   const isDirectusAsset = (url: string): boolean => {
-    return url.includes('/assets/') || url.includes('admin.hornsandhooves.pp.ua')
+    return (
+      url.includes('/assets/') || url.includes('admin.hornsandhooves.pp.ua')
+    )
   }
 
   // Генерация URL для разных форматов через Directus API
-  const getDirectusUrl = (format?: 'webp' | 'avif', transforms?: string): string => {
+  const getDirectusUrl = (
+    format?: 'webp' | 'avif',
+    transforms?: string
+  ): string => {
     if (!src || !isDirectusAsset(src)) return src
 
     const url = new URL(src)
     const params = new URLSearchParams()
-    
+
     // Добавляем существующие параметры
     url.searchParams.forEach((value, key) => {
       params.set(key, value)
@@ -80,7 +85,7 @@ export const DirectusOptimizedImage = ({
     // Добавляем размеры если указаны
     if (width) params.set('width', width.toString())
     if (height) params.set('height', height.toString())
-    
+
     // Добавляем fit
     params.set('fit', fit)
 
@@ -93,7 +98,7 @@ export const DirectusOptimizedImage = ({
   }
 
   // Responsive размеры
-  const responsiveSizes = width 
+  const responsiveSizes = width
     ? `(max-width: 768px) ${Math.round(width * 0.8)}px, ${width}px`
     : '100vw'
 
@@ -106,13 +111,13 @@ export const DirectusOptimizedImage = ({
   // Если не Directus изображение, возвращаем простой img
   if (!isDirectusAsset(src)) {
     return (
-      <div 
+      <div
         ref={imgRef}
         className={`relative overflow-hidden ${className}`}
-        style={{ 
-          width: width || '100%', 
+        style={{
+          width: width || '100%',
           height: height || 'auto',
-          backgroundColor: placeholder === 'blur' ? '#f3f4f6' : 'transparent'
+          backgroundColor: placeholder === 'blur' ? '#f3f4f6' : 'transparent',
         }}
       >
         {isInView && (
@@ -122,7 +127,7 @@ export const DirectusOptimizedImage = ({
             width={width}
             height={height}
             loading={priority ? 'eager' : 'lazy'}
-            decoding="async"
+            decoding='async'
             onLoad={() => setIsLoaded(true)}
             onError={handleError}
             style={{
@@ -130,7 +135,7 @@ export const DirectusOptimizedImage = ({
               height: '100%',
               objectFit: fit,
               transition: 'opacity 0.3s ease',
-              opacity: isLoaded ? 1 : 0
+              opacity: isLoaded ? 1 : 0,
             }}
           />
         )}
@@ -139,35 +144,35 @@ export const DirectusOptimizedImage = ({
   }
 
   return (
-    <div 
+    <div
       ref={imgRef}
       className={`relative overflow-hidden ${className}`}
-      style={{ 
-        width: width || '100%', 
+      style={{
+        width: width || '100%',
         height: height || 'auto',
-        backgroundColor: placeholder === 'blur' ? '#f3f4f6' : 'transparent'
+        backgroundColor: placeholder === 'blur' ? '#f3f4f6' : 'transparent',
       }}
     >
       {isInView && (
         <picture>
           {/* AVIF - самый эффективный формат */}
           {!hasError && (
-            <source 
-              srcSet={getDirectusUrl('avif')} 
-              type="image/avif"
+            <source
+              srcSet={getDirectusUrl('avif')}
+              type='image/avif'
               sizes={responsiveSizes}
             />
           )}
-          
+
           {/* WebP - поддержка большинством браузеров */}
           {!hasError && (
-            <source 
-              srcSet={getDirectusUrl('webp')} 
-              type="image/webp"
+            <source
+              srcSet={getDirectusUrl('webp')}
+              type='image/webp'
               sizes={responsiveSizes}
             />
           )}
-          
+
           {/* Fallback - оригинальный или без трансформаций при ошибке */}
           <img
             src={hasError ? src : getDirectusUrl()}
@@ -175,7 +180,7 @@ export const DirectusOptimizedImage = ({
             width={width}
             height={height}
             loading={priority ? 'eager' : 'lazy'}
-            decoding="async"
+            decoding='async'
             onLoad={() => setIsLoaded(true)}
             onError={handleError}
             style={{
@@ -183,24 +188,25 @@ export const DirectusOptimizedImage = ({
               height: '100%',
               objectFit: fit,
               transition: 'opacity 0.3s ease',
-              opacity: isLoaded ? 1 : 0
+              opacity: isLoaded ? 1 : 0,
             }}
             // Preload для LCP изображений
             {...(priority && {
-              fetchPriority: 'high' as const
+              fetchPriority: 'high' as const,
             })}
           />
         </picture>
       )}
-      
+
       {/* Blur placeholder */}
       {placeholder === 'blur' && !isLoaded && (
-        <div 
-          className="absolute inset-0"
+        <div
+          className='absolute inset-0'
           style={{
-            background: 'linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%)',
+            background:
+              'linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%)',
             backgroundSize: '200% 100%',
-            animation: 'shimmer 2s infinite'
+            animation: 'shimmer 2s infinite',
           }}
         />
       )}

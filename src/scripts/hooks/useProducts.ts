@@ -9,14 +9,6 @@ const IMAGE_FORMAT = 'webp' as const
 const BRAND_IMAGE_SIZE = { width: 60, height: 60 }
 const SMALL_BRAND_IMAGE_SIZE = { width: 30, height: 30 }
 
-const RESPONSIVE_DIMENSIONS = {
-  miniPhone: { width: 320, height: 220 },
-  phone: { width: 440, height: 280 },
-  tablet: { width: 354, height: 220 },
-  laptop: { width: 314, height: 220 },
-  desktop: { width: 289, height: 220 },
-} as const
-
 // ========================= TYPES =========================
 
 interface ImageOptions {
@@ -127,16 +119,6 @@ export const useProducts = () => {
 
   // ========================= RESPONSIVE DIMENSIONS =========================
 
-  const imageDimensions = useMemo(() => {
-    const { isMiniPhone, isPhone, isTablet, isLaptop } = screenSize
-
-    if (isMiniPhone) return RESPONSIVE_DIMENSIONS.miniPhone
-    if (isPhone) return RESPONSIVE_DIMENSIONS.phone
-    if (isTablet) return RESPONSIVE_DIMENSIONS.tablet
-    if (isLaptop) return RESPONSIVE_DIMENSIONS.laptop
-    return RESPONSIVE_DIMENSIONS.desktop
-  }, [screenSize])
-
   // ========================= BRANDS =========================
 
   const allBrands = useMemo(
@@ -173,7 +155,6 @@ export const useProducts = () => {
           price: product.price,
           currency: product.currency_name?.currency_name,
           url: buildAssetUrl(directusUrl, product.photo_url, {
-            ...imageDimensions,
             quality: IMAGE_QUALITY,
             format: IMAGE_FORMAT,
           }),
@@ -185,7 +166,7 @@ export const useProducts = () => {
           }),
         })
       ),
-    [products, directusUrl, imageDimensions, safeUrl]
+    [products, directusUrl, , safeUrl]
   )
 
   // ========================= CATEGORIES =========================
@@ -245,7 +226,6 @@ export const useProducts = () => {
           price: product.price,
           product_name: product.product_name,
           url: buildAssetUrl(directusUrl, product.photo_url, {
-            ...imageDimensions,
             quality: IMAGE_QUALITY,
             format: IMAGE_FORMAT,
           }),
@@ -258,7 +238,7 @@ export const useProducts = () => {
           }),
           category: product.categories_names?.categorie_name,
         })),
-    [products, directusUrl, imageDimensions, safeUrl]
+    [products, directusUrl, safeUrl]
   )
 
   // ========================= NAVIGATION HELPERS =========================
