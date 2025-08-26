@@ -12,8 +12,20 @@ export const TabButton = ({ isActive, onClick, children }: TabButtonProps) => (
   <Box
     onClick={onClick}
     sx={{
-      padding: '20px 40px 35px 40px',
-      width: '100%',
+      padding: {
+        xl: '20px 40px 35px 40px',
+        lg: '20px 40px 35px 40px',
+        md: '20px 40px 35px 40px',
+        sm: '20px 5px 35px 5px',
+        xs: '20px 5px 35px 5px',
+      },
+      width: {
+        xl: '480px',
+        lg: '480px',
+        md: '480px',
+        sm: '260px',
+        xs: '260px',
+      },
       height: '68px',
       display: 'flex',
       justifyContent: 'center',

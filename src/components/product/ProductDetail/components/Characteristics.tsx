@@ -27,9 +27,22 @@ export const Characteristics = ({ product }: CharacteristicsProps) => {
           key={key}
           sx={{
             display: 'flex',
-            alignItems: 'flex-end',
+            alignItems: {
+              xl: 'flex-end',
+              lg: 'flex-end',
+              md: 'flex-end',
+              sm: 'flex-start',
+              xs: 'flex-start',
+            },
             mb: '20px',
             gap: '10px',
+            flexDirection: {
+              xl: 'row',
+              lg: 'row',
+              md: 'row',
+              sm: 'row',
+              xs: 'column',
+            },
           }}
         >
           <Typography
@@ -63,7 +76,13 @@ export const Characteristics = ({ product }: CharacteristicsProps) => {
               fontSize: '16px',
               fontWeight: 400,
               lineHeight: '19px',
-              height: '36px',
+              height: {
+                xl: '36px',
+                lg: '36px',
+                md: '36px',
+                sm: 'auto',
+                xs: 'auto',
+              },
               borderRadius: '18px',
               width: '350px',
               flexShrink: 0,

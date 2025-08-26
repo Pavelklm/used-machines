@@ -2,7 +2,7 @@ export const TAB_CONTENT_STYLES = {
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  width: '800px',
+  width: { xl: '800px', lg: 'auto', md: 'auto', sm: 'auto', xs: 'auto' },
 } as const
 
 export const TAB_PANEL_STYLES = {
@@ -23,12 +23,12 @@ export const TAB_PANEL_STYLES_SPACE_BETWEEN = {
 export const TAB_NAVIGATION_STYLES = {
   display: 'flex',
   mb: '40px',
-  width: '480px',
+  width: { xl: '480px', lg: '480px', md: '480px', sm: 'auto', xs: 'auto' },
   justifyContent: 'flex-start',
   alignItems: 'flex-end',
   height: '75px',
   position: 'relative',
-  gap: '10px',
+  gap: { xl: '10px', lg: '10px', md: '10px', sm: '10px', xs: '10px' },
   zIndex: 5,
   overflow: 'visible',
 } as const

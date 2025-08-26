@@ -1,4 +1,5 @@
 import { LineBackground } from '@/components/module/LineBackground/LineBackground'
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import { FormattedText } from '@/scripts/utils/FormattedText/FormattedText'
 import { Product } from '@/types/products'
 import { Box } from '@mui/material'
@@ -27,6 +28,7 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
   const images = getProductImages(product)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [activeTab, setActiveTab] = useState<TabType>('specs')
+  const { isTablet } = useScreenSize()
 
   return (
     <>
@@ -78,7 +80,7 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
             isActive={activeTab === 'description'}
             onClick={() => setActiveTab('description')}
           >
-            Опис обладнання
+            {isTablet ? 'Опис' : 'Опис обладнання'}
           </TabButton>
         </Box>
 
