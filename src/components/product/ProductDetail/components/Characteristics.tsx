@@ -31,7 +31,7 @@ export const Characteristics = ({ product }: CharacteristicsProps) => {
               xl: 'flex-end',
               lg: 'flex-end',
               md: 'flex-end',
-              sm: 'flex-start',
+              sm: 'flex-end',
               xs: 'flex-start',
             },
             mb: '20px',
@@ -69,7 +69,13 @@ export const Characteristics = ({ product }: CharacteristicsProps) => {
           <Chip
             label={value}
             sx={{
-              justifyContent: 'flex-start',
+              justifyContent: {
+                xl: 'flex-start',
+                lg: 'flex-start',
+                md: 'flex-start',
+                sm: 'flex-end',
+                xs: 'flex-end',
+              },
               alignItems: 'flex-end',
               color: '#000',
               backgroundColor: '#fff',
@@ -84,7 +90,13 @@ export const Characteristics = ({ product }: CharacteristicsProps) => {
                 xs: 'auto',
               },
               borderRadius: '18px',
-              width: '350px',
+              width: {
+                xl: '350px',
+                lg: '350px',
+                md: '350px',
+                sm: 'auto',
+                xs: 'auto',
+              },
               flexShrink: 0,
               '& .MuiChip-label': {
                 paddingLeft: 0,
