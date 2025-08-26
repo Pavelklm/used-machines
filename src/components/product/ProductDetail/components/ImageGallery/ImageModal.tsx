@@ -70,6 +70,8 @@ export const ImageModal = ({
       hoverTranslate: Math.round(MODAL_SIZES.HOVER_TRANSLATE * scale),
       navigationGap: Math.round(MODAL_SIZES.NAVIGATION_GAP * scale),
       mainImageMaxHeight: Math.round(windowHeight * 0.7),
+      mainContainerGap: Math.round(16 * scale),
+      thumbnailsGap: Math.round(14 * scale),
     }
   }, [])
 
@@ -121,7 +123,7 @@ export const ImageModal = ({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: `${Math.round(16 * (window.innerWidth / MODAL_SIZES.BASE_WIDTH))}px`,
+          gap: `${adaptiveSizes.mainContainerGap}px`,
           maxWidth: '95vw',
           maxHeight: '95vh',
         }}
@@ -170,7 +172,7 @@ export const ImageModal = ({
               width: 'auto',
               height: '100%',
               maxWidth: '100%',
-              objectFit: 'cover',
+              objectFit: 'contain', // показываем всю картинку без обрезки
               borderRadius: `${adaptiveSizes.imageBorderRadius}px`,
             }}
           />
@@ -219,7 +221,7 @@ export const ImageModal = ({
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
-                gap: `${Math.round(14 * (window.innerWidth / MODAL_SIZES.BASE_WIDTH))}px`,
+                gap: `${adaptiveSizes.thumbnailsGap}px`,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
