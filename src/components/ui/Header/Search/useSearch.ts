@@ -23,7 +23,7 @@ export function useSearch({
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { width } = useScreenSize() // Получаем размер экрана
-  
+
   const isMobileOrTablet = width < 1024 // Мобильные и планшеты
 
   const [inputValue, setInputValue] = useState('')
@@ -63,11 +63,14 @@ export function useSearch({
         }
 
         setIsNavigating(true)
-        
+
         // Агрессивная очистка только на мобильных и планшетах
         if (isMobileOrTablet) {
-          console.log('📱 Очищаем поиск на мобильном/планшете при выборе товара:', value.id)
-          
+          console.log(
+            '📱 Очищаем поиск на мобильном/планшете при выборе товара:',
+            value.id
+          )
+
           // Принудительная очистка - сначала все состояния
           setOpen(false)
           setInputValue('')
@@ -80,9 +83,12 @@ export function useSearch({
           }
         } else {
           // На десктопе просто закрываем dropdown
-          console.log('🖥️ Закрываем поиск на десктопе при выборе товара:', value.id)
+          console.log(
+            '🖥️ Закрываем поиск на десктопе при выборе товара:',
+            value.id
+          )
           setOpen(false)
-          
+
           if (onOverlayChange) {
             onOverlayChange(false)
           } else {
@@ -104,7 +110,7 @@ export function useSearch({
             setOpen(false)
           }
           setIsNavigating(false)
-          
+
           if (onOverlayChange) {
             onOverlayChange(false)
           } else {
@@ -162,7 +168,7 @@ export function useSearch({
     if (!hasInput) {
       return
     }
-    
+
     setOpen(true)
     if (onOverlayChange) {
       onOverlayChange(true)

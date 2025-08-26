@@ -116,7 +116,7 @@ export const ImageModal = ({
       onClick={onClose}
     >
       <Box
-        onClick={(e) => e.stopPropagation()}
+        // НЕ останавливаем propagation на главном контейнере - пусть клики по пустым зонам закрывают модалку
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -129,6 +129,7 @@ export const ImageModal = ({
         {/* Название товара */}
         <Typography
           variant='h6'
+          onClick={(e) => e.stopPropagation()} // Останавливаем propagation на названии
           sx={{
             color: 'white',
             backgroundColor: 'var(--main-color)',
@@ -153,6 +154,7 @@ export const ImageModal = ({
 
         {/* Основная картинка */}
         <Box
+          onClick={(e) => e.stopPropagation()} // Останавливаем propagation на картинке
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -177,6 +179,7 @@ export const ImageModal = ({
         {/* Навигация с миниатюрами */}
         {hasMultipleImages && (
           <Box
+            onClick={(e) => e.stopPropagation()} // Останавливаем propagation на блоке навигации
             sx={{
               display: 'flex',
               flexDirection: 'row',
