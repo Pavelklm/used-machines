@@ -44,7 +44,7 @@ export const ImageModal = ({
     const scaleY = windowHeight / MODAL_SIZES.BASE_HEIGHT
 
     // Используем среднее значение для более сбалансированного масштабирования
-    const scale = (scaleX + scaleY) / 2
+    const scale = Math.max(0.8, (scaleX + scaleY) / 2) // минимальный коэффициент 0.8
 
     // Адаптивная высота в зависимости от соотношения сторон
     const aspectRatio = windowWidth / windowHeight
