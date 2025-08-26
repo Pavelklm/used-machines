@@ -46,6 +46,16 @@ export const ImageModal = ({
     // Используем среднее значение для более сбалансированного масштабирования
     const scale = (scaleX + scaleY) / 2
 
+    // Адаптивная высота в зависимости от соотношения сторон
+    const aspectRatio = windowWidth / windowHeight
+    let heightPercentage = 0.7 // базовый процент для широких экранов
+    
+    if (aspectRatio < 0.75) { // очень узкие экраны (телефоны портрет)
+      heightPercentage = 0.5
+    } else if (aspectRatio < 1.2) { // планшеты портрет
+      heightPercentage = 0.6
+    }
+
     return {
       textFontSize: Math.round(MODAL_SIZES.TEXT_FONT_SIZE * scale),
       textPaddingVertical: Math.round(
@@ -69,7 +79,7 @@ export const ImageModal = ({
       imageBorderRadius: Math.round(MODAL_SIZES.IMAGE_BORDER_RADIUS * scale),
       hoverTranslate: Math.round(MODAL_SIZES.HOVER_TRANSLATE * scale),
       navigationGap: Math.round(MODAL_SIZES.NAVIGATION_GAP * scale),
-      mainImageMaxHeight: Math.round(windowHeight * 0.7),
+      mainImageMaxHeight: Math.round(windowHeight * heightPercentage),
       mainContainerGap: Math.round(16 * scale),
       thumbnailsGap: Math.round(14 * scale),
     }
