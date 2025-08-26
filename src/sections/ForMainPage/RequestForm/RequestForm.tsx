@@ -22,7 +22,7 @@ export const RequestForm = () => {
   const { isTablet } = useScreenSize()
 
   return (
-    <div ref={formRef} className='main-form'>
+    <>
       <LineBackground className={'full-width-line-form'} />
       <div className='request-form-container container'>
         <div className='request-form-wrapper'>
@@ -39,10 +39,12 @@ export const RequestForm = () => {
             )}
           </div>
           <div className='form__content_right'>
-            <Form />
+            <div ref={formRef} className='main-form'>
+              <Form />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
