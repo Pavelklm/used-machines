@@ -37,7 +37,7 @@ const Home = () => {
         <Info />
       </SimpleAnimatedSection>
 
-      <SimpleAnimatedSection direction='fade' delay={0.1}>
+      <SimpleAnimatedSection direction='fade' delay={0.1} viewportAmount={0.05}>
         <Catalog />
       </SimpleAnimatedSection>
 

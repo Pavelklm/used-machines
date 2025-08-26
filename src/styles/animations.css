@@ -1,5 +1,6 @@
 .animate-section {
   will-change: transform, opacity;
+  transition: none !important; /* Отключаем CSS-переходы для Framer Motion */
 }
 
 .dots-spinner {
@@ -49,11 +50,12 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 768px) {
+/* Убрали конфликтующий медиазапрос - анимация теперь полностью управляется Framer Motion */
+/* @media (max-width: 768px) {
   .animate-section {
     transition-duration: 0.4s !important;
   }
-}
+} */
 
 /* Shimmer анимация для OptimizedImage */
 @keyframes shimmer {
@@ -75,7 +77,9 @@
 .tab-content {
   opacity: 0;
   transform: translateX(20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
   animation: slideInFromRight 0.4s ease forwards;
 }
 
@@ -94,7 +98,9 @@
 .animated-section {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
 }
 
 .animated-section.visible {
@@ -103,10 +109,18 @@
 }
 
 /* Разные задержки для секций */
-.animated-section.delay-1 { transition-delay: 0.1s; }
-.animated-section.delay-2 { transition-delay: 0.2s; }
-.animated-section.delay-3 { transition-delay: 0.3s; }
-.animated-section.delay-4 { transition-delay: 0.4s; }
+.animated-section.delay-1 {
+  transition-delay: 0.1s;
+}
+.animated-section.delay-2 {
+  transition-delay: 0.2s;
+}
+.animated-section.delay-3 {
+  transition-delay: 0.3s;
+}
+.animated-section.delay-4 {
+  transition-delay: 0.4s;
+}
 
 /* Fade анимация */
 .fade-section {
