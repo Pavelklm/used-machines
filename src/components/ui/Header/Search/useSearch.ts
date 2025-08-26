@@ -1,6 +1,7 @@
 import { setSearchOverlay } from '@/context/slices/overlaySlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { useProducts } from '@/scripts/hooks/useProducts'
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -21,6 +22,9 @@ export function useSearch({
   const { productsArray, isLoading } = useProducts()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { width } = useScreenSize() // Получаем размер экрана
+  
+  const isMobileOrTablet = width < 1024 // Мобильные и планшеты
 
   const [inputValue, setInputValue] = useState('')
   const [open, setOpen] = useState(false)
@@ -60,28 +64,55 @@ export function useSearch({
 
         setIsNavigating(true)
         
-        // Сначала закрываем плашку и очищаем поле
-        setOpen(false)
-        setInputValue('')
-        
-        // Затем закрываем overlay
-        if (onOverlayChange) {
-          onOverlayChange(false)
+        // Агрессивная очистка только на мобильных и планшетах
+        if (isMobileOrTablet) {
+          console.log('📱 Очищаем поиск на мобильном/планшете при выборе товара:', value.id)
+          
+          // Принудительная очистка - сначала все состояния
+          setOpen(false)
+          setInputValue('')
+
+          // Закрываем overlay
+          if (onOverlayChange) {
+            onOverlayChange(false)
+          } else {
+            dispatch(setSearchOverlay(false))
+          }
         } else {
-          dispatch(setSearchOverlay(false))
+          // На десктопе просто закрываем dropdown
+          console.log('🖥️ Закрываем поиск на десктопе при выборе товара:', value.id)
+          setOpen(false)
+          
+          if (onOverlayChange) {
+            onOverlayChange(false)
+          } else {
+            dispatch(setSearchOverlay(false))
+          }
         }
 
-        // И только потом переходим
+        // Переходим
         if (onSelectProduct) {
           onSelectProduct(value.id)
         } else {
           navigate(`/product/${value.id}`)
         }
-        
-        // Обнуляем флаг навигации
-        setTimeout(() => setIsNavigating(false), 100)
+
+        // Дополнительная очистка через timeout только на мобильных
+        setTimeout(() => {
+          if (isMobileOrTablet) {
+            setInputValue('')
+            setOpen(false)
+          }
+          setIsNavigating(false)
+          
+          if (onOverlayChange) {
+            onOverlayChange(false)
+          } else {
+            dispatch(setSearchOverlay(false))
+          }
+        }, 50)
       }
-      
+
       if (value === null) {
         setInputValue('')
         setOpen(false)
@@ -127,9 +158,11 @@ export function useSearch({
       return
     }
 
+    // Открываем dropdown только если есть текст в поле
     if (!hasInput) {
       return
     }
+    
     setOpen(true)
     if (onOverlayChange) {
       onOverlayChange(true)
