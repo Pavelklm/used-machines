@@ -1,4 +1,9 @@
 /* Бесконечная бегущая строка */
+
+.manufacturers {
+  margin-top: 150px;
+}
+
 .manufacturers__slider {
   width: 100%;
   overflow: hidden;
