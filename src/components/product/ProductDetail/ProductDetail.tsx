@@ -31,7 +31,7 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
   const { isTablet } = useScreenSize()
 
   return (
-    <>
+    <div className='container'>
       <Box
         className='product-detail'
         sx={{
@@ -108,6 +108,6 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
           </motion.div>
         </Box>
       </Box>
-    </>
+    </div>
   )
 }

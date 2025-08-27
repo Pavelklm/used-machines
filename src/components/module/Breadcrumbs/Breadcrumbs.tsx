@@ -30,73 +30,75 @@ export const Breadcrumbs = ({ productName }: BreadcrumbsProps) => {
   }
 
   return (
-    <Box sx={{ mb: '40px' }}>
-      <MUIBreadcrumbs
-        separator={
-          <img
-            className='breadcrumbs__arrow'
-            loading='lazy'
-            draggable='false'
-            src={'/icons/arrow.svg'}
-            alt='arrow'
-          />
-        }
-        sx={{
-          '& .MuiBreadcrumbs-separator': {
-            color: 'var(--blue-color)',
-            margin: '0',
-          },
-        }}
-      >
-        <Link
-          component='button'
-          variant='body2'
-          onClick={handleHomeClick}
+    <div className='container'>
+      <Box sx={{ mb: '40px' }}>
+        <MUIBreadcrumbs
+          separator={
+            <img
+              className='breadcrumbs__arrow'
+              loading='lazy'
+              draggable='false'
+              src={'/icons/arrow.svg'}
+              alt='arrow'
+            />
+          }
           sx={{
-            color: 'var(--blue-color)',
-            textDecoration: 'none',
-            fontWeight: 400,
-            fontSize: '16px',
-            lineHeight: '19px',
-            '&:hover': {
-              color: 'var(--main-color)',
+            '& .MuiBreadcrumbs-separator': {
+              color: 'var(--blue-color)',
+              margin: '0',
             },
           }}
         >
-          Головна
-        </Link>
-        <Link
-          component='button'
-          variant='body2'
-          onClick={handleCatalogClick}
-          sx={{
-            color: 'var(--blue-color)',
-            textDecoration: 'none',
-            fontWeight: 400,
-            fontSize: '16px',
-            lineHeight: '19px',
-            '&:hover': {
-              color: 'var(--main-color)',
-            },
-          }}
-        >
-          Каталог
-        </Link>
-
-        {productName && (
-          <Typography
+          <Link
+            component='button'
             variant='body2'
+            onClick={handleHomeClick}
             sx={{
-              color: 'var(--main-color)',
-              fontWeight: 500,
+              color: 'var(--blue-color)',
+              textDecoration: 'none',
+              fontWeight: 400,
               fontSize: '16px',
               lineHeight: '19px',
+              '&:hover': {
+                color: 'var(--main-color)',
+              },
             }}
           >
-            {productName}
-          </Typography>
-        )}
-      </MUIBreadcrumbs>
-    </Box>
+            Головна
+          </Link>
+          <Link
+            component='button'
+            variant='body2'
+            onClick={handleCatalogClick}
+            sx={{
+              color: 'var(--blue-color)',
+              textDecoration: 'none',
+              fontWeight: 400,
+              fontSize: '16px',
+              lineHeight: '19px',
+              '&:hover': {
+                color: 'var(--main-color)',
+              },
+            }}
+          >
+            Каталог
+          </Link>
+
+          {productName && (
+            <Typography
+              variant='body2'
+              sx={{
+                color: 'var(--main-color)',
+                fontWeight: 500,
+                fontSize: '16px',
+                lineHeight: '19px',
+              }}
+            >
+              {productName}
+            </Typography>
+          )}
+        </MUIBreadcrumbs>
+      </Box>
+    </div>
   )
 }

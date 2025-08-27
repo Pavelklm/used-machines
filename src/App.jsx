@@ -1,3 +1,4 @@
+import { ContactFab } from '@/components/module/ContactFab/ContactFab'
 import ScrollToTop from '@/scripts/utils/ScrollToTop.tsx'
 import '@/styles/animations.css'
 import '@/styles/global.css'
@@ -116,6 +117,7 @@ function App() {
       </Suspense>
 
       <Toaster {...TOAST_CONFIG} />
+      <ContactFab />
     </Router>
   )
 }
