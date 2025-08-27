@@ -1,5 +1,6 @@
 import Search from '@/components/ui/Header/Search/Search'
 import Gmail from '@/components/ui/SVG/Gmail'
+import { CONTACTS } from '@/constants/Contacts'
 import { setBurgerOverlay } from '@/context/slices/overlaySlice'
 import { useAppDispatch, useAppSelector } from '@/scripts/hooks/hooks'
 import { useScreenSize } from '@/scripts/hooks/useScreenSize'
@@ -81,9 +82,9 @@ export const BurgerContent = () => {
           <div className='burger__telephone header__telephone '>
             <a
               className='burger__telephone__link link-reset'
-              href='tel:+380501234567'
+              href={`tel:${CONTACTS.phoneNumber}`}
             >
-              +38 (050) 123-45-67
+              {CONTACTS.phone}
             </a>
           </div>
         )}
@@ -91,9 +92,9 @@ export const BurgerContent = () => {
           <div className='burger__telephone header__telephone '>
             <a
               className='burger__telephone__link link-reset'
-              href='tel:+380501234567'
+              href={`tel:${CONTACTS.phoneNumber}`}
             >
-              +38 (050) 123-45-67
+              {CONTACTS.phone}
             </a>
           </div>
         )}

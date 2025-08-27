@@ -1,3 +1,4 @@
+import { CONTACTS } from '@/constants/Contacts'
 import { setFabOverlay } from '@/context/slices/overlaySlice'
 import { RootState } from '@/context/store'
 import { useScreenSize } from '@/scripts/hooks/useScreenSize'
@@ -9,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // Z-INDEX КОНСТАНТЫ
 const Z_INDEX = {
   FAB_NORMAL: 47,
-  FAB_HIDDEN: 0,              // Когда открыт burger
+  FAB_HIDDEN: 0,
   CONTACT_BUTTONS: 47,
   OVERLAY_BACKDROP: 46,
 } as const
@@ -20,10 +21,11 @@ export const ContactFab = () => {
   const isOverlayOpen = useSelector(
     (state: RootState) => state.overlay.isOpen && state.overlay.source === 'fab'
   )
-  
+
   // Отслеживаем состояние бургера
   const isBurgerOpen = useSelector(
-    (state: RootState) => state.overlay.isOpen && state.overlay.source === 'burger'
+    (state: RootState) =>
+      state.overlay.isOpen && state.overlay.source === 'burger'
   )
 
   // Показываем компонент только на устройствах до 480px
@@ -40,14 +42,12 @@ export const ContactFab = () => {
   }
 
   const handleEmailClick = () => {
-    // Заглушка для email
-    console.log('Email clicked')
+    window.location.href = `mailto:${CONTACTS.email}`
     dispatch(setFabOverlay(false))
   }
 
   const handlePhoneClick = () => {
-    // Заглушка для телефон
-    console.log('Phone clicked')
+    window.location.href = `tel:${CONTACTS.phoneNumber}`
     dispatch(setFabOverlay(false))
   }
 

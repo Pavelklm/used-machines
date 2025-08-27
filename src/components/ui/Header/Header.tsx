@@ -2,6 +2,7 @@
 
 import Burger from '@/components/module/Burger/Burger'
 import { BurgerContent } from '@/components/module/Burger/BurgerContent/BurgerContent'
+import { CONTACTS } from '@/constants/Contacts'
 import { setSearchOverlay } from '@/context/slices/overlaySlice'
 import { useAppDispatch } from '@/scripts/hooks/hooks'
 import { useScreenSize } from '@/scripts/hooks/useScreenSize'
@@ -49,19 +50,19 @@ export const Header = () => {
             <div className='header__email'>
               <a
                 className='header__email__link link-reset'
-                href='mailto:6xYlD@example.com'
+                href={`mailto:${CONTACTS.email}`}
               >
                 <Gmail className='header__email__icon' />
-                {isDesktop ? '6xYlD@example.com' : ''}
+                {isDesktop ? CONTACTS.email : ''}
               </a>
             </div>
           )}
           <div className='header__telephone'>
             <a
               className='header__telephone__link link-reset'
-              href='tel:+380501234567'
+              href={`tel:${CONTACTS.phoneNumber}`}
             >
-              +38 (050) 123-45-67
+              {CONTACTS.phone}
             </a>
           </div>
           {isLaptop && <div className='burger-box-placeholder'></div>}
