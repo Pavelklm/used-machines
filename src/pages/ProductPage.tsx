@@ -1,6 +1,7 @@
 import { Breadcrumbs } from '@/components/module/Breadcrumbs/Breadcrumbs'
 import { ProductDetail } from '@/components/product/ProductDetail/ProductDetail'
 import { useProductQuery } from '@/scripts/hooks/useProductsQuery'
+import { useScreenSize } from '@/scripts/hooks/useScreenSize'
 import SimpleAnimatedSection from '@/scripts/utils/AnimatedSection/SimpleAnimatedSection'
 import { Manufacturers } from '@/sections/ForMainPage/Manufacturers/Manufacturers'
 import { RequestForm } from '@/sections/ForMainPage/RequestForm/RequestForm'
@@ -12,6 +13,7 @@ const ProductPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { data: product, isLoading, error } = useProductQuery(id || '')
+  const { isTablet } = useScreenSize()
 
   useEffect(() => {
     if (error) {
@@ -74,7 +76,7 @@ const ProductPage = () => {
           padding: '0',
           maxWidth: '1200px',
           margin: '0 auto',
-          marginTop: '158px',
+          marginTop: isTablet ? '90px' : '120px',
         }}
       >
         <SimpleAnimatedSection direction='fade' delay={0.1}>
