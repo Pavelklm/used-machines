@@ -11,7 +11,7 @@ import { TabButton } from './components/TabButton'
 import {
   TAB_CONTENT_STYLES,
   TAB_NAVIGATION_STYLES,
-  TAB_PANEL_STYLES,
+  TAB_PANEL_STYLES_DESCRIPTION,
   TAB_PANEL_STYLES_SPACE_BETWEEN,
 } from './constants/styles'
 import { ImageGallery } from './ImageGallery'
@@ -100,7 +100,7 @@ export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
               </Box>
             ) : (
               <Box sx={TAB_CONTENT_STYLES}>
-                <Box sx={TAB_PANEL_STYLES}>
+                <Box sx={TAB_PANEL_STYLES_DESCRIPTION}>
                   <FormattedText raw={product.description} />
                 </Box>
               </Box>

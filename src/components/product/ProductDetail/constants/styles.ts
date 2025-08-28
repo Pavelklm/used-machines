@@ -8,11 +8,23 @@ export const TAB_CONTENT_STYLES = {
 export const TAB_PANEL_STYLES = {
   display: 'flex',
   flexDirection: 'column',
-  p: '40px',
+  p: { xl: '40px', lg: '40px', md: '40px', sm: '40px', xs: '40px' },
   borderRadius: '20px',
   border: '1px solid rgb(178, 200, 227)',
   transition: 'all 0.3s ease',
   marginBottom: '150px',
+} as const
+
+export const TAB_PANEL_STYLES_DESCRIPTION = {
+  ...TAB_PANEL_STYLES,
+  p: { xl: '40px', lg: '40px', md: '40px', sm: '40px', xs: '0' },
+  border: {
+    xl: '1px solid rgb(178, 200, 227)',
+    lg: '1px solid rgb(178, 200, 227)',
+    md: '1px solid rgb(178, 200, 227)',
+    sm: '1px solid rgb(178, 200, 227)',
+    xs: 'none',
+  },
 } as const
 
 export const TAB_PANEL_STYLES_SPACE_BETWEEN = {
