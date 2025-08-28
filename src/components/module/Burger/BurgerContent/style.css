@@ -8,7 +8,7 @@
   justify-content: flex-start;
   width: 330px;
   height: 100vh;
-  padding: 88px 20px 60px 20px;
+  padding: 88px 20px 80px 20px;
   background-color: #fff;
   z-index: 44;
   opacity: var(--overlay-opacity-from);
