@@ -164,6 +164,7 @@ export const useProducts = () => {
             quality: IMAGE_QUALITY,
             format: IMAGE_FORMAT,
           }),
+          Contractual: product.Contractual,
         })
       ),
     [products, directusUrl, , safeUrl]
@@ -237,6 +238,7 @@ export const useProducts = () => {
             format: IMAGE_FORMAT,
           }),
           category: product.categories_names?.categorie_name,
+          Contractual: product.Contractual,
         })),
     [products, directusUrl, safeUrl]
   )

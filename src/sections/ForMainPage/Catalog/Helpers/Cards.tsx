@@ -15,6 +15,7 @@ interface Item {
   product_name?: string
   brand_name?: string
   brand_image?: string | null
+  Contractual?: boolean
 }
 
 interface CardsProps {
@@ -46,6 +47,7 @@ export default function Cards({
           name: '',
           product_name: '',
           isPlaceholder: true,
+          Contractual: false,
         }) as Item & { isPlaceholder: boolean }
     ),
   ]
@@ -188,8 +190,20 @@ export default function Cards({
                       image={item.url || '/images/placeholder.jpg'}
                       alt={`${item.product_name || 'Продукт'} - професійне м'ясне обладнання`}
                       sx={{
-                        width: { xs: 320, sm: 440, md: 354, lg: 314, xl: 289 },
-                        height: { xs: 220, sm: 280, md: 220, lg: 220, xl: 220 },
+                        width: {
+                          xs: 320,
+                          sm: 440,
+                          md: 354,
+                          lg: 314,
+                          xl: 289,
+                        },
+                        height: {
+                          xs: 220,
+                          sm: 280,
+                          md: 220,
+                          lg: 220,
+                          xl: 220,
+                        },
                         borderRadius: '10px',
                         objectFit: 'cover',
                         objectPosition: 'center',
@@ -261,20 +275,57 @@ export default function Cards({
                           mt: 'auto',
                         }}
                       >
-                        <Typography
-                          variant='h6'
-                          sx={{
-                            fontSize: '16px',
-                            fontWeight: '400',
-                            lineHeight: '19px',
-                            color: 'var(--main-color)',
-                          }}
-                        >
-                          {(item.price || 0)
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
-                          {item.currency || 'грн'}
-                        </Typography>
+                        {(item.price || item.Contractual) && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            {item.price ? (
+                              <Typography
+                                variant='h6'
+                                sx={{
+                                  fontSize: '16px',
+                                  fontWeight: '400',
+                                  lineHeight: '19px',
+                                  color: 'var(--main-color)',
+                                }}
+                              >
+                                {(item.price || 0)
+                                  .toString()
+                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
+                                {item.currency || 'грн'}
+                              </Typography>
+                            ) : (
+                              <Box
+                                sx={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  backgroundColor: 'var(--blue-bright-color)',
+                                  color: 'white',
+                                  padding: '4px 8px',
+                                  borderRadius: '4px',
+                                  fontSize: '12px',
+                                  fontWeight: '500',
+                                }}
+                              >
+                                Ціна договірна
+                              </Box>
+                            )}
+                            {item.Contractual && item.price && (
+                              <Box
+                                sx={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  backgroundColor: 'var(--blue-bright-color)',
+                                  color: 'white',
+                                  padding: '4px 8px',
+                                  borderRadius: '4px',
+                                  fontSize: '12px',
+                                  fontWeight: '500',
+                                }}
+                              >
+                                Договірна
+                              </Box>
+                            )}
+                          </Box>
+                        )}
                         <ChevronRightIcon sx={{ color: 'var(--main-color)' }} />
                       </Box>
                     </CardContent>

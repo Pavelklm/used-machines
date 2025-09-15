@@ -65,80 +65,133 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </Typography>
 
         <Box sx={{ mt: 'auto' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 3 }}>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-            >
-              <Box
-                sx={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  background: 'rgba(255, 255, 255, 0.05)',
-                }}
+          {(product.price || product.Contractual) && (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 3 }}>
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
               >
-                <Box sx={{ display: 'flex', whiteSpace: 'pre' }}>
-                  {digits.map((digit, index) => {
-                    const digitIndex =
-                      digits.slice(0, index + 1).filter((char) => char !== ' ')
-                        .length - 1
-                    const isDigit = digit !== ' '
-
-                    return (
-                      <Typography
-                        key={`price-${index}`}
-                        sx={{
-                          color: 'var(--main-color)',
-                          fontSize: '26px',
-                          fontWeight: '400',
-                          lineHeight: '32px',
-                          fontVariantNumeric: 'tabular-nums',
-                          whiteSpace: 'pre',
-                          ...(isDigit
-                            ? {
-                                opacity: 0,
-                                animation: `fadeInUp 0.5s ease-out ${digitIndex * 0.08}s forwards`,
-                                '@keyframes fadeInUp': {
-                                  '0%': {
-                                    opacity: 0,
-                                    transform: 'translateY(10px)',
-                                  },
-                                  '100%': {
-                                    opacity: 1,
-                                    transform: 'translateY(0)',
-                                  },
-                                },
-                              }
-                            : {
-                                opacity: 0.7,
-                              }),
-                        }}
-                      >
-                        {digit}
-                      </Typography>
-                    )
-                  })}
-                </Box>
-                <Typography
+                <Box
                   sx={{
-                    color: 'var(--main-color)',
-                    fontSize: '26px',
-                    fontWeight: '400',
-                    opacity: 0,
-                    animation: `fadeInUp 0.5s ease-out ${(digitCount - 1) * 0.08 + 0.1}s forwards`,
-                    '@keyframes fadeInUp': {
-                      '0%': { opacity: 0, transform: 'translateY(10px)' },
-                      '100%': { opacity: 1, transform: 'translateY(0)' },
-                    },
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    background: 'rgba(255, 255, 255, 0.05)',
                   }}
                 >
-                  {product.currency_name?.currency_name || '₴'}
-                </Typography>
-              </Box>
-            </motion.div>
-          </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    {product.price ? (
+                      <>
+                        <Box sx={{ display: 'flex', whiteSpace: 'pre' }}>
+                          {digits.map((digit, index) => {
+                            const digitIndex =
+                              digits
+                                .slice(0, index + 1)
+                                .filter((char) => char !== ' ').length - 1
+                            const isDigit = digit !== ' '
+
+                            return (
+                              <Typography
+                                key={`price-${index}`}
+                                sx={{
+                                  color: 'var(--main-color)',
+                                  fontSize: '26px',
+                                  fontWeight: '400',
+                                  lineHeight: '32px',
+                                  fontVariantNumeric: 'tabular-nums',
+                                  whiteSpace: 'pre',
+                                  ...(isDigit
+                                    ? {
+                                        opacity: 0,
+                                        animation: `fadeInUp 0.5s ease-out ${digitIndex * 0.08}s forwards`,
+                                        '@keyframes fadeInUp': {
+                                          '0%': {
+                                            opacity: 0,
+                                            transform: 'translateY(10px)',
+                                          },
+                                          '100%': {
+                                            opacity: 1,
+                                            transform: 'translateY(0)',
+                                          },
+                                        },
+                                      }
+                                    : {
+                                        opacity: 0.7,
+                                      }),
+                                }}
+                              >
+                                {digit}
+                              </Typography>
+                            )
+                          })}
+                        </Box>
+                        <Typography
+                          sx={{
+                            color: 'var(--main-color)',
+                            fontSize: '26px',
+                            fontWeight: '400',
+                            opacity: 0,
+                            animation: `fadeInUp 0.5s ease-out ${(digitCount - 1) * 0.08 + 0.1}s forwards`,
+                            '@keyframes fadeInUp': {
+                              '0%': { opacity: 0, transform: 'translateY(10px)' },
+                              '100%': { opacity: 1, transform: 'translateY(0)' },
+                            },
+                          }}
+                        >
+                          {product.currency_name?.currency_name || '₴'}
+                        </Typography>
+                        {product.Contractual && (
+                          <Box
+                            sx={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              backgroundColor: 'var(--blue-bright-color)',
+                              color: 'white',
+                              padding: '6px 12px',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              fontWeight: '500',
+                              ml: 1,
+                              opacity: 0,
+                              animation: `fadeInUp 0.5s ease-out ${(digitCount - 1) * 0.08 + 0.2}s forwards`,
+                              '@keyframes fadeInUp': {
+                                '0%': { opacity: 0, transform: 'translateY(10px)' },
+                                '100%': { opacity: 1, transform: 'translateY(0)' },
+                              },
+                            }}
+                          >
+                            Договірна
+                          </Box>
+                        )}
+                      </>
+                    ) : (
+                      <Box
+                        sx={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          backgroundColor: 'var(--blue-bright-color)',
+                          color: 'white',
+                          padding: '6px 12px',
+                          borderRadius: '6px',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          opacity: 0,
+                          animation: 'fadeInUp 0.5s ease-out 0.1s forwards',
+                          '@keyframes fadeInUp': {
+                            '0%': { opacity: 0, transform: 'translateY(10px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                          },
+                        }}
+                      >
+                        Ціна договірна
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              </motion.div>
+            </Box>
+          )}
 
           <MainButton />
         </Box>

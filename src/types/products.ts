@@ -29,4 +29,5 @@ export type Product = {
   equipments_names: {
     equipment_name: string
   }
+  Contractual: boolean
 }

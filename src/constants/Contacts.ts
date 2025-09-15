@@ -3,5 +3,5 @@ export const CONTACTS = {
   phoneNumber: '+380991258011',
   email: 'secondtech.co@gmail.com',
 
-  address: '123 Main St, City, Country',
+  address: 'ул. Аэродромная, 12А, Киев, 02000',
 }

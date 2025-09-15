@@ -1,5 +1,5 @@
 import { fetchProductById, fetchProducts } from '@/api/cards'
-import { Product } from '@/types/products' // ДОБАВЛЯЕШЬ
+import { Product } from '@/types/products'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useProductsQuery = () => {

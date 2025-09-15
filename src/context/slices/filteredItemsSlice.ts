@@ -11,6 +11,7 @@ interface FilteredItem {
   brand_name?: string
   brand_image?: string | null
   category?: string
+  Contractual?: boolean
 }
 
 // Типизируем состояние слайса
