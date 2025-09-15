@@ -11,12 +11,29 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import './style.css'
 
 export const Manufacturers = () => {
-  const { allBrands, getCategoryFromEquipment } = useProducts()
+  const { allManufacturers, getCategoryFromEquipment } = useProducts()
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const duplicatedBrands = [...allBrands, ...allBrands]
+  // Создаем достаточное количество повторов для плавной карусели
+  const getRepeatedBrands = () => {
+    if (allManufacturers.length === 0) return []
+
+    // Минимум 8 элементов для корректной анимации
+    const minElements = 8
+    const repeatsNeeded = Math.ceil(minElements / allManufacturers.length)
+
+    let repeatedBrands = []
+    for (let i = 0; i < repeatsNeeded; i++) {
+      repeatedBrands.push(...allManufacturers)
+    }
+
+    // Дублируем еще раз для бесконечности
+    return [...repeatedBrands, ...repeatedBrands]
+  }
+
+  const duplicatedBrands = getRepeatedBrands()
 
   const handleBrandClick = (brandName: string) => {
     const category = getCategoryFromEquipment(brandName)

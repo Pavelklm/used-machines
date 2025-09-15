@@ -3,6 +3,14 @@ export interface BrandInfo {
   brand__image: string
 }
 
+// Тип для отдельной модели brands из Directus
+export interface Brand {
+  id: string | number
+  status: string
+  brand_name: string
+  brand__image: string
+}
+
 export type Product = {
   all_photos: [
     {
