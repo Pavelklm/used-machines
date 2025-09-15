@@ -1,4 +1,4 @@
-import { fetchProductById, fetchProducts } from '@/api/cards'
+import { fetchBrands, fetchProductById, fetchProducts } from '@/api/cards'
 import { Product } from '@/types/products'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 

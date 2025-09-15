@@ -1,6 +1,9 @@
 import { useCallback, useMemo } from 'react'
+import { fetchBrands } from '@/api/cards'
+import { useQuery } from '@tanstack/react-query'
 import { useProductsQuery } from './useProductsQuery'
 import { useScreenSize } from './useScreenSize'
+import { Brand } from '@/types/products'
 
 // ========================= CONSTANTS =========================
 
@@ -106,6 +109,12 @@ function createUniqueArray<T, K extends string | number, R>(
 export const useProducts = () => {
   const screenSize = useScreenSize()
   const { data: products = [], isLoading, error } = useProductsQuery()
+  
+  // Отдельный запрос к модели brands
+  const { data: brandsData = [] } = useQuery<Brand[]>({
+    queryKey: ['brands'],
+    queryFn: () => fetchBrands(),
+  })
 
   const directusUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -121,6 +130,7 @@ export const useProducts = () => {
 
   // ========================= BRANDS =========================
 
+  // Бренды для фильтров - только те, у которых есть товары
   const allBrands = useMemo(
     () =>
       createUniqueArray(
@@ -140,6 +150,24 @@ export const useProducts = () => {
         })
       ),
     [products, directusUrl]
+  )
+
+  // Все производители для компонента Manufacturers - из отдельной модели
+  const allManufacturers = useMemo(
+    () =>
+      brandsData.map((brand) => ({
+        brand_name: brand.brand_name,
+        brand__image: buildAssetUrl(
+          directusUrl,
+          brand.brand__image,
+          {
+            ...BRAND_IMAGE_SIZE,
+            quality: IMAGE_QUALITY,
+            format: IMAGE_FORMAT,
+          }
+        ),
+      })),
+    [brandsData, directusUrl]
   )
 
   // ========================= PRODUCTS =========================
@@ -184,6 +212,7 @@ export const useProducts = () => {
   // ========================= FILTER OPTIONS =========================
 
   const filterOptionsByGroup = useMemo(() => {
+    // Бренды из товаров (для фильтров)
     const brands = createUniqueArray(
       products,
       (product) => product.brands_names?.brand_name
@@ -275,6 +304,7 @@ export const useProducts = () => {
     // Data
     productsArray,
     allBrands,
+    allManufacturers,
     filterOptionsByGroup,
 
     // Filter functions
