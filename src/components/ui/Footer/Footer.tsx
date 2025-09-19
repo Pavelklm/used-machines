@@ -18,7 +18,7 @@ export const Footer = () => {
             </a>
           </div>
           <p className='footer__copyright'>
-            © Horns & Hooves, 2025 Усі права захищено
+            © Second Tech, 2025 Усі права захищено
           </p>
           <Link to='/policy' className='footer__policy link-reset'>
             <p className='footer__policy-text'>Політика конфіденційності</p>
