@@ -23,7 +23,7 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'es2020', 
+    target: 'es2020',
     minify: 'esbuild',
     sourcemap: false,
     chunkSizeWarningLimit: 500,
@@ -86,7 +86,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.hornsandhooves.pp.ua',
+        target: 'https://api.secondtech.com.ua',
         changeOrigin: true,
         secure: false, // ставь true, если у тебя нормальный SSL
       },
