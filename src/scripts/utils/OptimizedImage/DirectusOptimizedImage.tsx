@@ -54,9 +54,7 @@ export const DirectusOptimizedImage = ({
 
   // Проверяем является ли это Directus URL
   const isDirectusAsset = (url: string): boolean => {
-    return (
-      url.includes('/assets/') || url.includes('admin.hornsandhooves.pp.ua')
-    )
+    return url.includes('/assets/') || url.includes('admin.secondtech.com.ua')
   }
 
   // Генерация URL для разных форматов через Directus API
