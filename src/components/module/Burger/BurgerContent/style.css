@@ -18,6 +18,10 @@
     transform var(--slide-animation-duration) var(--slide-animation-easing);
 }
 
+.burger__email__link {
+  justify-content: flex-start !important;
+}
+
 .burger-content-active {
   opacity: var(--overlay-opacity-to);
   transform: var(--slide-transform-to);

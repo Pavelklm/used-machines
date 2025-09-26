@@ -17,6 +17,7 @@ export const BurgerContent = () => {
   const navigate = useNavigate()
   const contentRef = useRef<HTMLDivElement>(null)
   const { isTablet, isPhone } = useScreenSize()
+  const { isDesktop } = useScreenSize()
 
   useEffect(() => {
     if (isTablet) {
@@ -71,11 +72,11 @@ export const BurgerContent = () => {
         {isTablet && <BurgerCatalog onClose={closeBurger} />}
         <div className='header__email'>
           <a
-            className='burger__email__link link-reset'
-            href='mailto:6xYlD@example.com'
+            className='burger__email__link header__email__link  link-reset'
+            href={`mailto:${CONTACTS.email}`}
           >
             <Gmail className='header__email__icon' />
-            6xYlD@example.com
+            {CONTACTS.email}
           </a>
         </div>
         {!isTablet && (
