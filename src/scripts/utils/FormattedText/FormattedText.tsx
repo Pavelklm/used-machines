@@ -1,4 +1,3 @@
-import { Box } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 
 export function normalizeTextForMarkdown(
@@ -22,43 +21,9 @@ export function normalizeTextForMarkdown(
 export const FormattedText = ({ raw }: { raw: string | null | undefined }) => {
   if (!raw) return null
 
-  if (raw.includes('<p>') || raw.includes('<br>') || raw.includes('<div>')) {
-    const cleanHtml = normalizeTextForMarkdown(raw)
-    return (
-      <Box
-        dangerouslySetInnerHTML={{ __html: cleanHtml }}
-        sx={{
-          '& p': {
-            color: '#495057',
-            fontSize: '1.1rem',
-            lineHeight: 1.7,
-            fontWeight: 400,
-            mb: 2,
-            mt: 0,
-          },
-          '& h1, & h2, & h3, & h4, & h5, & h6': {
-            color: 'var(--main-color)',
-            fontSize: '1.3rem',
-            fontWeight: 600,
-            mb: 1,
-            mt: 2,
-          },
-          '& ul, & ol': { pl: 2, mb: 2 },
-          '& li': {
-            color: '#495057',
-            fontSize: '1.1rem',
-            lineHeight: 1.6,
-            fontWeight: 400,
-            mb: 0.5,
-          },
-        }}
-      />
-    )
-  }
-
-  // Если это обычный текст - используем Markdown
   const markdown = raw
     .replace(/([А-ЯЁІЇЄ][а-яёіїєА-ЯЁІЇЄ\s]{10,}?):\s*/g, '\n\n## $1\n\n')
+    .replace(/\{([^}]+)\}/g, (match, text) => `**${text.trim()}**`)
     .replace(/\.\s+([А-ЯЁІЇЄ][а-яёіїє])/g, '.\n\n$1')
     .replace(/\n–/g, '\n*')
     .replace(/^–/gm, '*')
@@ -66,5 +31,15 @@ export const FormattedText = ({ raw }: { raw: string | null | undefined }) => {
     .replace(/•\s*/g, '\n* ')
     .trim()
 
-  return <ReactMarkdown>{markdown}</ReactMarkdown>
+  return (
+    <ReactMarkdown
+      components={{
+        strong: ({ children }) => (
+          <strong style={{ whiteSpace: 'nowrap' }}>{children}</strong>
+        ),
+      }}
+    >
+      {markdown}
+    </ReactMarkdown>
+  )
 }
