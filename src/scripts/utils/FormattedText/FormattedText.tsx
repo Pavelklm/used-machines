@@ -63,6 +63,7 @@ export const FormattedText = ({ raw }: { raw: string | null | undefined }) => {
     .replace(/\n–/g, '\n*')
     .replace(/^–/gm, '*')
     .replace(/\n{3,}/g, '\n\n')
+    .replace(/•\s*/g, '\n* ')
     .trim()
 
   return <ReactMarkdown>{markdown}</ReactMarkdown>
