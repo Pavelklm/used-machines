@@ -35,7 +35,7 @@ export const Characteristics = ({ product }: CharacteristicsProps) => {
               xs: 'flex-start',
             },
             mb: '20px',
-            gap: '10px',
+            gap: { xl: '10px', lg: '10px', md: '10px', sm: '10px', xs: '0' },
             flexDirection: {
               xl: 'row',
               lg: 'row',
