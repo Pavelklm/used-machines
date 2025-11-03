@@ -30,7 +30,8 @@ export const FormattedText = ({ raw }: { raw: string | null | undefined }) => {
     if (!raw) return ''
 
     return raw
-      .replace(/([А-ЯЁІЇЄ][а-яёіїє ]{10,}?):\s*/g, '\n\n## $1\n\n') // Исправлено: убрал \s и заглавные буквы из середины
+      .replace(/!!!([^!]+)!!!/g, '\n\n# $1\n\n') // h1 для !!!текст!!!
+      .replace(/([А-ЯЁІЇЄ][а-яёіїє ]{10,}?):\s*/g, '\n\n### $1\n\n') // h3 для двоеточия (было ##)
       .replace(/\{([^}]+)\}/g, (match, text) => `**${text.trim()}**`)
       .replace(/\.\s+([А-ЯЁІЇЄ][а-яёіїє])/g, '.\n\n$1')
       .replace(/\n–/g, '\n*')
