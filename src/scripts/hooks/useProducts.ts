@@ -1,9 +1,8 @@
-import { useCallback, useMemo } from 'react'
 import { fetchBrands } from '@/api/cards'
-import { useQuery } from '@tanstack/react-query'
-import { useProductsQuery } from './useProductsQuery'
-import { useScreenSize } from './useScreenSize'
 import { Brand } from '@/types/products'
+import { useQuery } from '@tanstack/react-query'
+import { useCallback, useMemo } from 'react'
+import { useProductsQuery } from './useProductsQuery'
 
 // ========================= CONSTANTS =========================
 
@@ -107,9 +106,8 @@ function createUniqueArray<T, K extends string | number, R>(
 // ========================= MAIN HOOK =========================
 
 export const useProducts = () => {
-  const screenSize = useScreenSize()
   const { data: products = [], isLoading, error } = useProductsQuery()
-  
+
   // Отдельный запрос к модели brands
   const { data: brandsData = [] } = useQuery<Brand[]>({
     queryKey: ['brands'],
@@ -157,15 +155,11 @@ export const useProducts = () => {
     () =>
       brandsData.map((brand) => ({
         brand_name: brand.brand_name,
-        brand__image: buildAssetUrl(
-          directusUrl,
-          brand.brand__image,
-          {
-            ...BRAND_IMAGE_SIZE,
-            quality: IMAGE_QUALITY,
-            format: IMAGE_FORMAT,
-          }
-        ),
+        brand__image: buildAssetUrl(directusUrl, brand.brand__image, {
+          ...BRAND_IMAGE_SIZE,
+          quality: IMAGE_QUALITY,
+          format: IMAGE_FORMAT,
+        }),
       })),
     [brandsData, directusUrl]
   )
@@ -193,6 +187,7 @@ export const useProducts = () => {
             format: IMAGE_FORMAT,
           }),
           Contractual: product.Contractual,
+          
         })
       ),
     [products, directusUrl, , safeUrl]

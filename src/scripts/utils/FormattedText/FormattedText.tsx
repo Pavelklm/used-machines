@@ -28,9 +28,9 @@ const MARKDOWN_COMPONENTS = {
 export const FormattedText = ({ raw }: { raw: string | null | undefined }) => {
   const markdown = useMemo(() => {
     if (!raw) return ''
-    
+
     return raw
-      .replace(/([А-ЯЁІЇЄ][а-яёіїєА-ЯЁІЇЄ\s]{10,}?):\s*/g, '\n\n## $1\n\n')
+      .replace(/([А-ЯЁІЇЄ][а-яёіїє ]{10,}?):\s*/g, '\n\n## $1\n\n') // Исправлено: убрал \s и заглавные буквы из середины
       .replace(/\{([^}]+)\}/g, (match, text) => `**${text.trim()}**`)
       .replace(/\.\s+([А-ЯЁІЇЄ][а-яёіїє])/g, '.\n\n$1')
       .replace(/\n–/g, '\n*')
@@ -42,5 +42,7 @@ export const FormattedText = ({ raw }: { raw: string | null | undefined }) => {
 
   if (!markdown) return null
 
-  return <ReactMarkdown components={MARKDOWN_COMPONENTS}>{markdown}</ReactMarkdown>
+  return (
+    <ReactMarkdown components={MARKDOWN_COMPONENTS}>{markdown}</ReactMarkdown>
+  )
 }

@@ -24,7 +24,7 @@ interface ProductDetailProps {
 
 type TabType = 'specs' | 'description'
 
-export const ProductDetail = ({ product, directusUrl }: ProductDetailProps) => {
+export const ProductDetail = ({ product }: ProductDetailProps) => {
   const images = getProductImages(product)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [activeTab, setActiveTab] = useState<TabType>('specs')
