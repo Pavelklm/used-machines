@@ -2,20 +2,32 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
+import sitemap from 'vite-plugin-sitemap'
+import { generateSitemapRoutes } from './scripts/generate-sitemap.js'
 
-export default defineConfig({
-  plugins: [
-    react({
-      include: '**/*.{jsx,tsx}',
-    }),
-    // Bundle analyzer - увидишь что жрёт место
-    visualizer({
-      filename: 'dist/stats.html',
-      open: false, // Не открываем автоматически
-      gzipSize: true,
-      brotliSize: true,
-    }),
-  ],
+export default defineConfig(async () => {
+  // Генерируем роуты для sitemap
+  const sitemapRoutes = await generateSitemapRoutes()
+
+  return {
+    plugins: [
+      react({
+        include: '**/*.{jsx,tsx}',
+      }),
+      // Bundle analyzer - увидишь что жрёт место
+      visualizer({
+        filename: 'dist/stats.html',
+        open: false, // Не открываем автоматически
+        gzipSize: true,
+        brotliSize: true,
+      }),
+      // Sitemap generator
+      sitemap({
+        hostname: 'https://secondtech.com.ua',
+        dynamicRoutes: sitemapRoutes.map((route) => route.url),
+        readable: true,
+      }),
+    ],
   assetsInclude: ['**/*.svg'],
   resolve: {
     alias: {
@@ -91,5 +103,5 @@ export default defineConfig({
         secure: false, // ставь true, если у тебя нормальный SSL
       },
     },
-  },
-})
+  }
+}})
