@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: secondtech.com.ua
+Sitemap: https://secondtech.com.ua/sitemap.xml 
